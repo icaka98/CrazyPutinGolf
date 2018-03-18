@@ -1,3 +1,4 @@
+import javafx.animation.PathTransition;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -14,6 +15,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class Main extends Application {
 
@@ -24,7 +26,7 @@ public class Main extends Application {
         Pane mainPane = new Pane();
 
         double maxHeight = Constants.SCENE_WIDTH * 0.1
-                + 0.03*Constants.SCENE_WIDTH*Constants.SCENE_WIDTH;
+                + 1.03*Constants.SCENE_WIDTH*Constants.SCENE_WIDTH;
 
         double startX = 250;
         double startY = 250;
@@ -38,14 +40,13 @@ public class Main extends Application {
 
         for(double x = 0.0; x < Constants.SCENE_WIDTH ; x += 3.5){
             for(double y = 0.0; y < Constants.SCENE_HEIGHT; y += 3.5){
-                double height = 0.1 * x + 0.03 * x * x - 0.2 * y;
+                double height = 0.1 * x + 1.03 * x * x - 0.5 * y;
 
                 Circle point = new Circle(x, y, 3, Color.GREEN);
 
                 if(height < 0.0) point.setFill(Color.BLUE);
                 else point.setFill(
                         Color.rgb(0,75 + (int)(100.0*(1.0 - height/maxHeight)),0));
-
 
                 mainPane.getChildren().add(point);
             }
@@ -70,6 +71,16 @@ public class Main extends Application {
         });
 
         ball.setOnMouseReleased(event -> {
+            PathTransition transition = new PathTransition();
+            transition.setNode(ball);
+            transition.setDuration(Duration.seconds(1.6));
+            transition.setPath(line[0]);
+            transition.setCycleCount(1);
+            transition.play();
+
+            ball.setCenterX(line[0].getEndX());
+            ball.setCenterY(line[0].getEndY());
+
             line[0].setEndY(0);
             line[0].setEndX(0);
             line[0].setStartY(0);
