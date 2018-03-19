@@ -39,6 +39,9 @@ hs_err_pid*
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# User created
+.idea/
 .idea
 
 # Windows
