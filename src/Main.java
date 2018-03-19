@@ -1,19 +1,10 @@
 import javafx.animation.PathTransition;
 import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.effect.ColorInput;
-import javafx.scene.effect.Light;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -26,7 +17,7 @@ public class Main extends Application {
         Pane mainPane = new Pane();
 
         double maxHeight = Constants.SCENE_WIDTH * 0.1
-                + 1.03*Constants.SCENE_WIDTH*Constants.SCENE_WIDTH;
+                + 1.03 * Constants.SCENE_WIDTH * Constants.SCENE_WIDTH;
 
         double startX = 250;
         double startY = 250;

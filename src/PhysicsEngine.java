@@ -3,7 +3,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class PhysicsEngine {
-
     private Course terrainState;
 
     private Timer timer;
@@ -17,7 +16,6 @@ public class PhysicsEngine {
 
     private double currentX;
     private double currentY;
-
 
     public PhysicsEngine() {
         timer = new Timer();
@@ -66,8 +64,6 @@ public class PhysicsEngine {
         //terrainState = new Course()
     }
 
-
-
     public double calculteHeight(double x, double y){
 
         double result =0;
@@ -99,7 +95,6 @@ public class PhysicsEngine {
 
     public void run(){
         timer.schedule(new TimerTask() {
-
             @Override
             public void run() {
                 evaluateNewVelocity();
