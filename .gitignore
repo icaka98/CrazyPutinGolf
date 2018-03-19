@@ -41,8 +41,9 @@ Temporary Items
 .apdisk
 
 # User created
-.idea/
+.idea\
 .idea
+.idea/
 
 # Windows
 # =========================
