@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.io.*;
+import java.lang.Double;
 
 public class PhysicsEngine {
 
@@ -18,6 +20,8 @@ public class PhysicsEngine {
     private double currentX;
     private double currentY;
 
+    private File file;
+    private CourseReader cr;
 
     public PhysicsEngine() {
         timer = new Timer();
@@ -62,7 +66,10 @@ public class PhysicsEngine {
     }
 
     public void readCourse(){
-        //TODO :read from the File and parse the data to the new Course
+        this.file = new File("<Your location for setup.txt>");
+        cr = new CourseReader(file);
+        cr.readCourse();
+        //For testing: cr.printData();
         //terrainState = new Course()
     }
 
