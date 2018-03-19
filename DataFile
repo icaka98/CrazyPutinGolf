@@ -1,0 +1,7 @@
+g = 9.81
+mu = 0.5
+vmax = 3.0
+start = (0.0,0.0)
+goal = (0.0,1.0)
+tolerance = 0.02
+height = 0.1*x + 0.03*x^2 + 0.2*y

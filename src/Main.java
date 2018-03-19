@@ -94,5 +94,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+        FileWriter a = new FileWriter();
+        a.writeToFile(9.81, 0.5, 3, 0.0, 0.0, 0.0, 1.0, 0.02, "0.1*x + 0.03*x^2 + 0.2*y");
     }
 }
