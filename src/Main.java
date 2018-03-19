@@ -1,5 +1,6 @@
 import javafx.animation.PathTransition;
 import javafx.application.Application;
+import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -9,22 +10,26 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Main extends Application {
+    private Course currentCourse;
 
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle(Constants.STAGE_TITLE);
 
         Pane mainPane = new Pane();
+        this.currentCourse = new Course(9.81, 0.5, 3,
+                new Point2D(250, 250), new Point2D(100, 150), 20,
+                null, null); // example course
 
         double maxHeight = Constants.SCENE_WIDTH * 0.1
                 + 1.03 * Constants.SCENE_WIDTH * Constants.SCENE_WIDTH;
 
-        double startX = 250;
-        double startY = 250;
+        double startX = this.currentCourse.getStart().getX();
+        double startY = this.currentCourse.getStart().getX();
 
-        double finishX = 150;
-        double finishY = 150;
-        double tolerance = 20;
+        double finishX = this.currentCourse.getGoal().getX();
+        double finishY = this.currentCourse.getGoal().getX();
+        double tolerance = this.currentCourse.getToleranceRadius();
 
         Circle hole = new Circle(finishX, finishY, tolerance, Color.BLACK);
         Circle ball = new Circle(startX, startY, 10, Color.WHITE);
