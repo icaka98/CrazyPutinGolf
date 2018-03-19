@@ -1,5 +1,6 @@
 # CrazyPutinGolf
-DKE Project Year 1
+DKE Project 1.2 Group 15
+Phase 1 Presentation: https://goo.gl/KgafVq
 
 # So far so good...
 
