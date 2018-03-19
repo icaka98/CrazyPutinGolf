@@ -2,8 +2,7 @@ import java.io.*;
 import java.lang.Double;
 
 public class CourseReader {
-
-    private double g = 9.81;
+    private Double g;
     private Double mu;
     private Double vmax;
 
@@ -13,14 +12,16 @@ public class CourseReader {
     private Double goalY;
     private Double tolerance;
 
-    File file = new File("C:/Users/svfal/OneDrive/Documents/GitHub/CrazyPutinGolf/src/Setup.txt");
     FileReader fr;
     BufferedReader br;
 
+    public CourseReader(File file) {
+        setupReader(file);
+    }
 
-    private void setupReader() {
+    private void setupReader(File file) {
         try {
-            this.fr = new FileReader(this.file);
+            this.fr = new FileReader(file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -28,8 +29,8 @@ public class CourseReader {
     }
 
     public void readCourse() {
-        setupReader();
         try {
+            this.g = g.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
             this.mu = mu.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
             this.vmax = vmax.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
             this.startX = startX.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
