@@ -10,6 +10,8 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.List;
+
 public class Main extends Application {
     private double startX, startY, finishX, finishY, tolerance;
 
@@ -58,13 +60,12 @@ public class Main extends Application {
                 else point.setFill(
                         Color.rgb(0,75 + (int)(130.0*(1.0 - height/maxHeight)),0));
 
-                mainPane.getChildren().add(point);
+                this.mainPane.getChildren().add(point);
             }
         }
 
         this.aiming = new Line(0, 0, 0, 0);
-
-        mainPane.getChildren().add(aiming);
+        this.mainPane.getChildren().add(aiming);
 
         ball.setOnMouseDragged(event -> {
             double mouseX = event.getSceneX();
@@ -81,6 +82,8 @@ public class Main extends Application {
         });
 
         ball.setOnMouseReleased(event -> {
+
+
             PathTransition transition = new PathTransition();
             transition.setNode(ball);
             transition.setDuration(Duration.seconds(1.6));
@@ -98,10 +101,12 @@ public class Main extends Application {
             aiming.setStartX(0);
         });
 
-        mainPane.getChildren().add(ball);
-        mainPane.getChildren().add(hole);
+        this.mainPane.getChildren().add(ball);
+        this.mainPane.getChildren().add(hole);
 
-        Scene mainScene = new Scene(mainPane, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
+        Scene mainScene = new Scene(mainPane,
+                Constants.SCENE_WIDTH,
+                Constants.SCENE_HEIGHT);
 
         primaryStage.setScene(mainScene);
         primaryStage.show();
@@ -109,7 +114,5 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-        //FileWriter a = new FileWriter();
-        //a.writeToFile(9.81, 0.5, 3, 0.0, 0.0, 0.0, 1.0, 0.02, "0.1*x + 0.03*x^2 + 0.2*y");
     }
 }
