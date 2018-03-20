@@ -11,32 +11,42 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Main extends Application {
+    private double startX, startY, finishX, finishY, tolerance;
+
+    private Pane mainPane;
+
+    private void init(Course course) {
+        this.startX = course.getStart().getX();
+        this.startY = course.getStart().getX();
+
+        this.finishX = course.getGoal().getX();
+        this.finishY = course.getGoal().getX();
+        this.tolerance = course.getToleranceRadius();
+    }
+
+    private double calculateFunction(double x, double y){
+        return x * y + 20_000;
+    }
 
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle(Constants.STAGE_TITLE);
+        this.mainPane = new Pane();
 
-        Pane mainPane = new Pane();
-        Course currentCourse = new Course(9.81, 0.5, 3,
+        Course exampleCourse = new Course(9.81, 0.5, 3,
                 new Point2D(250, 250), new Point2D(100, 150), 20,
                 null, null);
 
-        double maxHeight = Math.pow(Constants.SCENE_WIDTH, 1)
-                * Math.pow(Constants.SCENE_HEIGHT, 1) + 20000;
+        init(exampleCourse);
 
-        double startX = currentCourse.getStart().getX();
-        double startY = currentCourse.getStart().getX();
-
-        double finishX = currentCourse.getGoal().getX();
-        double finishY = currentCourse.getGoal().getX();
-        double tolerance = currentCourse.getToleranceRadius();
+        double maxHeight = calculateFunction(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
 
         Circle hole = new Circle(finishX, finishY, tolerance, Color.BLACK);
         Circle ball = new Circle(startX, startY, 10, Color.WHITE);
 
         for(double x = - Constants.SCENE_WIDTH / 2; x < Constants.SCENE_WIDTH / 2 ; x += 3.5){
             for(double y = - Constants.SCENE_HEIGHT / 2; y < Constants.SCENE_HEIGHT / 2; y += 3.5){
-                double height = x*y + 20000;
+                double height = this.calculateFunction(x, y);
 
                 Circle point = new Circle(x + Constants.SCENE_WIDTH / 2,
                         y + Constants.SCENE_HEIGHT / 2, 3, Color.GREEN);
