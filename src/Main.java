@@ -1,4 +1,5 @@
 import javafx.animation.PathTransition;
+import javafx.animation.SequentialTransition;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
@@ -19,7 +20,7 @@ public class Main extends Application {
 
     private Line aiming;
     private Pane mainPane;
-    private Circle ball;
+    private Circle ball, hole;
 
     private void init(Course course) {
         this.startX = course.getStart().getX();
@@ -37,13 +38,13 @@ public class Main extends Application {
     private List<ShortMove> getMoves(){
         List<ShortMove> moves = new ArrayList<>();
 
-        double initialVelocity = 150;
+        double initialVelocity = 175;
 
-        moves.add(new ShortMove(100, 100, initialVelocity));
-        moves.add(new ShortMove(125, 125, initialVelocity));
-        moves.add(new ShortMove(150, 150, initialVelocity));
-        moves.add(new ShortMove(175, 175, initialVelocity));
-        moves.add(new ShortMove(200, 200, initialVelocity));
+        moves.add(new ShortMove(100, 100, initialVelocity - 120));
+        moves.add(new ShortMove(125, 125, initialVelocity - 100));
+        moves.add(new ShortMove(150, 150, initialVelocity - 70));
+        moves.add(new ShortMove(175, 175, initialVelocity - 40));
+        moves.add(new ShortMove(200, 200, initialVelocity - 10));
         moves.add(new ShortMove(225, 225, initialVelocity));
 
         Collections.reverse(moves);
@@ -53,7 +54,7 @@ public class Main extends Application {
         return moves;
     }
 
-    private void createNextTransition(List<ShortMove> moves, int idx){
+    private PathTransition createNextTransition(List<ShortMove> moves, int idx){
         ShortMove move = moves.get(idx);
 
         Line path = new Line(
@@ -73,17 +74,11 @@ public class Main extends Application {
         transition.setDuration(Duration.seconds(len / move.getVelocity()));
         transition.setPath(path);
         transition.setCycleCount(1);
-        transition.setOnFinished(ob -> {
-            this.ball.setCenterX(endX);
-            this.ball.setCenterY(endY);
 
-            System.out.println(this.ball.getCenterX() + " --- " + this.ball.getCenterY());
+        this.ball.setCenterX(endX);
+        this.ball.setCenterY(endY);
 
-            if(idx + 1 < moves.size()){
-                createNextTransition(moves, idx + 1);
-            }
-        });
-        transition.play();
+        return transition;
     }
 
     @Override
@@ -99,7 +94,7 @@ public class Main extends Application {
 
         double maxHeight = calculateFunction(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
 
-        Circle hole = new Circle(this.finishX, this.finishY, this.tolerance, Color.BLACK);
+        this.hole = new Circle(this.finishX, this.finishY, this.tolerance, Color.BLACK);
         hole.setOpacity(.6);
 
         this.ball = new Circle(this.startX, this.startY, 10, Color.WHITE);
@@ -120,6 +115,7 @@ public class Main extends Application {
         }
 
         this.aiming = new Line(0, 0, 0, 0);
+        this.aiming.setStrokeWidth(0.0);
         this.mainPane.getChildren().add(aiming);
 
         ball.setOnMouseDragged(event -> {
@@ -139,13 +135,18 @@ public class Main extends Application {
         ball.setOnMouseReleased(event -> {
             List<ShortMove> moves = this.getMoves();
 
-            this.createNextTransition(moves, 0);
-
             aiming.setEndY(0);
             aiming.setEndX(0);
             aiming.setStartY(0);
             aiming.setStartX(0);
             aiming.setStrokeWidth(0.0);
+
+            SequentialTransition sequentialTransition = new SequentialTransition();
+
+            for(int i=0;i<moves.size();i++)
+                sequentialTransition.getChildren().add(this.createNextTransition(moves, i));
+
+            sequentialTransition.play();
         });
 
         this.mainPane.getChildren().add(ball);
