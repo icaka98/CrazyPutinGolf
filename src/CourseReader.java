@@ -12,8 +12,8 @@ public class CourseReader {
     private Double goalY;
     private Double tolerance;
 
-    FileReader fr;
-    BufferedReader br;
+    private FileReader fr;
+    private BufferedReader br;
 
     public CourseReader(File file) {
         setupReader(file);
