@@ -13,6 +13,7 @@ import javafx.util.Duration;
 public class Main extends Application {
     private double startX, startY, finishX, finishY, tolerance;
 
+    private Line aiming;
     private Pane mainPane;
 
     private void init(Course course) {
@@ -41,8 +42,10 @@ public class Main extends Application {
 
         double maxHeight = calculateFunction(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
 
-        Circle hole = new Circle(finishX, finishY, tolerance, Color.BLACK);
-        Circle ball = new Circle(startX, startY, 10, Color.WHITE);
+        Circle hole = new Circle(this.finishX, this.finishY, this.tolerance, Color.BLACK);
+        hole.setOpacity(.6);
+
+        Circle ball = new Circle(this.startX, this.startY, 10, Color.WHITE);
 
         for(double x = - Constants.SCENE_WIDTH / 2; x < Constants.SCENE_WIDTH / 2 ; x += 3.5){
             for(double y = - Constants.SCENE_HEIGHT / 2; y < Constants.SCENE_HEIGHT / 2; y += 3.5){
@@ -53,46 +56,46 @@ public class Main extends Application {
 
                 if(height < 0.0) point.setFill(Color.BLUE);
                 else point.setFill(
-                        Color.rgb(0,75 + (int)(100.0*(1.0 - height/maxHeight)),0));
+                        Color.rgb(0,75 + (int)(130.0*(1.0 - height/maxHeight)),0));
 
                 mainPane.getChildren().add(point);
             }
         }
 
-        final Line[] line = {new Line(0, 0, 0, 0)};
+        this.aiming = new Line(0, 0, 0, 0);
 
-        mainPane.getChildren().add(line[0]);
+        mainPane.getChildren().add(aiming);
 
         ball.setOnMouseDragged(event -> {
             double mouseX = event.getSceneX();
             double mouseY = event.getSceneY();
 
             Circle src = (Circle)(event.getSource());
-            line[0].setStartX(src.getCenterX());
-            line[0].setStartY(src.getCenterY());
-            line[0].setEndX(src.getCenterX() + (src.getCenterX() - mouseX));
-            line[0].setEndY(src.getCenterY() + (src.getCenterY() - mouseY));
+            aiming.setStartX(src.getCenterX());
+            aiming.setStartY(src.getCenterY());
+            aiming.setEndX(src.getCenterX() + (src.getCenterX() - mouseX));
+            aiming.setEndY(src.getCenterY() + (src.getCenterY() - mouseY));
 
-            line[0].setStrokeWidth(6.9);
-            line[0].setFill(Color.ORANGE);
+            aiming.setStrokeWidth(6.9);
+            aiming.setFill(Color.ORANGE);
         });
 
         ball.setOnMouseReleased(event -> {
             PathTransition transition = new PathTransition();
             transition.setNode(ball);
             transition.setDuration(Duration.seconds(1.6));
-            transition.setPath(line[0]);
+            transition.setPath(aiming);
             transition.setCycleCount(1);
             transition.setInterpolator(Interpolator.EASE_OUT);
             transition.play();
 
-            ball.setCenterX(line[0].getEndX());
-            ball.setCenterY(line[0].getEndY());
+            ball.setCenterX(aiming.getEndX());
+            ball.setCenterY(aiming.getEndY());
 
-            line[0].setEndY(0);
-            line[0].setEndX(0);
-            line[0].setStartY(0);
-            line[0].setStartX(0);
+            aiming.setEndY(0);
+            aiming.setEndX(0);
+            aiming.setStartY(0);
+            aiming.setStartX(0);
         });
 
         mainPane.getChildren().add(ball);
