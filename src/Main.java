@@ -1,3 +1,4 @@
+import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
@@ -10,35 +11,35 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Main extends Application {
-    private Course currentCourse;
 
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle(Constants.STAGE_TITLE);
 
         Pane mainPane = new Pane();
-        this.currentCourse = new Course(9.81, 0.5, 3,
+        Course currentCourse = new Course(9.81, 0.5, 3,
                 new Point2D(250, 250), new Point2D(100, 150), 20,
-                null, null); // example course
+                null, null);
 
-        double maxHeight = Constants.SCENE_WIDTH * 0.1
-                + 1.03 * Constants.SCENE_WIDTH * Constants.SCENE_WIDTH;
+        double maxHeight = Math.pow(Constants.SCENE_WIDTH, 1)
+                * Math.pow(Constants.SCENE_HEIGHT, 1) + 20000;
 
-        double startX = this.currentCourse.getStart().getX();
-        double startY = this.currentCourse.getStart().getX();
+        double startX = currentCourse.getStart().getX();
+        double startY = currentCourse.getStart().getX();
 
-        double finishX = this.currentCourse.getGoal().getX();
-        double finishY = this.currentCourse.getGoal().getX();
-        double tolerance = this.currentCourse.getToleranceRadius();
+        double finishX = currentCourse.getGoal().getX();
+        double finishY = currentCourse.getGoal().getX();
+        double tolerance = currentCourse.getToleranceRadius();
 
         Circle hole = new Circle(finishX, finishY, tolerance, Color.BLACK);
         Circle ball = new Circle(startX, startY, 10, Color.WHITE);
 
-        for(double x = 0.0; x < Constants.SCENE_WIDTH ; x += 3.5){
-            for(double y = 0.0; y < Constants.SCENE_HEIGHT; y += 3.5){
-                double height = 0.1 * x + 1.03 * x * x - 0.5 * y;
+        for(double x = - Constants.SCENE_WIDTH / 2; x < Constants.SCENE_WIDTH / 2 ; x += 3.5){
+            for(double y = - Constants.SCENE_HEIGHT / 2; y < Constants.SCENE_HEIGHT / 2; y += 3.5){
+                double height = x*y + 20000;
 
-                Circle point = new Circle(x, y, 3, Color.GREEN);
+                Circle point = new Circle(x + Constants.SCENE_WIDTH / 2,
+                        y + Constants.SCENE_HEIGHT / 2, 3, Color.GREEN);
 
                 if(height < 0.0) point.setFill(Color.BLUE);
                 else point.setFill(
@@ -72,6 +73,7 @@ public class Main extends Application {
             transition.setDuration(Duration.seconds(1.6));
             transition.setPath(line[0]);
             transition.setCycleCount(1);
+            transition.setInterpolator(Interpolator.EASE_OUT);
             transition.play();
 
             ball.setCenterX(line[0].getEndX());
@@ -94,7 +96,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-        FileWriter a = new FileWriter();
-        a.writeToFile(9.81, 0.5, 3, 0.0, 0.0, 0.0, 1.0, 0.02, "0.1*x + 0.03*x^2 + 0.2*y");
+        //FileWriter a = new FileWriter();
+        //a.writeToFile(9.81, 0.5, 3, 0.0, 0.0, 0.0, 1.0, 0.02, "0.1*x + 0.03*x^2 + 0.2*y");
     }
 }
