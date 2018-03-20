@@ -52,11 +52,8 @@ public class PhysicsEngine {
     }
 
     private boolean collisionDetected(double x, double y){
-        if(calculteHeight(x,y) < 0){
-            return true;
-        }
+        return calculteHeight(x, y) < 0;
 
-        return false;
     }
 
     public void readCourse(){
