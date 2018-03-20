@@ -1,3 +1,6 @@
+import javafx.geometry.Point3D;
+
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -17,43 +20,62 @@ public class PhysicsEngine {
     private double currentX;
     private double currentY;
 
+    private ArrayList<Point2D> coordinatesOfPath;
+
     public PhysicsEngine() {
         timer = new Timer();
     }
 
+
     private void updateStateOfBall() {
 
-        if(collisionDetected(currentX+velocityX, currentY+velocityY)){
+        if(collisionDetected(currentX+0.1*velocityX, currentY+0.1*velocityY)){
             velocityY = 0;
             velocityX = 0;
             //do something to stop the ball
         }
         else {
-            currentX += velocityX;
-            currentY += velocityY;
+            currentX += 0.1*velocityX;
+            currentY += 0.1*velocityY;
+            Point2D point2D = new Point2D.Double(currentX,currentY);
+            coordinatesOfPath.add(point2D);
         }
     }
 
-    private void evaluateNewVelocity() {
+    private boolean evaluateNewVelocity() {
         calculateAcceleration();
 
-        //not working for negative vectors
-        if(accelerationX + velocityX > 0)
-            velocityX += accelerationX;
+        boolean moveX = false;
+        if((0.001*accelerationX + velocityX >= 0 && velocityX > 0) || (0.001*accelerationX+velocityX <= 0 && velocityX <0))
+        {
+            velocityX += 0.001*accelerationX;
+            moveX =true;
+        }
 
-        if(accelerationY + velocityY > 0)
-            velocityY += accelerationY;
+        boolean moveY =false;
+        if((0.001*accelerationY + velocityY >= 0 && velocityY > 0) || (0.001*accelerationY+velocityY <= 0 && velocityY <0))
+        {
+            velocityY += 0.001*accelerationY;
+            moveY =true;
+        }
+
+        return moveX || moveY;
     }
 
     private void calculateAcceleration() {
-            accelerationX -= terrainState.getFrictionCoef();
+        double g = terrainState.getGravity();
+        double dzTodx = calculateDerivativeWithRespectToX(currentX);
+        double dzTody = calculateDerivativeWithRespectToY(currentY);
+        double mu = terrainState.getFrictionCoef();
+        double square = Math.sqrt(dzTodx * dzTodx + dzTody * dzTody);
+        accelerationX = -g * (dzTodx + mu * currentX / square);
 
-            accelerationY -= terrainState.getFrictionCoef();
+        accelerationY = -g * (dzTody + mu * currentY / square);
+
     }
 
     private boolean collisionDetected(double x, double y){
         return calculteHeight(x, y) < 0;
-
     }
 
     public void readCourse(){
@@ -61,7 +83,7 @@ public class PhysicsEngine {
         //terrainState = new Course()
     }
 
-    public double calculteHeight(double x, double y){
+    private double calculteHeight(double x, double y){
 
         double result =0;
         ArrayList<Double> xCoefficients = terrainState.getXcoefficients();
@@ -77,12 +99,30 @@ public class PhysicsEngine {
         return result;
     }
 
-    public double calculateDerivativeWithRespectToX(double x, double y){
-        return 0;
+    private double calculateDerivativeWithRespectToX(double x){
+
+        double derivative[] = new double[terrainState.getXcoefficients().size()-1];
+        for(int i = 0; i < terrainState.getXcoefficients().size()-1; i++)
+            derivative[i] = terrainState.getXcoefficients().get(i)*(terrainState.getXcoefficients().size()-i-1);
+
+        double result =0;
+        for (int i = 0; i < derivative.length; i++) {
+            result+= derivative[i]*Math.pow(x, i);
+        }
+        return result;
     }
 
-    public double calculateDerivativeWithRespectToY(double x, double y){
-        return 0;
+    private double calculateDerivativeWithRespectToY(double y){
+
+        double derivative[] = new double[terrainState.getYcoefficients().size()-1];
+        for(int i = 0; i < terrainState.getYcoefficients().size()-1; i++)
+            derivative[i] = terrainState.getYcoefficients().get(i)*(terrainState.getYcoefficients().size()-i-1);
+
+        double result =0;
+        for (int i = 0; i < derivative.length; i++) {
+            result+= derivative[i]*Math.pow(y, i);
+        }
+        return result;
     }
 
     public void takeVelocityOfShot(double x, double y){
@@ -90,13 +130,8 @@ public class PhysicsEngine {
         velocityY = y;
     }
 
-    public void run(){
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                evaluateNewVelocity();
-                updateStateOfBall();
-            }
-        }, ticksPerSecond);//not sure if working
+    public void startEngine(){
+        while (evaluateNewVelocity() == true)
+            updateStateOfBall();
     }
 }
