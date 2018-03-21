@@ -1,6 +1,6 @@
-import javafx.geometry.Point3D;
+import javafx.geometry.Point2D;
 
-import java.awt.geom.Point2D;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -17,27 +17,43 @@ public class PhysicsEngine {
     private double accelerationX;
     private double accelerationY;
 
+    public void setCurrentX(double currentX) {
+        this.currentX = currentX;
+    }
+
+    public void setCurrentY(double currentY) {
+        this.currentY = currentY;
+    }
+
     private double currentX;
     private double currentY;
+
+    private File file;
+    private CourseReader cur;
+
+    public ArrayList<Point2D> getCoordinatesOfPath() {
+        return coordinatesOfPath;
+    }
 
     private ArrayList<Point2D> coordinatesOfPath;
 
     public PhysicsEngine() {
+        this.readCourse();
         timer = new Timer();
+        this.coordinatesOfPath = new ArrayList<>();
     }
-
 
     private void updateStateOfBall() {
 
-        if(collisionDetected(currentX+0.1*velocityX, currentY+0.1*velocityY)){
-            velocityY = 0;
-            velocityX = 0;
+        if(collisionDetected(currentX+0.05*velocityX, currentY+0.05*velocityY)){
+            velocityY = 0_0;
+            velocityX = 0_0;
             //do something to stop the ball
         }
         else {
-            currentX += 0.1*velocityX;
-            currentY += 0.1*velocityY;
-            Point2D point2D = new Point2D.Double(currentX,currentY);
+            currentX += 0.05*velocityX;
+            currentY += 0.05*velocityY;
+            Point2D point2D = new Point2D(currentX*100,currentY*100);
             coordinatesOfPath.add(point2D);
         }
     }
@@ -56,7 +72,7 @@ public class PhysicsEngine {
         if((0.001*accelerationY + velocityY >= 0 && velocityY > 0) || (0.001*accelerationY+velocityY <= 0 && velocityY <0))
         {
             velocityY += 0.001*accelerationY;
-            moveY =true;
+            moveY = true;
         }
 
         return moveX || moveY;
@@ -79,8 +95,11 @@ public class PhysicsEngine {
     }
 
     public void readCourse(){
-        //TODO :read from the File and parse the data to the new Course
-        //terrainState = new Course()
+        this.file = new File("src/Setup.txt");
+        cur = new CourseReader(file);
+        cur.readCourse();
+
+        this.terrainState = cur.getCourse();
     }
 
     private double calculteHeight(double x, double y){
@@ -128,10 +147,12 @@ public class PhysicsEngine {
     public void takeVelocityOfShot(double x, double y){
         velocityX = x;
         velocityY = y;
+        this.accelerationX = 0;
+        this.accelerationY = 0;
     }
 
     public void startEngine(){
-        while (evaluateNewVelocity() == true)
+        while (evaluateNewVelocity())
             updateStateOfBall();
     }
 }

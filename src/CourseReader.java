@@ -1,5 +1,9 @@
+import javafx.geometry.Point2D;
+
 import java.io.*;
 import java.lang.Double;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CourseReader {
     private Double g;
@@ -17,6 +21,12 @@ public class CourseReader {
 
     public CourseReader(File file) {
         setupReader(file);
+    }
+
+    public Course getCourse(){
+        return new Course(g, mu, vmax, new Point2D(startX, startY),
+                new Point2D(goalX, goalY), tolerance,
+                new ArrayList<>(Arrays.asList(0.1, 0.03)), new ArrayList<>(Arrays.asList(0.2)));
     }
 
     private void setupReader(File file) {
