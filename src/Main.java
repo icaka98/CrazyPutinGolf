@@ -22,6 +22,8 @@ public class Main extends Application {
     private Pane mainPane;
     private Circle ball, hole;
 
+    private PhysicsEngine physicsEngine;
+
     private void init(Course course) {
         this.startX = course.getStart().getX();
         this.startY = course.getStart().getY();
@@ -29,25 +31,22 @@ public class Main extends Application {
         this.finishX = course.getGoal().getX();
         this.finishY = course.getGoal().getY();
         this.tolerance = course.getToleranceRadius();
+
+        this.physicsEngine = new PhysicsEngine();
     }
 
     private double calculateFunction(double x, double y){
-        return x * y + 20_000;
+        return Math.pow(x, 7) + Math.pow(y, 7) + 1_000_000_000_000_000_0L;
+        // 0.1*x + 0.03*x*x + 0.2*y;
+        //x * y + 20_000;
     }
 
     private List<Point2D> getMoves(){
         List<Point2D> moves = new ArrayList<>();
 
-        moves.add(new Point2D(100, 100));
-        moves.add(new Point2D(125, 125));
-        moves.add(new Point2D(150, 150));
-        moves.add(new Point2D(175, 175));
-        moves.add(new Point2D(200, 200));
-        moves.add(new Point2D(225, 225));
-
-        Collections.reverse(moves);
-        System.out.println(String.join(", ",
-                moves.stream().map(p -> p.getX() + "").collect(Collectors.toList())));
+        for(int i=0;i<125;i++){
+            moves.add(new Point2D(225 - i, 225 - i));
+        }
 
         return moves;
     }
@@ -69,7 +68,7 @@ public class Main extends Application {
 
         PathTransition transition = new PathTransition();
         transition.setNode(this.ball);
-        transition.setDuration(Duration.seconds(1));
+        transition.setDuration(Duration.millis(6));
         transition.setPath(path);
         transition.setCycleCount(1);
 
@@ -131,7 +130,12 @@ public class Main extends Application {
         });
 
         ball.setOnMouseReleased(event -> {
-            List<Point2D> moves = this.getMoves();
+            this.physicsEngine.takeVelocityOfShot(aiming.getEndX() / 100, aiming.getEndY() / 100);
+            this.physicsEngine.setCurrentX(this.ball.getCenterX() / 100);
+            this.physicsEngine.setCurrentY(this.ball.getCenterY() / 100);
+            this.physicsEngine.startEngine();
+
+            List<Point2D> moves = this.getMoves();//this.physicsEngine.getCoordinatesOfPath();
 
             aiming.setEndY(0);
             aiming.setEndX(0);
