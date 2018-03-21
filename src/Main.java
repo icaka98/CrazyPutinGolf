@@ -36,7 +36,8 @@ public class Main extends Application {
     }
 
     private double calculateFunction(double x, double y){
-        return Math.pow(x, 7) + Math.pow(y, 7) + 1_000_000_000_000_000_0L;
+        return 0.0003*x + 0.0002*y + 0.1;
+        //Math.pow(x, 7) + Math.pow(y, 7) + 1_000_000_000_000_000_0L;
         // 0.1*x + 0.03*x*x + 0.2*y;
         //x * y + 20_000;
     }
@@ -68,7 +69,7 @@ public class Main extends Application {
 
         PathTransition transition = new PathTransition();
         transition.setNode(this.ball);
-        transition.setDuration(Duration.millis(6));
+        transition.setDuration(Duration.millis(999));
         transition.setPath(path);
         transition.setCycleCount(1);
 
@@ -130,11 +131,11 @@ public class Main extends Application {
         });
 
         ball.setOnMouseReleased(event -> {
-            this.physicsEngine.takeVelocityOfShot(aiming.getEndX() / 100, aiming.getEndY() / 100);
-            System.out.println("end: " + aiming.getEndX() / 100 + " " + aiming.getEndY() / 100);
-            this.physicsEngine.setCurrentX(this.ball.getCenterX() / 100);
-            this.physicsEngine.setCurrentY(this.ball.getCenterY() / 100);
-            System.out.println("current: " + this.ball.getCenterX() / 100 + " " + this.ball.getCenterY() / 100);
+            this.physicsEngine.takeVelocityOfShot((aiming.getEndX()) / 100, (aiming.getEndY()) / 100);
+            System.out.println("end: " + (aiming.getEndX()) / 100 + " " + (aiming.getEndY()) / 100);
+            this.physicsEngine.setCurrentX((this.ball.getCenterX()) / 100);
+            this.physicsEngine.setCurrentY((this.ball.getCenterY()) / 100);
+            System.out.println("current: " + (this.ball.getCenterX()) / 100 + " " + (this.ball.getCenterY()) / 100);
 
             this.physicsEngine.startEngine();
 

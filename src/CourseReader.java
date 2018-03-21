@@ -26,7 +26,7 @@ public class CourseReader {
     public Course getCourse(){
         return new Course(g, mu, vmax, new Point2D(startX, startY),
                 new Point2D(goalX, goalY), tolerance,
-                new ArrayList<>(Arrays.asList(0.1, 0.03)), new ArrayList<>(Arrays.asList(0.2)));
+                new ArrayList<>(Arrays.asList(0.1, 0.0003)), new ArrayList<>(Arrays.asList(0.1, 0.0002)));
     }
 
     private void setupReader(File file) {
