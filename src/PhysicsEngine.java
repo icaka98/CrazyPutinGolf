@@ -3,7 +3,6 @@ import javafx.geometry.Point2D;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class PhysicsEngine {
     private Course terrainState;
@@ -121,8 +120,8 @@ public class PhysicsEngine {
     private double calculateDerivativeWithRespectToX(double x){
 
         double derivative[] = new double[terrainState.getXcoefficients().size()-1];
-        for(int i = 0; i < terrainState.getXcoefficients().size()-1; i++)
-            derivative[i] = terrainState.getXcoefficients().get(i)*(terrainState.getXcoefficients().size()-i-1);
+        for(int i = 0; i < terrainState.getXcoefficients().size() -1; i++)
+            derivative[i] = terrainState.getXcoefficients().get(i+1)*(i+1);
 
         double result =0;
         for (int i = 0; i < derivative.length; i++) {
@@ -134,8 +133,8 @@ public class PhysicsEngine {
     private double calculateDerivativeWithRespectToY(double y){
 
         double derivative[] = new double[terrainState.getYcoefficients().size()-1];
-        for(int i = 0; i < terrainState.getYcoefficients().size()-1; i++)
-            derivative[i] = terrainState.getYcoefficients().get(i)*(terrainState.getYcoefficients().size()-i-1);
+        for(int i = 0; i < terrainState.getYcoefficients().size() - 1; i++)
+            derivative[i] = terrainState.getYcoefficients().get(i+1)*(i+1);
 
         double result =0;
         for (int i = 0; i < derivative.length; i++) {
@@ -143,6 +142,8 @@ public class PhysicsEngine {
         }
         return result;
     }
+
+
 
     public void takeVelocityOfShot(double x, double y){
         velocityX = x;
