@@ -35,43 +35,43 @@ public class Main extends Application {
         return x * y + 20_000;
     }
 
-    private List<ShortMove> getMoves(){
-        List<ShortMove> moves = new ArrayList<>();
+    private List<Point2D> getMoves(){
+        List<Point2D> moves = new ArrayList<>();
 
         double initialVelocity = 175;
 
-        moves.add(new ShortMove(100, 100, initialVelocity - 120));
-        moves.add(new ShortMove(125, 125, initialVelocity - 100));
-        moves.add(new ShortMove(150, 150, initialVelocity - 70));
-        moves.add(new ShortMove(175, 175, initialVelocity - 40));
-        moves.add(new ShortMove(200, 200, initialVelocity - 10));
-        moves.add(new ShortMove(225, 225, initialVelocity));
+        moves.add(new Point2D(100, 100));
+        moves.add(new Point2D(125, 125));
+        moves.add(new Point2D(150, 150));
+        moves.add(new Point2D(175, 175));
+        moves.add(new Point2D(200, 200));
+        moves.add(new Point2D(225, 225));
 
         Collections.reverse(moves);
         System.out.println(String.join(", ",
-                moves.stream().map(p -> p.getFinalX() + "").collect(Collectors.toList())));
+                moves.stream().map(p -> p.getX() + "").collect(Collectors.toList())));
 
         return moves;
     }
 
-    private PathTransition createNextTransition(List<ShortMove> moves, int idx){
-        ShortMove move = moves.get(idx);
+    private PathTransition createNextTransition(List<Point2D> moves, int idx){
+        Point2D move = moves.get(idx);
 
         Line path = new Line(
                 this.ball.getCenterX(),
                 this.ball.getCenterY(),
-                move.getFinalX(),
-                move.getFinalY());
+                move.getX(),
+                move.getY());
 
         double endX = path.getEndX();
         double endY = path.getEndY();
 
-        double len = Math.sqrt(Math.pow(path.getBoundsInLocal().getHeight(), 2)
-                + Math.pow(path.getBoundsInLocal().getWidth(), 2));
+        /*double len = Math.sqrt(Math.pow(path.getBoundsInLocal().getHeight(), 2)
+                + Math.pow(path.getBoundsInLocal().getWidth(), 2));*/
 
         PathTransition transition = new PathTransition();
         transition.setNode(this.ball);
-        transition.setDuration(Duration.seconds(len / move.getVelocity()));
+        transition.setDuration(Duration.seconds(1));
         transition.setPath(path);
         transition.setCycleCount(1);
 
@@ -133,7 +133,7 @@ public class Main extends Application {
         });
 
         ball.setOnMouseReleased(event -> {
-            List<ShortMove> moves = this.getMoves();
+            List<Point2D> moves = this.getMoves();
 
             aiming.setEndY(0);
             aiming.setEndX(0);

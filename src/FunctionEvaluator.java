@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class FunctionEvaluator{
 
     public static void main(String[] args) {
-        System.out.println(eval("( 1.0 + ( 9.0 ^ 2 ) ) * 3.0"));
+        System.out.println(eval("( 1.0 + sin ( 3.14 ) ) * 3.0"));
     }
     private static Double eval(String s){
         String[] str = s.split("\\s+");
