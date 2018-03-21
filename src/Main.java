@@ -44,8 +44,8 @@ public class Main extends Application {
     private List<Point2D> getMoves(){
         List<Point2D> moves = new ArrayList<>();
 
-        for(int i=0;i<125;i++){
-            moves.add(new Point2D(225 - i, 225 - i));
+        for(int i=1;i<=150;i++){
+            moves.add(new Point2D(250 - i, 250 - i));
         }
 
         return moves;
@@ -62,9 +62,6 @@ public class Main extends Application {
 
         double endX = path.getEndX();
         double endY = path.getEndY();
-
-        /*double len = Math.sqrt(Math.pow(path.getBoundsInLocal().getHeight(), 2)
-                + Math.pow(path.getBoundsInLocal().getWidth(), 2));*/
 
         PathTransition transition = new PathTransition();
         transition.setNode(this.ball);
