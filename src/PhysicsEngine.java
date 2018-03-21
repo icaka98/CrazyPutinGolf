@@ -149,8 +149,21 @@ public class PhysicsEngine {
 
 
     public void takeVelocityOfShot(double x, double y){
-        velocityX = x;
-        velocityY = y;
+        if(x < terrainState.getMaxVelocity())
+        {
+            velocityX = x;
+        }
+        else {
+            velocityX = terrainState.getMaxVelocity();
+        }
+
+        if(y< terrainState.getMaxVelocity()) {
+            velocityY = y;
+        }
+        else {
+            velocityY = terrainState.getMaxVelocity();
+        }
+
         this.accelerationX = 0;
         this.accelerationY = 0;
     }
