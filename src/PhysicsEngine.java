@@ -2,13 +2,9 @@ import javafx.geometry.Point2D;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Timer;
 
 public class PhysicsEngine {
     private Course terrainState;
-
-    private Timer timer;
-    private int ticksPerSecond;
 
     private double velocityX;
     private double velocityY;
@@ -28,9 +24,6 @@ public class PhysicsEngine {
     private double currentX;
     private double currentY;
 
-    private File file;
-    private CourseReader cur;
-
     public ArrayList<Point2D> getCoordinatesOfPath() {
         return coordinatesOfPath;
     }
@@ -39,16 +32,14 @@ public class PhysicsEngine {
 
     public PhysicsEngine() {
         this.readCourse();
-        timer = new Timer();
         this.coordinatesOfPath = new ArrayList<>();
     }
 
-    private void updateStateOfBall() {
+    private boolean updateStateOfBall() {
 
+        System.out.println("currentX+0.05*velocityX: " + (currentX+0.05*velocityX));
         if(collisionDetected(currentX+0.05*velocityX, currentY+0.05*velocityY)){
-            velocityY = 0_0;
-            velocityX = 0_0;
-            //do something to stop the ball
+            return false;
         }
         else {
             currentX += 0.05*velocityX;
@@ -56,6 +47,7 @@ public class PhysicsEngine {
             Point2D point2D = new Point2D(currentX,currentY);
             System.out.println("Point: " + point2D.getX() + " "  + point2D.getY());
             coordinatesOfPath.add(point2D);
+            return true;
         }
     }
 
@@ -104,9 +96,9 @@ public class PhysicsEngine {
         return calculteHeight(x, y) < 0;
     }
 
-    public void readCourse(){
-        this.file = new File("src/Setup.txt");
-        cur = new CourseReader(file);
+    private void readCourse(){
+        File file = new File("src/Setup.txt");
+        CourseReader cur = new CourseReader(file);
         cur.readCourse();
 
         this.terrainState = cur.getCourse();
@@ -165,11 +157,12 @@ public class PhysicsEngine {
 
     public void startEngine(){
 
-        while (evaluateNewVelocity())
+        boolean collision = false;
+        while (evaluateNewVelocity() && !collision)
         {
             System.out.println("start");
 
-            updateStateOfBall();
+            collision = !updateStateOfBall();
         }
     }
 }
