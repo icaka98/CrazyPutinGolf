@@ -18,6 +18,7 @@ public class PhysicsEngine {
 
     public void setCurrentX(double currentX) {
         this.currentX = currentX;
+        System.out.println("currentX: "+ currentX);
     }
 
     public void setCurrentY(double currentY) {
@@ -52,7 +53,8 @@ public class PhysicsEngine {
         else {
             currentX += 0.05*velocityX;
             currentY += 0.05*velocityY;
-            Point2D point2D = new Point2D(currentX*100,currentY*100);
+            Point2D point2D = new Point2D(currentX,currentY);
+            System.out.println("Point: " + point2D.getX() + " "  + point2D.getY());
             coordinatesOfPath.add(point2D);
         }
     }
@@ -61,16 +63,23 @@ public class PhysicsEngine {
         calculateAcceleration();
 
         boolean moveX = false;
-        if((0.001*accelerationX + velocityX >= 0 && velocityX > 0) || (0.001*accelerationX+velocityX <= 0 && velocityX <0))
+        System.out.println("accelerationX " + accelerationX);
+
+        System.out.println("velocityX : " + velocityX);
+        if((0.05*accelerationX + velocityX >= 0 && velocityX > 0) || (0.05*accelerationX+velocityX <= 0 && velocityX <0))
         {
-            velocityX += 0.001*accelerationX;
+            velocityX += 0.05*accelerationX;
+            System.out.println("velocityX : " + velocityX);
             moveX =true;
         }
 
         boolean moveY =false;
-        if((0.001*accelerationY + velocityY >= 0 && velocityY > 0) || (0.001*accelerationY+velocityY <= 0 && velocityY <0))
+
+        System.out.println("accelerationY " + accelerationY);
+        if((0.05*accelerationY + velocityY >= 0 && velocityY > 0) || (0.05*accelerationY+velocityY <= 0 && velocityY <0))
         {
-            velocityY += 0.001*accelerationY;
+            velocityY += 0.05*accelerationY;
+            System.out.println("velocityY : " + velocityY);
             moveY = true;
         }
 
@@ -80,12 +89,14 @@ public class PhysicsEngine {
     private void calculateAcceleration() {
         double g = terrainState.getGravity();
         double dzTodx = calculateDerivativeWithRespectToX(currentX);
+        System.out.println("dzTodx " + dzTodx);
         double dzTody = calculateDerivativeWithRespectToY(currentY);
+        System.out.println("dzTody " + dzTody);
         double mu = terrainState.getFrictionCoef();
-        double square = Math.sqrt(dzTodx * dzTodx + dzTody * dzTody);
-        accelerationX = -g * (dzTodx + mu * currentX / square);
 
-        accelerationY = -g * (dzTody + mu * currentY / square);
+        accelerationX = -g * (dzTodx + mu * currentX);
+
+        accelerationY = -g * (dzTody + mu * currentY);
 
     }
 
@@ -153,7 +164,12 @@ public class PhysicsEngine {
     }
 
     public void startEngine(){
+
         while (evaluateNewVelocity())
+        {
+            System.out.println("start");
+
             updateStateOfBall();
+        }
     }
 }
