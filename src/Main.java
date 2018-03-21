@@ -38,8 +38,6 @@ public class Main extends Application {
     private List<Point2D> getMoves(){
         List<Point2D> moves = new ArrayList<>();
 
-        double initialVelocity = 175;
-
         moves.add(new Point2D(100, 100));
         moves.add(new Point2D(125, 125));
         moves.add(new Point2D(150, 150));
