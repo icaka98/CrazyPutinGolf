@@ -48,6 +48,7 @@ public class CourseReader {
             this.goalX = goalX.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
             this.goalY = goalY.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
             this.tolerance = tolerance.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
+            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
