@@ -128,11 +128,14 @@ public class Main extends Application {
 
         ball.setOnMouseReleased(event -> {
             this.physicsEngine.takeVelocityOfShot(aiming.getEndX() / 100, aiming.getEndY() / 100);
+            System.out.println("end: " + aiming.getEndX() / 100 + " " + aiming.getEndY() / 100);
             this.physicsEngine.setCurrentX(this.ball.getCenterX() / 100);
             this.physicsEngine.setCurrentY(this.ball.getCenterY() / 100);
+            System.out.println("current: " + this.ball.getCenterX() / 100 + " " + this.ball.getCenterY() / 100);
+
             this.physicsEngine.startEngine();
 
-            List<Point2D> moves = this.getMoves();//this.physicsEngine.getCoordinatesOfPath();
+            List<Point2D> moves = this.physicsEngine.getCoordinatesOfPath();
 
             aiming.setEndY(0);
             aiming.setEndX(0);
