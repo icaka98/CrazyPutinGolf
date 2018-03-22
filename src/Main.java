@@ -10,6 +10,7 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class Main extends Application {
 
     private PhysicsEngine physicsEngine;
     private CourseReader courseReader;
+    private Function functionEvaluator;
 
     private void init(Course course) {
         this.startX = course.getStart().getX() * scalar;
@@ -35,14 +37,6 @@ public class Main extends Application {
         this.tolerance = course.getToleranceRadius() * scalar * 10;
 
         this.physicsEngine = new PhysicsEngine();
-    }
-
-    private double calculateFunction(double x, double y){
-        return 0.1*x + 0.03*x*x + 0.2*y;
-        // 0.0003*x + 0.0002*y + 0.1;
-        //Math.pow(x, 7) + Math.pow(y, 7) + 1_000_000_000_000_000_0L;
-        // 0.1*x + 0.03*x*x + 0.2*y;
-        //x * y + 20_000;
     }
 
     private List<Point2D> getMoves(){
@@ -84,23 +78,30 @@ public class Main extends Application {
         primaryStage.setTitle(Constants.STAGE_TITLE);
         this.mainPane = new Pane();
         this.courseReader = new CourseReader(new File("src/Setup.txt"));
+        this.functionEvaluator = new Function(this.courseReader.getEquation());
 
         init(this.courseReader.getCourse());
 
-        double maxHeight = calculateFunction(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
+        double maxHeight = this.functionEvaluator.solve(Constants.SCENE_WIDTH / scalar, Constants.SCENE_HEIGHT / scalar);
 
-        System.out.println("dsa:" + this.tolerance);
-        this.hole = new Circle(this.finishX, this.finishY, this.tolerance, Color.BLACK);
-        hole.setOpacity(.6);
+        this.hole = new Circle(
+                this.finishX + Constants.SCENE_WIDTH / 2,
+                this.finishY + Constants.SCENE_HEIGHT / 2,
+                this.tolerance, Color.BLACK);
+        this.hole.setOpacity(.6);
 
-        this.ball = new Circle(this.startX, this.startY, 10, Color.WHITE);
+        this.ball = new Circle(
+                this.startX + Constants.SCENE_WIDTH / 2,
+                this.startY + Constants.SCENE_HEIGHT / 2,
+                10, Color.WHITE);
 
-        for(double x = 0; x < Constants.SCENE_WIDTH ; x += 3.5){
-            for(double y = 0; y < Constants.SCENE_HEIGHT; y += 3.5){
-                double height = this.calculateFunction(x, y);
+        for(double x = -Constants.SCENE_WIDTH / 2; x < Constants.SCENE_WIDTH / 2; x += 3.5){
+            for(double y = -Constants.SCENE_HEIGHT / 2; y < Constants.SCENE_HEIGHT / 2; y += 3.5){
 
-                Circle point = new Circle(x,
-                        y, 3, Color.GREEN);
+                double height = this.functionEvaluator.solve(x / scalar, y / scalar);
+
+                Circle point = new Circle(x + Constants.SCENE_WIDTH / 2,
+                        y + Constants.SCENE_HEIGHT / 2, 3, Color.GREEN);
 
                 if(height < 0.0) point.setFill(Color.BLUE);
                 else point.setFill(
