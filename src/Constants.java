@@ -7,7 +7,7 @@ public class Constants {
 
     public static final int SCENE_HEIGHT = 500;
 
-    public static final double TIMESTEP_h = 0.05;
+    public static final double TIMESTEP_h = 0.02;
 
     public static final double SCALAR = 100;
 

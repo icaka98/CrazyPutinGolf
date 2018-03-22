@@ -56,7 +56,7 @@ public class PhysicsEngine {
         velocityX += Constants.TIMESTEP_h*accelerationX;
 
 
-        return (Math.abs(velocityX) > 0.005 && Math.abs(velocityY) > 0.005);
+        return (Math.abs(velocityX) > 0.01 && Math.abs(velocityY) > 0.01);
     }
 
     private void calculateAcceleration() {
@@ -119,9 +119,9 @@ public class PhysicsEngine {
         double velX = endX - currentX;
         double velY = endY - currentY;
 
-        if(Math.abs(velX) < terrainState.getMaxVelocity())
+        if(Math.abs(velX*2) < terrainState.getMaxVelocity()*2)
         {
-            velocityX = velX;
+            velocityX = velX*2;
         }
         else if(velX < 0){
             velocityX = -terrainState.getMaxVelocity();
@@ -129,8 +129,8 @@ public class PhysicsEngine {
         else{
             velocityX = terrainState.getMaxVelocity();
         }
-        if(Math.abs(velY) < terrainState.getMaxVelocity()) {
-            velocityY = velY;
+        if(Math.abs(velY*2) < terrainState.getMaxVelocity()*2) {
+            velocityY = velY*2;
         }
         else if(velY < 0){
             velocityY = -terrainState.getMaxVelocity();
