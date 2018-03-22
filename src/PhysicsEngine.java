@@ -141,12 +141,17 @@ public class PhysicsEngine {
         {
             velocityX = velX;
         }
-        else {
+        else if(velX < 0){
+            velocityX = -terrainState.getMaxVelocity();
+        }
+        else{
             velocityX = terrainState.getMaxVelocity();
         }
-
         if(Math.abs(velY) < terrainState.getMaxVelocity()) {
             velocityY = velY;
+        }
+        else if(velY < 0){
+            velocityY = -terrainState.getMaxVelocity();
         }
         else {
             velocityY = terrainState.getMaxVelocity();
