@@ -12,7 +12,7 @@ public class PhysicsEngine {
     private double accelerationX;
     private double accelerationY;
 
-    private CourseReader cur;
+    private CourseReader cour;
     private Function functionEvaluator;
 
     public void setCurrentX(double currentX) {
@@ -36,7 +36,7 @@ public class PhysicsEngine {
     public PhysicsEngine() {
         this.readCourse();
         this.coordinatesOfPath = new ArrayList<>();
-        this.functionEvaluator = new Function(""/*fjour*/);
+        this.functionEvaluator = new Function(this.cour.getEquation());
     }
 
     private boolean updateStateOfBall() {
@@ -103,10 +103,10 @@ public class PhysicsEngine {
 
     private void readCourse(){
         File file = new File("src/Setup.txt");
-        cur = new CourseReader(file);
-        cur.readCourse();
+        cour = new CourseReader(file);
+        cour.readCourse();
 
-        this.terrainState = cur.getCourse();
+        this.terrainState = cour.getCourse();
     }
 
     private double calculteHeight(double x, double y){
