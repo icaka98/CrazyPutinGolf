@@ -22,6 +22,8 @@ public class Main extends Application {
     private Pane mainPane;
     private Circle ball, hole;
 
+    private static double scalar = 100;
+
     private PhysicsEngine physicsEngine;
 
     private void init(Course course) {
@@ -59,15 +61,15 @@ public class Main extends Application {
         Line path = new Line(
                 this.ball.getCenterX(),
                 this.ball.getCenterY(),
-                move.getX(),
-                move.getY());
+                move.getX() * scalar,
+                move.getY() * scalar);
 
         double endX = path.getEndX();
         double endY = path.getEndY();
 
         PathTransition transition = new PathTransition();
         transition.setNode(this.ball);
-        transition.setDuration(Duration.millis(999));
+        transition.setDuration(Duration.millis(100));
         transition.setPath(path);
         transition.setCycleCount(1);
 
@@ -83,7 +85,7 @@ public class Main extends Application {
         this.mainPane = new Pane();
 
         Course exampleCourse = new Course(9.81, 0.5, 3,
-                new Point2D(250, 250), new Point2D(100, 100), 20,
+                new Point2D(0, 0), new Point2D(0, 100), 20,
                 null, null);
 
         init(exampleCourse);
@@ -129,15 +131,22 @@ public class Main extends Application {
         });
 
         ball.setOnMouseReleased(event -> {
-            this.physicsEngine.takeVelocityOfShot((aiming.getEndX()) / 100, (aiming.getEndY()) / 100);
-            System.out.println("end: " + (aiming.getEndX()) / 100 + " " + (aiming.getEndY()) / 100);
-            this.physicsEngine.setCurrentX((this.ball.getCenterX()) / 100);
-            this.physicsEngine.setCurrentY((this.ball.getCenterY()) / 100);
-            System.out.println("current: " + (this.ball.getCenterX()) / 100 + " " + (this.ball.getCenterY()) / 100);
+            double aimX = (aiming.getEndX()) / scalar;
+            double aimY = (aiming.getEndY()) / scalar;
+
+            double cenX = this.ball.getCenterX() / scalar;
+            double cenY = this.ball.getCenterY() / scalar;
+
+            this.physicsEngine.setCurrentX(cenX);
+            this.physicsEngine.setCurrentY(cenY);
+            this.physicsEngine.takeVelocityOfShot(aimX, aimY);
+            System.out.println("end: " + aimX + " " + aimY);
+            System.out.println("current: " + cenX + " " + cenY);
 
             this.physicsEngine.startEngine();
 
             List<Point2D> moves = this.physicsEngine.getCoordinatesOfPath();
+            System.out.println("LEN: " + moves.size());
 
             aiming.setEndY(0);
             aiming.setEndX(0);
