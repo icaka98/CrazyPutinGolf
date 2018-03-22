@@ -9,4 +9,7 @@ public class Constants {
 
     public static final double TIMESTEP_h = 0.05;
 
+    public static final double SCALAR = 100;
+
+    public static final int TRANSITION_DURATION = 100;
 }
