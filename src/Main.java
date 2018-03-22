@@ -36,7 +36,8 @@ public class Main extends Application {
     }
 
     private double calculateFunction(double x, double y){
-        return 0.0003*x + 0.0002*y + 0.1;
+        return 0.1*x + 0.03*x*x + 0.2*y;
+        // 0.0003*x + 0.0002*y + 0.1;
         //Math.pow(x, 7) + Math.pow(y, 7) + 1_000_000_000_000_000_0L;
         // 0.1*x + 0.03*x*x + 0.2*y;
         //x * y + 20_000;
