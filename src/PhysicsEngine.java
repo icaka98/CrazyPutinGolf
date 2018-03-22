@@ -76,6 +76,9 @@ public class PhysicsEngine {
         return calculteHeight(x, y) < 0;
     }
 
+    /**
+     * Sets up the course variables by reading them from a file
+     */
     private void readCourse(){
         File file = new File("src/Setup.txt");
         courseReader = new CourseReader(file);

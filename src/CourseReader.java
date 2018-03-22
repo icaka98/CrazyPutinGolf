@@ -20,6 +20,10 @@ public class CourseReader {
     private FileReader fr;
     private BufferedReader br;
 
+    /**
+     * Default CourseReader constructor
+     * @param file the file to read the text from
+     */
     public CourseReader(File file) {
         setupReader(file);
     }
@@ -30,6 +34,10 @@ public class CourseReader {
                 new ArrayList<>(Arrays.asList(0.0, 0.1, 0.03)), new ArrayList<>(Arrays.asList(0.1, 0.2)));
     }
 
+    /**
+     * Sets up the input stream for the reader
+     * @param file the file to read the text from
+     */
     private void setupReader(File file) {
         try {
             this.fr = new FileReader(file);
@@ -41,6 +49,9 @@ public class CourseReader {
         this.readCourse();
     }
 
+    /**
+     * Stores the values and the equation in the given file as variables
+     */
     public void readCourse() {
         try {
             this.g = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
@@ -59,6 +70,10 @@ public class CourseReader {
         }
     }
 
+    /**
+     * Get the equation that shapes the course field
+     * @return the equation that shapes the course field
+     */
     public String getEquation() {
         return equation;
     }
