@@ -12,6 +12,9 @@ public class PhysicsEngine {
     private double accelerationX;
     private double accelerationY;
 
+    private CourseReader cur;
+    private Function functionEvaluator;
+
     public void setCurrentX(double currentX) {
         this.currentX = currentX;
         System.out.println("currentX: "+ currentX);
@@ -33,17 +36,18 @@ public class PhysicsEngine {
     public PhysicsEngine() {
         this.readCourse();
         this.coordinatesOfPath = new ArrayList<>();
+        this.functionEvaluator = new Function(""/*fjour*/);
     }
 
     private boolean updateStateOfBall() {
 
-        System.out.println("currentX+0.05*velocityX: " + (currentX+0.05*velocityX));
-        if(collisionDetected(currentX+0.05*velocityX, currentY+0.05*velocityY)){
+        System.out.println("currentX+Constants.TIMESTEP_h*velocityX: " + (currentX+Constants.TIMESTEP_h*velocityX));
+        if(collisionDetected(currentX+Constants.TIMESTEP_h*velocityX, currentY+Constants.TIMESTEP_h*velocityY)){
             return false;
         }
         else {
-            currentX += 0.05*velocityX;
-            currentY += 0.05*velocityY;
+            currentX += Constants.TIMESTEP_h*velocityX;
+            currentY += Constants.TIMESTEP_h*velocityY;
             Point2D point2D = new Point2D(currentX,currentY);
             System.out.println("Point: " + point2D.getX() + " "  + point2D.getY());
             coordinatesOfPath.add(point2D);
@@ -58,19 +62,20 @@ public class PhysicsEngine {
         System.out.println("accelerationX " + accelerationX);
 
         System.out.println("velocityX : " + velocityX);
-        if((0.05*accelerationX + velocityX >= 0 && velocityX > 0) || (0.05*accelerationX+velocityX <= 0 && velocityX <0))
+        if((Constants.TIMESTEP_h*accelerationX + velocityX >= 0 && velocityX > 0) ||
+                (Constants.TIMESTEP_h*accelerationX + velocityX <= 0 && velocityX <0))
         {
-            velocityX += 0.05*accelerationX;
+            velocityX += Constants.TIMESTEP_h*accelerationX;
             System.out.println("velocityX : " + velocityX);
             moveX =true;
         }
 
         boolean moveY =false;
-
         System.out.println("accelerationY " + accelerationY);
-        if((0.05*accelerationY + velocityY >= 0 && velocityY > 0) || (0.05*accelerationY+velocityY <= 0 && velocityY <0))
+        if((Constants.TIMESTEP_h*accelerationY + velocityY >= 0 && velocityY > 0) ||
+                (Constants.TIMESTEP_h*accelerationY+velocityY <= 0 && velocityY <0))
         {
-            velocityY += 0.05*accelerationY;
+            velocityY += Constants.TIMESTEP_h*accelerationY;
             System.out.println("velocityY : " + velocityY);
             moveY = true;
         }
@@ -98,26 +103,14 @@ public class PhysicsEngine {
 
     private void readCourse(){
         File file = new File("src/Setup.txt");
-        CourseReader cur = new CourseReader(file);
+        cur = new CourseReader(file);
         cur.readCourse();
 
         this.terrainState = cur.getCourse();
     }
 
     private double calculteHeight(double x, double y){
-
-        double result =0;
-        ArrayList<Double> xCoefficients = terrainState.getXcoefficients();
-        for (int i = 0; i < xCoefficients.size(); i++) {
-            result+= xCoefficients.get(i)*Math.pow(x, i);
-        }
-
-        ArrayList<Double> yCoefficients = terrainState.getYcoefficients();
-        for (int i = 0; i < yCoefficients.size(); i++) {
-            result+= yCoefficients.get(i)*Math.pow(y, i);
-        }
-
-        return result;
+         return functionEvaluator.solve(x,y);
     }
 
     private double calculateDerivativeWithRespectToX(double x){
@@ -147,7 +140,6 @@ public class PhysicsEngine {
     }
 
 
-
     public void takeVelocityOfShot(double x, double y){
         if(x < terrainState.getMaxVelocity())
         {
@@ -157,15 +149,12 @@ public class PhysicsEngine {
             velocityX = terrainState.getMaxVelocity();
         }
 
-        if(y< terrainState.getMaxVelocity()) {
+        if(y < terrainState.getMaxVelocity()) {
             velocityY = y;
         }
         else {
             velocityY = terrainState.getMaxVelocity();
         }
-
-        this.accelerationX = 0;
-        this.accelerationY = 0;
     }
 
     public void startEngine(){
