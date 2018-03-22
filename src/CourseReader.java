@@ -1,9 +1,13 @@
 import javafx.geometry.Point2D;
-
 import java.io.*;
 import java.lang.Double;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+/**
+ * @author Silvia Fallone
+ * A class that reads the course from a file
+ */
 
 public class CourseReader {
     private Double g;
@@ -21,7 +25,7 @@ public class CourseReader {
     private BufferedReader br;
 
     /**
-     * Default CourseReader constructor
+     * CourseReader constructor
      * @param file the file to read the text from
      */
     public CourseReader(File file) {
