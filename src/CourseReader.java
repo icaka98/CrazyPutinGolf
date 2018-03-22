@@ -49,7 +49,7 @@ public class CourseReader {
             this.goalX = Double.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
             this.goalY = Double.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
             this.tolerance = Double.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
-            this.equation = br.readLine();
+            this.equation = br.readLine().replaceAll("z = ", "");
             fr.close();
             br.close();
         } catch (IOException e) {
