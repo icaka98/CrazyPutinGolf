@@ -97,7 +97,6 @@ public class PhysicsEngine {
     private void readCourse(){
         File file = new File("src/Setup.txt");
         courseReader = new CourseReader(file);
-        courseReader.readCourse();
 
         this.terrainState = courseReader.getCourse();
     }
