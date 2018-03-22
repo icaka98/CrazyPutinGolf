@@ -94,12 +94,12 @@ public class Main extends Application {
 
         this.ball = new Circle(this.startX, this.startY, 10, Color.WHITE);
 
-        for(double x = - Constants.SCENE_WIDTH / 2; x < Constants.SCENE_WIDTH / 2 ; x += 3.5){
-            for(double y = - Constants.SCENE_HEIGHT / 2; y < Constants.SCENE_HEIGHT / 2; y += 3.5){
+        for(double x = 0; x < Constants.SCENE_WIDTH ; x += 3.5){
+            for(double y = 0; y < Constants.SCENE_HEIGHT; y += 3.5){
                 double height = this.calculateFunction(x, y);
 
-                Circle point = new Circle(x + Constants.SCENE_WIDTH / 2,
-                        y + Constants.SCENE_HEIGHT / 2, 3, Color.GREEN);
+                Circle point = new Circle(x,
+                        y, 3, Color.GREEN);
 
                 if(height < 0.0) point.setFill(Color.BLUE);
                 else point.setFill(
