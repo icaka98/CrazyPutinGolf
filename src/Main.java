@@ -10,6 +10,7 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -91,18 +92,24 @@ public class Main extends Application {
 
         double maxHeight = calculateFunction(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
 
-        System.out.println("dsa:" + this.tolerance);
-        this.hole = new Circle(this.finishX, this.finishY, this.tolerance, Color.BLACK);
-        hole.setOpacity(.6);
+        this.hole = new Circle(
+                this.finishX + Constants.SCENE_WIDTH / 2,
+                this.finishY + Constants.SCENE_HEIGHT / 2,
+                this.tolerance, Color.BLACK);
+        this.hole.setOpacity(.6);
 
-        this.ball = new Circle(this.startX, this.startY, 10, Color.WHITE);
+        this.ball = new Circle(
+                this.startX + Constants.SCENE_WIDTH / 2,
+                this.startY + Constants.SCENE_HEIGHT / 2,
+                10, Color.WHITE);
 
-        for(double x = 0; x < Constants.SCENE_WIDTH ; x += 3.5){
-            for(double y = 0; y < Constants.SCENE_HEIGHT; y += 3.5){
+        for(double x = -Constants.SCENE_WIDTH / 2; x < Constants.SCENE_WIDTH / 2; x += 3.5){
+            for(double y = -Constants.SCENE_HEIGHT / 2; y < Constants.SCENE_HEIGHT / 2; y += 3.5){
+
                 double height = this.calculateFunction(x, y);
 
-                Circle point = new Circle(x,
-                        y, 3, Color.GREEN);
+                Circle point = new Circle(x + Constants.SCENE_WIDTH / 2,
+                        y + Constants.SCENE_HEIGHT / 2, 3, Color.GREEN);
 
                 if(height < 0.0) point.setFill(Color.BLUE);
                 else point.setFill(
