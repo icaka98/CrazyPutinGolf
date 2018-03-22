@@ -14,9 +14,7 @@ import javafx.util.Duration;
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Main extends Application {
     private double startX, startY, finishX, finishY, tolerance;
@@ -150,7 +148,7 @@ public class Main extends Application {
             System.out.println("end: " + aimX + " " + aimY);
             System.out.println("current: " + cenX + " " + cenY);
 
-            this.physicsEngine.startEngine();
+            this.physicsEngine.executeShot();
 
             List<Point2D> moves = this.physicsEngine.getCoordinatesOfPath();
             System.out.println("LEN: " + moves.size());
