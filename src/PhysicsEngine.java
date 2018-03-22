@@ -85,9 +85,9 @@ public class PhysicsEngine {
         System.out.println("dzTody " + dzTody);
         double mu = terrainState.getFrictionCoef();
 
-        accelerationX = -g * (dzTodx + mu * currentX);
+        accelerationX = -g * (dzTodx + mu * (velocityX/Math.sqrt(Math.pow(velocityX,2)+Math.pow(velocityY,2))));
 
-        accelerationY = -g * (dzTody + mu * currentY);
+        accelerationY = -g * (dzTody + mu * (velocityY/Math.sqrt(Math.pow(velocityX,2)+Math.pow(velocityY,2))));
     }
 
     private boolean collisionDetected(double x, double y){
