@@ -86,7 +86,6 @@ public class Main extends Application {
         primaryStage.setTitle(Constants.STAGE_TITLE);
         this.mainPane = new Pane();
         this.courseReader = new CourseReader(new File("src/Setup.txt"));
-        this.courseReader.readCourse();
 
         init(this.courseReader.getCourse());
 
