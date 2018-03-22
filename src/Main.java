@@ -84,7 +84,7 @@ public class Main extends Application {
 
         init(this.courseReader.getCourse());
 
-        double maxHeight = this.functionEvaluator.solve(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
+        double maxHeight = this.functionEvaluator.solve(Constants.SCENE_WIDTH / scalar, Constants.SCENE_HEIGHT / scalar);
 
         this.hole = new Circle(
                 this.finishX + Constants.SCENE_WIDTH / 2,
@@ -100,7 +100,7 @@ public class Main extends Application {
         for(double x = -Constants.SCENE_WIDTH / 2; x < Constants.SCENE_WIDTH / 2; x += 3.5){
             for(double y = -Constants.SCENE_HEIGHT / 2; y < Constants.SCENE_HEIGHT / 2; y += 3.5){
 
-                double height = this.functionEvaluator.solve(x, y);
+                double height = this.functionEvaluator.solve(x / scalar, y / scalar);
 
                 Circle point = new Circle(x + Constants.SCENE_WIDTH / 2,
                         y + Constants.SCENE_HEIGHT / 2, 3, Color.GREEN);
