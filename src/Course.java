@@ -3,6 +3,10 @@ import javafx.geometry.Point2D;
 import java.util.ArrayList;
 
 
+/**
+ * @author Zhecho Mitev
+ * Class Course contains all information about the terrain and the ball of the game
+ */
 public class Course {
     private double gravity;
     private double frictionCoef;
@@ -48,6 +52,18 @@ public class Course {
         return goal;
     }
 
+
+    /**
+     *
+     * @param gravity gravitational power of course in m/s^-2
+     * @param frictionCoef coefficient which determines the friction of the ball
+     * @param maxVelocity the maximum power of a shot
+     * @param start starting point of the ball
+     * @param goal the center of the area which the ball shall reach
+     * @param toleranceRadius the radius of the area the ball shall reach
+     * @param xcoefficients the coefficients in front of X in the function of the height
+     * @param ycoefficients the coefficients in front of Y in the function of the height
+     */
     public Course(double gravity, double frictionCoef, double maxVelocity, Point2D start, Point2D goal, double toleranceRadius, ArrayList<Double> xcoefficients, ArrayList<Double> ycoefficients) {
         this.gravity = gravity;
         this.frictionCoef = frictionCoef;
