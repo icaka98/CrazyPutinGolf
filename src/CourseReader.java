@@ -37,6 +37,8 @@ public class CourseReader {
             e.printStackTrace();
         }
         this.br = new BufferedReader(fr);
+
+        this.readCourse();
     }
 
     public void readCourse() {
