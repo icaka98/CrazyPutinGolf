@@ -6,3 +6,4 @@ startY = 0.0;
 goalX = 0.0;
 goalY = 1.0;
 tolerance = 0.02;
+z = 0.1*x + 0.03*x^2 + 0.2*y
