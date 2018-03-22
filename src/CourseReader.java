@@ -41,14 +41,14 @@ public class CourseReader {
 
     public void readCourse() {
         try {
-            this.g = Double.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
-            this.mu = Double.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
-            this.vmax = Double.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
-            this.startX = Double.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
-            this.startY = Double.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
-            this.goalX = Double.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
-            this.goalY = Double.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
-            this.tolerance = Double.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
+            this.g = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
+            this.mu = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
+            this.vmax = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
+            this.startX = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
+            this.startY = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
+            this.goalX = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
+            this.goalY = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
+            this.tolerance = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
             this.equation = br.readLine().replaceAll("z = ", "");
             fr.close();
             br.close();
