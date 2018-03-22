@@ -3,6 +3,7 @@ import javafx.animation.SequentialTransition;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 
 public class Main extends Application {
     private double startX, startY, finishX, finishY, tolerance;
+    private int steps;
 
     private Line aiming;
     private Pane mainPane;
@@ -31,6 +33,8 @@ public class Main extends Application {
     private Function functionEvaluator;
 
     private void init(Course course) {
+        this.steps = 0;
+
         this.startX = course.getStart().getX() * scalar;
         this.startY = course.getStart().getY() * scalar;
 
@@ -57,8 +61,8 @@ public class Main extends Application {
         Line path = new Line(
                 this.ball.getCenterX(),
                 this.ball.getCenterY(),
-                move.getX() * scalar,
-                move.getY() * scalar);
+                (move.getX()) * scalar + Constants.SCENE_WIDTH / 2,
+                (move.getY()) * scalar + Constants.SCENE_HEIGHT / 2);
 
         double endX = path.getEndX();
         double endY = path.getEndY();
@@ -132,11 +136,13 @@ public class Main extends Application {
         });
 
         ball.setOnMouseReleased(event -> {
-            double aimX = (aiming.getEndX()) / scalar;
-            double aimY = (aiming.getEndY()) / scalar;
+            this.steps++;
 
-            double cenX = this.ball.getCenterX() / scalar;
-            double cenY = this.ball.getCenterY() / scalar;
+            double aimX = (aiming.getEndX() - Constants.SCENE_WIDTH / 2) / scalar;
+            double aimY = (aiming.getEndY() - Constants.SCENE_HEIGHT / 2) / scalar;
+
+            double cenX = (this.ball.getCenterX() - Constants.SCENE_WIDTH / 2) / scalar;
+            double cenY = (this.ball.getCenterY() - Constants.SCENE_HEIGHT / 2) / scalar;
 
             this.physicsEngine.setCurrentX(cenX);
             this.physicsEngine.setCurrentY(cenY);
@@ -160,13 +166,28 @@ public class Main extends Application {
             for(int i=0;i<moves.size();i++)
                 sequentialTransition.getChildren().add(this.createNextTransition(moves, i));
 
+            sequentialTransition.setOnFinished( e -> {
+                if(Math.sqrt((this.hole.getCenterX() - this.ball.getCenterX())
+                        * (this.hole.getCenterX() - this.ball.getCenterX())
+                        + (this.hole.getCenterY() - this.ball.getCenterY())
+                        * (this.hole.getCenterY() - this.ball.getCenterY()))
+                        <= this.hole.getRadius()){
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Congratulations");
+                    alert.setHeaderText(null);
+                    alert.setContentText("You managed to score in " + this.steps + " steps.");
+
+                    alert.show();
+                }
+            });
+
             sequentialTransition.play();
         });
 
-        this.mainPane.getChildren().add(ball);
-        this.mainPane.getChildren().add(hole);
+        this.mainPane.getChildren().add(this.ball);
+        this.mainPane.getChildren().add(this.hole);
 
-        Scene mainScene = new Scene(mainPane,
+        Scene mainScene = new Scene(this.mainPane,
                 Constants.SCENE_WIDTH,
                 Constants.SCENE_HEIGHT);
 
