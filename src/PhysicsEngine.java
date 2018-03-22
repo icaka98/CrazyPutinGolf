@@ -1,4 +1,5 @@
 import javafx.geometry.Point2D;
+import javafx.geometry.Point3D;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -39,20 +40,15 @@ public class PhysicsEngine {
         this.functionEvaluator = new Function(this.cour.getEquation());
     }
 
-    private boolean updateStateOfBall() {
+    private void updateStateOfBall() {
 
         System.out.println("currentX+Constants.TIMESTEP_h*velocityX: " + (currentX+Constants.TIMESTEP_h*velocityX));
-        if(collisionDetected(currentX+Constants.TIMESTEP_h*velocityX, currentY+Constants.TIMESTEP_h*velocityY)){
-            return false;
-        }
-        else {
-            currentX += Constants.TIMESTEP_h*velocityX;
-            currentY += Constants.TIMESTEP_h*velocityY;
-            Point2D point2D = new Point2D(currentX,currentY);
-            System.out.println("Point: " + point2D.getX() + " "  + point2D.getY());
-            coordinatesOfPath.add(point2D);
-            return true;
-        }
+
+        currentX += Constants.TIMESTEP_h*velocityX;
+        currentY += Constants.TIMESTEP_h*velocityY;
+        Point2D point2D = new Point2D(currentX,currentY);
+        System.out.println("Point: " + point2D.getX() + " "  + point2D.getY());
+        coordinatesOfPath.add(point2D);
     }
 
     private boolean evaluateNewVelocity() {
@@ -159,12 +155,15 @@ public class PhysicsEngine {
 
     public void startEngine(){
 
-        boolean collision = false;
-        while (evaluateNewVelocity() && !collision)
+        double startX = currentX;
+        double startY = currentY;
+        while (evaluateNewVelocity() && !collisionDetected(currentX, currentY))
         {
-            System.out.println("start");
+            updateStateOfBall();
+        }
 
-            collision = !updateStateOfBall();
+        if(collisionDetected(currentX,currentY)){//if there is a collision detected the ball returns to the initial state
+            coordinatesOfPath.add(new Point2D(startX,  startY));
         }
     }
 }
