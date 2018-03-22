@@ -1,5 +1,4 @@
 import javafx.geometry.Point2D;
-import javafx.geometry.Point3D;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -13,23 +12,22 @@ public class PhysicsEngine {
     private double accelerationX;
     private double accelerationY;
 
-    private CourseReader cour;
+    private double currentX;
+    private double currentY;
+
+    private CourseReader courseReader;
     private Function functionEvaluator;
 
     public void setCurrentX(double currentX) {
         this.currentX = currentX;
-        System.out.println("currentX: "+ currentX);
     }
 
     public void setCurrentY(double currentY) {
         this.currentY = currentY;
     }
 
-    private double currentX;
-    private double currentY;
-
     public ArrayList<Point2D> getCoordinatesOfPath() {
-        return coordinatesOfPath;
+        return this.coordinatesOfPath;
     }
 
     private ArrayList<Point2D> coordinatesOfPath;
@@ -37,7 +35,7 @@ public class PhysicsEngine {
     public PhysicsEngine() {
         this.readCourse();
         this.coordinatesOfPath = new ArrayList<>();
-        this.functionEvaluator = new Function(this.cour.getEquation());
+        this.functionEvaluator = new Function(this.courseReader.getEquation());
     }
 
     private void updateStateOfBall() {
@@ -90,7 +88,6 @@ public class PhysicsEngine {
         accelerationX = -g * (dzTodx + mu * currentX);
 
         accelerationY = -g * (dzTody + mu * currentY);
-
     }
 
     private boolean collisionDetected(double x, double y){
@@ -99,10 +96,10 @@ public class PhysicsEngine {
 
     private void readCourse(){
         File file = new File("src/Setup.txt");
-        cour = new CourseReader(file);
-        cour.readCourse();
+        courseReader = new CourseReader(file);
+        courseReader.readCourse();
 
-        this.terrainState = cour.getCourse();
+        this.terrainState = courseReader.getCourse();
     }
 
     private double calculteHeight(double x, double y){
@@ -136,17 +133,20 @@ public class PhysicsEngine {
     }
 
 
-    public void takeVelocityOfShot(double x, double y){
-        if(x < terrainState.getMaxVelocity())
+    public void takeVelocityOfShot(double endX, double endY){
+        double velX = endX - currentX;
+        double velY = endY - currentY;
+
+        if(Math.abs(velX) < terrainState.getMaxVelocity())
         {
-            velocityX = x;
+            velocityX = velX;
         }
         else {
             velocityX = terrainState.getMaxVelocity();
         }
 
-        if(y < terrainState.getMaxVelocity()) {
-            velocityY = y;
+        if(Math.abs(velY) < terrainState.getMaxVelocity()) {
+            velocityY = velY;
         }
         else {
             velocityY = terrainState.getMaxVelocity();
@@ -154,6 +154,7 @@ public class PhysicsEngine {
     }
 
     public void startEngine(){
+        this.coordinatesOfPath = new ArrayList<>();
 
         double startX = currentX;
         double startY = currentY;
