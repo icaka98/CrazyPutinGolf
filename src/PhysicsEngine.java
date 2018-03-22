@@ -196,7 +196,7 @@ public class PhysicsEngine {
         double startX = currentX;
         double startY = currentY;
 
-        while (calculateRelevantVelocity() && !collisionDetected(currentX, currentY))
+        while (calculateRelevantVelocity())
         {
             updateStateOfBall();
         }
