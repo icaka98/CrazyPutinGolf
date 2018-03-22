@@ -10,6 +10,7 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,17 +23,18 @@ public class Main extends Application {
     private Pane mainPane;
     private Circle ball, hole;
 
-    private static double scalar = 100;
+    private static double scalar = Constants.SCALAR;
 
     private PhysicsEngine physicsEngine;
+    private CourseReader courseReader;
 
     private void init(Course course) {
-        this.startX = course.getStart().getX();
-        this.startY = course.getStart().getY();
+        this.startX = course.getStart().getX() * scalar;
+        this.startY = course.getStart().getY() * scalar;
 
-        this.finishX = course.getGoal().getX();
-        this.finishY = course.getGoal().getY();
-        this.tolerance = course.getToleranceRadius();
+        this.finishX = course.getGoal().getX() * scalar;
+        this.finishY = course.getGoal().getY() * scalar;
+        this.tolerance = course.getToleranceRadius() * scalar * 10;
 
         this.physicsEngine = new PhysicsEngine();
     }
@@ -69,7 +71,7 @@ public class Main extends Application {
 
         PathTransition transition = new PathTransition();
         transition.setNode(this.ball);
-        transition.setDuration(Duration.millis(100));
+        transition.setDuration(Duration.millis(Constants.TRANSITION_DURATION));
         transition.setPath(path);
         transition.setCycleCount(1);
 
@@ -83,15 +85,14 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle(Constants.STAGE_TITLE);
         this.mainPane = new Pane();
+        this.courseReader = new CourseReader(new File("src/Setup.txt"));
+        this.courseReader.readCourse();
 
-        Course exampleCourse = new Course(9.81, 0.5, 3,
-                new Point2D(0, 0), new Point2D(0, 100), 20,
-                null, null);
-
-        init(exampleCourse);
+        init(this.courseReader.getCourse());
 
         double maxHeight = calculateFunction(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
 
+        System.out.println("dsa:" + this.tolerance);
         this.hole = new Circle(this.finishX, this.finishY, this.tolerance, Color.BLACK);
         hole.setOpacity(.6);
 
