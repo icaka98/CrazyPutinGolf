@@ -40,27 +40,17 @@ public class CourseReader {
 
     public void readCourse() {
         try {
-            this.g = g.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
-            this.mu = mu.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
-            this.vmax = vmax.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
-            this.startX = startX.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
-            this.startY = startY.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
-            this.goalX = goalX.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
-            this.goalY = goalY.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
-            this.tolerance = tolerance.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
+            this.g = Double.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
+            this.mu = Double.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
+            this.vmax = Double.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
+            this.startX = Double.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
+            this.startY = Double.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
+            this.goalX = Double.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
+            this.goalY = Double.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
+            this.tolerance = Double.parseDouble(br.readLine().replaceAll("[^\\d.]", ""));
             br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void printData() {
-        System.out.println(mu);
-        System.out.println(vmax);
-        System.out.println(startX);
-        System.out.println(startY);
-        System.out.println(goalX);
-        System.out.println(goalY);
-        System.out.println(tolerance);
     }
 }
