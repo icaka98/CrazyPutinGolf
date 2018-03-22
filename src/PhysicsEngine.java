@@ -52,29 +52,11 @@ public class PhysicsEngine {
     private boolean evaluateNewVelocity() {
         calculateAcceleration();
 
-        boolean moveX = false;
-        System.out.println("accelerationX " + accelerationX);
+        velocityY += Constants.TIMESTEP_h*accelerationY;
+        velocityX += Constants.TIMESTEP_h*accelerationX;
 
-        System.out.println("velocityX : " + velocityX);
-        if((Constants.TIMESTEP_h*accelerationX + velocityX >= 0 && velocityX > 0) ||
-                (Constants.TIMESTEP_h*accelerationX + velocityX <= 0 && velocityX <0))
-        {
-            velocityX += Constants.TIMESTEP_h*accelerationX;
-            System.out.println("velocityX : " + velocityX);
-            moveX =true;
-        }
 
-        boolean moveY =false;
-        System.out.println("accelerationY " + accelerationY);
-        if((Constants.TIMESTEP_h*accelerationY + velocityY >= 0 && velocityY > 0) ||
-                (Constants.TIMESTEP_h*accelerationY+velocityY <= 0 && velocityY <0))
-        {
-            velocityY += Constants.TIMESTEP_h*accelerationY;
-            System.out.println("velocityY : " + velocityY);
-            moveY = true;
-        }
-
-        return moveX || moveY;
+        return (Math.abs(velocityX) > 0.005 && Math.abs(velocityY) > 0.005);
     }
 
     private void calculateAcceleration() {
@@ -117,6 +99,7 @@ public class PhysicsEngine {
         }
         return result;
     }
+
 
     private double calculateDerivativeWithRespectToY(double y){
 
