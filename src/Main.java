@@ -89,7 +89,7 @@ public class Main extends Application {
 
                 if(height < 0.0) point.setFill(Color.BLUE);
                 else point.setFill(
-                        Color.rgb(0,75 + (int)(130.0*(1.0 - height/maxHeight)),0));
+                        Color.rgb(0,105 + (int)(130.0*(height/maxHeight)),0));
 
                 this.mainPane.getChildren().add(point);
             }
