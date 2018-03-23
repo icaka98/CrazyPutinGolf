@@ -9,6 +9,12 @@ import java.io.PrintWriter;
  * @author Hao Yun
  */
 public class FileWriter {
+    /**
+     * A function that writes the course and function to a file.
+     * @param course the course that you are writing to a file
+     * @param function the function string that you are writing to a file
+     * @see Course
+     */
     public static void writeToFile(Course course, String function){
         try{
             PrintWriter writer = new PrintWriter(Constants.DEFAULT_SAVE_FILE);
