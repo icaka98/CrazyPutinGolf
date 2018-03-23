@@ -27,4 +27,6 @@ public class Constants {
     public static final String DEFAULT_COURSE_FILE = "src/Assets/Setup.txt";
 
     public static final String DEFAULT_PRECOMPILED_FILE = "src/Assets/precomputed_velocity.txt";
+
+    public static final String DEFAULT_SAVE_FILE = "src/Assets/save_course.txt";
 }
