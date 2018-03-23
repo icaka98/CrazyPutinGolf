@@ -206,6 +206,9 @@ public class Main extends Application {
 
         sequentialTransition.setOnFinished( e -> {
             this.animationRunning = false;
+            this.changeMode.setDisable(false);
+            this.next.setDisable(false);
+
             if(Math.sqrt((this.hole.getCenterX() - this.ball.getCenterX())
                     * (this.hole.getCenterX() - this.ball.getCenterX())
                     + (this.hole.getCenterY() - this.ball.getCenterY())
@@ -221,6 +224,8 @@ public class Main extends Application {
         });
 
         this.animationRunning = true;
+        this.changeMode.setDisable(true);
+        this.next.setDisable(true);
         sequentialTransition.play();
     }
 
