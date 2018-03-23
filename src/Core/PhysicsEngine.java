@@ -118,7 +118,7 @@ public class PhysicsEngine {
      * Sets up the course variables by reading them from a file
      */
     private void readCourse(){
-        File file = new File("src/Setup.txt");
+        File file = new File(Constants.DEFAULT_COURSE_FILE);
         courseReader = new CourseReader(file);
 
         this.terrainState = courseReader.getCourse();
