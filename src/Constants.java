@@ -1,3 +1,8 @@
+/**
+ * Constants used in the application.
+ * @author Hristo Minkov
+ * @author Zhecho Mitev
+ */
 public class Constants {
     public static final String STAGE_TITLE = "Crazy Putin";
 
