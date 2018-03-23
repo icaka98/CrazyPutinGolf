@@ -99,7 +99,7 @@ public class Main extends Application {
         this.mainPane.getChildren().add(this.modeState);
     }
 
-    private void drawField(double maxHeight){
+    private void drawField(double maxHeight, double minHeight){
         for(double x = -Constants.SCENE_WIDTH / 2; x < Constants.SCENE_WIDTH / 2; x += 3.5){
             for(double y = -Constants.SCENE_HEIGHT / 2; y < Constants.SCENE_HEIGHT / 2; y += 3.5){
 
@@ -108,7 +108,9 @@ public class Main extends Application {
                 Circle point = new Circle(x + Constants.SCENE_WIDTH / 2,
                         y + Constants.SCENE_HEIGHT / 2, 3, Color.GREEN);
 
-                if(height < 0.0) point.setFill(Color.BLUE);
+                if(height < 0.0)
+                    point.setFill(
+                            Color.rgb(0,0, 10 + (int)(240*(1.0 - height/minHeight))));
                 else point.setFill(
                         Color.rgb(0,105 + (int)(130.0*(height/maxHeight)),0));
 
@@ -147,9 +149,11 @@ public class Main extends Application {
 
         this.initVars();
 
-        double maxHeight = this.functionEvaluator.solve(Constants.SCENE_WIDTH / scalar, Constants.SCENE_HEIGHT / scalar);
+        double maxHeight = this.functionEvaluator.solve(Constants.SCENE_WIDTH / 2.0 / scalar,
+                Constants.SCENE_HEIGHT / 2.0 / scalar);
+        double minHeight = this.functionEvaluator.solve(- 1.66666667, - Constants.SCENE_HEIGHT / 2.0 / scalar);
 
-        this.drawField(maxHeight);
+        this.drawField(maxHeight, minHeight);
         this.initComponents();
 
         this.ball.setOnMouseDragged(event -> {
