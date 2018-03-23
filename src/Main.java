@@ -110,11 +110,30 @@ public class Main extends Application {
 
                 if(height < 0.0)
                     point.setFill(
-                            Color.rgb(0,0, 10 + (int)(240*(1.0 - height/minHeight))));
-                else point.setFill(
-                        Color.rgb(0,105 + (int)(130.0*(height/maxHeight)),0));
+                            Color.rgb(0,0, (int)(255*(1.0 - height/minHeight))));
+                else{
+                    if(Constants.SCENE_WIDTH / 2 - x < Constants.WALL_THICKNESS
+                            || x < -Constants.SCENE_WIDTH / 2 + Constants.WALL_THICKNESS
+                            || y < -Constants.SCENE_HEIGHT / 2 + Constants.WALL_THICKNESS
+                            || Constants.SCENE_HEIGHT / 2 - y < Constants.WALL_THICKNESS){
+                        point.setFill(Color.valueOf("#ECD540"));
+                    }else point.setFill(
+                            Color.rgb(0,105 + (int)(130.0*(height/maxHeight)),0));
+                }
 
                 this.mainPane.getChildren().add(point);
+            }
+        }
+
+        for(double x = -Constants.SCENE_WIDTH / 2; x < Constants.SCENE_WIDTH / 2; x += 3.5){
+            for(double y = -Constants.SCENE_HEIGHT / 2; y < Constants.SCENE_HEIGHT / 2; y += 3.5){
+
+                double height = this.functionEvaluator.solve(x / scalar, y / scalar);
+
+                if(x + Constants.SCENE_WIDTH / 2 - 10 <= 4.5){
+                    Circle fence = new Circle(x, y, 3, Color.BLACK);
+                    this.mainPane.getChildren().add(fence);
+                }
             }
         }
     }
