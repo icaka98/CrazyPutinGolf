@@ -54,7 +54,6 @@ public class Course {
         return goal;
     }
 
-
     /**
      *
      * @param gravity gravitational power of course in m/s^-2
