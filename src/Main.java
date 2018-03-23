@@ -21,7 +21,7 @@ import java.util.List;
 public class Main extends Application {
     private double startX, startY, finishX, finishY, tolerance;
     private int steps, precomputedStep;
-    private boolean precomputedMode;
+    private boolean precomputedMode, animationRunning;
 
     private Line aiming;
     private Pane mainPane;
@@ -39,6 +39,7 @@ public class Main extends Application {
         this.steps = 0;
         this.precomputedStep = 0;
         this.precomputedMode = true;
+        this.animationRunning = false;
 
         CourseReader courseReader = new CourseReader(new File("src/Setup.txt"));
         this.mainPane = new Pane();
@@ -175,6 +176,8 @@ public class Main extends Application {
         this.next.setLayoutY(0.0);
 
         this.next.setOnAction(e -> {
+            if(this.animationRunning) return;
+
             if(!this.precomputedMode
                     || this.precomputedStep >= this.precomputedModule.getVelocity().size()) return;
 
@@ -209,6 +212,7 @@ public class Main extends Application {
             sequentialTransition.getChildren().add(this.createNextTransition(moves, i));
 
         sequentialTransition.setOnFinished( e -> {
+            this.animationRunning = false;
             if(Math.sqrt((this.hole.getCenterX() - this.ball.getCenterX())
                     * (this.hole.getCenterX() - this.ball.getCenterX())
                     + (this.hole.getCenterY() - this.ball.getCenterY())
@@ -223,6 +227,7 @@ public class Main extends Application {
             }
         });
 
+        this.animationRunning = true;
         sequentialTransition.play();
     }
 
