@@ -14,4 +14,6 @@ public class Constants {
     public static final int TRANSITION_DURATION = 100;
 
     public static final double WALL_POSITION = 2.4;
+
+    public static final double WALL_THICKNESS = 8.0;
 }
