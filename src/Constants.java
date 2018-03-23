@@ -16,4 +16,8 @@ public class Constants {
     public static final double WALL_POSITION = 2.4;
 
     public static final double WALL_THICKNESS = 8.0;
+
+    public static final String DEFAULT_COURSE_FILE = "src/Setup.txt";
+
+    public static final String DEFAULT_PRECOMPILED_FILE = "src/precomputed_velocity.txt";
 }
