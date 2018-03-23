@@ -263,7 +263,10 @@ public class Main extends Application {
 
         double maxHeight = this.functionEvaluator.solve(Constants.SCENE_WIDTH / 2.0 / scalar,
                 Constants.SCENE_HEIGHT / 2.0 / scalar);
+
         double minHeight = this.functionEvaluator.solve(- 1.66666667, - Constants.SCENE_HEIGHT / 2.0 / scalar);
+        minHeight = Math.min(minHeight, this.functionEvaluator.solve(- Constants.SCENE_WIDTH / 2 / scalar,
+                - Constants.SCENE_HEIGHT / 2.0 / scalar));
 
         this.drawField(maxHeight, minHeight);
         this.initComponents();
