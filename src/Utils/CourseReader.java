@@ -34,6 +34,10 @@ public class CourseReader {
         setupReader(file);
     }
 
+    /**
+     * Gets the course with the current terrain features
+     * @return the course with the current terrain features
+     */
     public Course getCourse(){
         return new Course(g, mu, vmax, new Point2D(startX, startY),
                 new Point2D(goalX, goalY), tolerance,
