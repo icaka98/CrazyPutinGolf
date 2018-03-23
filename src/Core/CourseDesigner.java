@@ -47,10 +47,10 @@ public class CourseDesigner {
         vmaxField.setPromptText("3");
 
         TextField startField = new TextField();
-        startField.setPromptText("(x,y)");
+        startField.setPromptText("x, y");
 
         TextField goalField = new TextField();
-        goalField.setPromptText("(x,y)");
+        goalField.setPromptText("x, y");
 
         TextField tolerance = new TextField();
         tolerance.setPromptText("0.2");
@@ -111,7 +111,7 @@ public class CourseDesigner {
      * @see Point2D
      */
     private static Point2D createPoint(String point) {
-        double[] points = Arrays.stream(point.split(","))
+        double[] points = Arrays.stream(point.split(", "))
                 .mapToDouble(Double::parseDouble).toArray();
 
         return new Point2D(points[0], points[1]);
