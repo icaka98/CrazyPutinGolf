@@ -35,7 +35,7 @@ public class Main extends Application {
     private Pane mainPane;
     private Circle ball, hole;
 
-    private Button next, changeMode;
+    private Button next, changeMode, courseDesigner;
     private Label modeState;
 
     private static double scalar = Constants.SCALAR;
@@ -104,12 +104,18 @@ public class Main extends Application {
         this.modeState.setLayoutY(50.0);
         this.modeState.setTextFill(Color.WHITE);
 
+        this.courseDesigner = new Button("Course designer");
+        this.courseDesigner.setPrefSize(150, 30);
+        this.courseDesigner.setLayoutX(210.0);
+        this.courseDesigner.setLayoutY(10.0);
+
         this.mainPane.getChildren().add(this.aiming);
         this.mainPane.getChildren().add(this.ball);
         this.mainPane.getChildren().add(this.hole);
         this.mainPane.getChildren().add(this.changeMode);
         this.mainPane.getChildren().add(this.next);
         this.mainPane.getChildren().add(this.modeState);
+        this.mainPane.getChildren().add(this.courseDesigner);
     }
 
     /**
@@ -322,6 +328,12 @@ public class Main extends Application {
             this.precomputedMode = !this.precomputedMode;
             this.next.setVisible(this.precomputedMode);
             this.modeState.setText(this.precomputedMode ? "Precomputed mode" : "Player mode");
+        });
+
+        this.courseDesigner.setOnAction(e -> {
+            if(animationRunning) return;
+
+            CourseDesigner.run();
         });
 
         Scene mainScene = new Scene(this.mainPane,
