@@ -19,13 +19,15 @@ public class FileWriter {
         try{
             PrintWriter writer = new PrintWriter(Constants.DEFAULT_SAVE_FILE);
 
-            writer.println("g = " + course.getGravity());
-            writer.println("mu = " + course.getFrictionCoef());
-            writer.println("vmax = " + course.getMaxVelocity());
-            writer.println("start = (" + course.getStart().getX() + "," + course.getStart().getY() + ")");
-            writer.println("goal = (" + course.getGoal().getX() + "," + course.getGoal().getX() + ")");
-            writer.println("tolerance = " + course.getToleranceRadius());
-            writer.println("height = " + function);
+            writer.println("g = " + course.getGravity() + ";");
+            writer.println("mu = " + course.getFrictionCoef() + ";");
+            writer.println("vmax = " + course.getMaxVelocity() + ";");
+            writer.println("startX = " + course.getStart().getX() + ";");
+            writer.println("startY = " + course.getStart().getY() + ";");
+            writer.println("goalX = " + course.getGoal().getX() + ";");
+            writer.println("goalY = " + course.getGoal().getY() + ";");
+            writer.println("tolerance = " + course.getToleranceRadius() + ";");
+            writer.println("z = " + function + ";");
             writer.close();
         }catch(FileNotFoundException e){
             e.printStackTrace();
