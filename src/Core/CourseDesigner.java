@@ -67,10 +67,10 @@ public class CourseDesigner {
         grid.add(new Label("Max velocity: "), 0, 2);
         grid.add(vmaxField, 1, 2);
 
-        grid.add(new Label("Starting point (x,y): "), 0, 3);
+        grid.add(new Label("Starting point x, y: "), 0, 3);
         grid.add(startField, 1, 3);
 
-        grid.add(new Label("Goal point (x,y): "), 0, 4);
+        grid.add(new Label("Goal point x, y: "), 0, 4);
         grid.add(goalField, 1, 4);
 
         grid.add(new Label("Tolerance: "), 0, 5);
