@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Main extends Application {
@@ -43,7 +42,7 @@ public class Main extends Application {
         this.precomputedMode = false;
         this.animationRunning = false;
 
-        CourseReader courseReader = new CourseReader(new File("src/Setup.txt"));
+        CourseReader courseReader = new CourseReader(new File(Constants.DEFAULT_COURSE_FILE));
         this.mainPane = new Pane();
         this.functionEvaluator = new Function(courseReader.getEquation());
         this.precomputedModule = new PrecomputedModule();
@@ -162,6 +161,44 @@ public class Main extends Application {
         return transition;
     }
 
+    private void executeTransitions(List<Point2D> moves){
+        SequentialTransition sequentialTransition = new SequentialTransition();
+
+        for(int i=0;i<moves.size();i++)
+            sequentialTransition.getChildren().add(this.createNextTransition(moves, i));
+
+        sequentialTransition.setOnFinished( e -> {
+            this.animationRunning = false;
+            if(Math.sqrt((this.hole.getCenterX() - this.ball.getCenterX())
+                    * (this.hole.getCenterX() - this.ball.getCenterX())
+                    + (this.hole.getCenterY() - this.ball.getCenterY())
+                    * (this.hole.getCenterY() - this.ball.getCenterY()))
+                    <= this.hole.getRadius()){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Congratulations");
+                alert.setHeaderText(null);
+                alert.setContentText("You managed to score in " + this.steps + " steps.");
+
+                alert.show();
+            }
+        });
+
+        this.animationRunning = true;
+        sequentialTransition.play();
+    }
+
+    private List<Point2D> prepareEngine(double cenX, double cenY, double aimX, double aimY){
+        this.physicsEngine.setCurrentX(cenX);
+        this.physicsEngine.setCurrentY(cenY);
+        this.physicsEngine.takeVelocityOfShot(aimX, aimY);
+        System.out.println("end: " + aimX + " " + aimY);
+        System.out.println("current: " + cenX + " " + cenY);
+
+        this.physicsEngine.executeShot();
+
+        return this.physicsEngine.getCoordinatesOfPath();
+    }
+
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle(Constants.STAGE_TITLE);
@@ -248,44 +285,6 @@ public class Main extends Application {
 
         primaryStage.setScene(mainScene);
         primaryStage.show();
-    }
-
-    private void executeTransitions(List<Point2D> moves){
-        SequentialTransition sequentialTransition = new SequentialTransition();
-
-        for(int i=0;i<moves.size();i++)
-            sequentialTransition.getChildren().add(this.createNextTransition(moves, i));
-
-        sequentialTransition.setOnFinished( e -> {
-            this.animationRunning = false;
-            if(Math.sqrt((this.hole.getCenterX() - this.ball.getCenterX())
-                    * (this.hole.getCenterX() - this.ball.getCenterX())
-                    + (this.hole.getCenterY() - this.ball.getCenterY())
-                    * (this.hole.getCenterY() - this.ball.getCenterY()))
-                    <= this.hole.getRadius()){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Congratulations");
-                alert.setHeaderText(null);
-                alert.setContentText("You managed to score in " + this.steps + " steps.");
-
-                alert.show();
-            }
-        });
-
-        this.animationRunning = true;
-        sequentialTransition.play();
-    }
-
-    private List<Point2D> prepareEngine(double cenX, double cenY, double aimX, double aimY){
-        this.physicsEngine.setCurrentX(cenX);
-        this.physicsEngine.setCurrentY(cenY);
-        this.physicsEngine.takeVelocityOfShot(aimX, aimY);
-        System.out.println("end: " + aimX + " " + aimY);
-        System.out.println("current: " + cenX + " " + cenY);
-
-        this.physicsEngine.executeShot();
-
-        return this.physicsEngine.getCoordinatesOfPath();
     }
 
     public static void main(String[] args) {
