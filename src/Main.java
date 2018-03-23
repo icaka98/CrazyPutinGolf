@@ -1,8 +1,6 @@
 import javafx.animation.PathTransition;
 import javafx.animation.SequentialTransition;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -18,6 +16,9 @@ import javafx.util.Duration;
 import java.io.File;
 import java.util.List;
 
+/**
+ * @author Hristo Minkov
+ */
 public class Main extends Application {
     private double startX, startY, finishX, finishY, tolerance;
     private int steps, precomputedStep;
@@ -36,6 +37,9 @@ public class Main extends Application {
     private Function functionEvaluator;
     private PrecomputedModule precomputedModule;
 
+    /**
+     * Initializes all the variable fields of the class.
+     */
     private void initVars() {
         this.steps = 0;
         this.precomputedStep = 0;
@@ -59,6 +63,9 @@ public class Main extends Application {
         this.physicsEngine = new PhysicsEngine();
     }
 
+    /**
+     * Initializes all the graphic components of the class.
+     */
     private void initComponents(){
         this.hole = new Circle(
                 this.finishX + Constants.SCENE_WIDTH / 2,
@@ -98,6 +105,11 @@ public class Main extends Application {
         this.mainPane.getChildren().add(this.modeState);
     }
 
+    /**
+     * Draws the concrete course using points with particular colors.
+     * @param maxHeight the maximum height of the course function
+     * @param minHeight the minimum height of the course function
+     */
     private void drawField(double maxHeight, double minHeight){
         for(double x = -Constants.SCENE_WIDTH / 2; x < Constants.SCENE_WIDTH / 2; x += 3.5){
             for(double y = -Constants.SCENE_HEIGHT / 2; y < Constants.SCENE_HEIGHT / 2; y += 3.5){
@@ -137,6 +149,13 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Creates a specific transition corresponding to a given move
+     * @param moves the collection of moves that should be executed
+     * @param idx the current index of the moves showing the transition state
+     * @return the newly created transition
+     * @see PathTransition
+     */
     private PathTransition createNextTransition(List<Point2D> moves, int idx){
         Point2D move = moves.get(idx);
 
@@ -161,6 +180,11 @@ public class Main extends Application {
         return transition;
     }
 
+    /**
+     * Add all transitions to a sequential transition and execute the main transition
+     * @param moves a list with all the velocities to be processed
+     * @see SequentialTransition
+     */
     private void executeTransitions(List<Point2D> moves){
         SequentialTransition sequentialTransition = new SequentialTransition();
 
@@ -187,6 +211,15 @@ public class Main extends Application {
         sequentialTransition.play();
     }
 
+    /**
+     * Executing a shot in the Physics engine
+     * @param cenX the center X of the ball
+     * @param cenY the center Y of the ball
+     * @param aimX the X coordinate of the selected velocity
+     * @param aimY the Y coordinate of the selected velocity
+     * @return collection of all moves that have to be processed
+     * @see PhysicsEngine
+     */
     private List<Point2D> prepareEngine(double cenX, double cenY, double aimX, double aimY){
         this.physicsEngine.setCurrentX(cenX);
         this.physicsEngine.setCurrentY(cenY);
@@ -199,6 +232,11 @@ public class Main extends Application {
         return this.physicsEngine.getCoordinatesOfPath();
     }
 
+    /**
+     * The core method of the application - everything starts here
+     * @param primaryStage the main Stage to which components are attached
+     * @see Stage
+     */
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle(Constants.STAGE_TITLE);
@@ -257,9 +295,9 @@ public class Main extends Application {
             if(this.animationRunning) return;
 
             if(!this.precomputedMode
-                    || this.precomputedStep >= this.precomputedModule.getVelocity().size()) return;
+                    || this.precomputedStep >= this.precomputedModule.getVelocities().size()) return;
 
-            Point2D nextMove = this.precomputedModule.getVelocity().get(this.precomputedStep++);
+            Point2D nextMove = this.precomputedModule.getVelocities().get(this.precomputedStep++);
             this.steps++;
 
             double cenX = (this.ball.getCenterX() - Constants.SCENE_WIDTH / 2) / scalar;
@@ -287,6 +325,10 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Main method of the application.
+     * @param args arguments may pass to the application when starting
+     */
     public static void main(String[] args) {
         launch(args);
     }
