@@ -8,17 +8,29 @@ import java.util.LinkedList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * @author Mathieu Coenegracht
+ * Class Function takes a function string as input and generates an expression tree which can be used to evaluate the function for different variables
+ */
 public class Function{
     private Map<String,Double> vars = new HashMap<>();
     private Node z;
 
+    /**
+     * Constructor that creates an object of the function class and calls the method that generates the expression tree
+     * @param s function string
+     */
     public Function(String s){
         z = parse(s); // parse z and return the root
         inOrder(z);
         vars.put("pi", Math.PI);
     }
 
+    /**
+     * Tokenizes the string adds operators and operands to different stacks and calls the method that generates the tree
+     * @param s function string
+     * @return root node of the expression tree
+     */
     private Node parse(String s){ //parse string and create Expression Tree of function
 
         String[] str = s.split("\\s+");//create tokens
@@ -47,6 +59,12 @@ public class Function{
         return makeTree(operators, operands); //evaluate if there is another operation and return the answer
     }
 
+    /**
+     * Generates a subtree
+     * @param operators stack with operators
+     * @param operands stack with operands
+     * @return rootnode of subtree
+     */
     private Node makeTree(Stack<Node> operators, Stack<Node> operands){ //Create the tree
         Node v = operands.pop();
 
@@ -70,12 +88,22 @@ public class Function{
         return v; //return operand
     }
 
+    /**
+     * inorder traversel of the tree, used for testing
+     * @param r root node
+     */
     private void inOrder(Node r){ //inorder traversel of tree
         if (r.left != null) inOrder(r.left);
         System.out.print("[" +r.value +"]");
         if (r.right != null) inOrder(r.right);
     }
 
+    /**
+     * Method that puts two variables in the hashmap and then calls the method that evaluates the expression
+     * @param x x value for which the expression should be evaluated
+     * @param y y value for which the expression should be evaluated
+     * @return output value of the function dependent on the two input values
+     */
     public double solve(double x, double y){ //solve equation for x and y values
         vars.put("x", x);
         vars.put("y", y);
@@ -83,6 +111,13 @@ public class Function{
         return eval(z);
     }
 
+    /**
+     * Method that does a postorder traversal of the tree and compares the leaf nodes with the keys
+     * in the hashmap and returns the value corresponding to that key if found. Else it parses it as a double.
+     * After that it applies the operator in the node above it.
+     * @param r root node of the tree
+     * @return output of the function after recursively solving the expression tree for the given x and y
+     */
     private double eval(Node r){ // recursively solve the subtrees
         if(r == null){
             return 0.0;
@@ -123,10 +158,10 @@ public class Function{
         }
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         String height = "( ( 0.1 * x ) + ( 0.03 * ( x ^ 2 ) ) + ( 0.2 * y ) )";
         Function f = new Function(height);
         System.out.println("\n" +f.solve(1.0, 2.0));
         System.out.println(f.solve(2.0, 3.0));
-    }
+    }*/
 }
