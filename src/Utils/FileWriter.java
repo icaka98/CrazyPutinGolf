@@ -27,7 +27,7 @@ public class FileWriter {
             writer.println("goalX = " + course.getGoal().getX() + ";");
             writer.println("goalY = " + course.getGoal().getY() + ";");
             writer.println("tolerance = " + course.getToleranceRadius() + ";");
-            writer.println("z = " + function + ";");
+            writer.println("z = " + function);
             writer.close();
         }catch(FileNotFoundException e){
             e.printStackTrace();
