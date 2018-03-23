@@ -1,0 +1,7 @@
+g = 12.0
+mu = 12.0
+vmax = 12.0
+start = (1.0,2.0)
+goal = (2.0,2.0)
+tolerance = 12.0
+height = x * x + 0.2 * y
