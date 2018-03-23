@@ -1,3 +1,6 @@
+package Utils;
+
+import Models.Course;
 import javafx.geometry.Point2D;
 import java.io.*;
 import java.lang.Double;
@@ -8,7 +11,6 @@ import java.util.Arrays;
  * @author Silvia Fallone
  * A class that reads the course from a file
  */
-
 public class CourseReader {
     private Double g;
     private Double mu;

@@ -1,3 +1,10 @@
+package Core;
+
+import Models.Course;
+import Models.PrecomputedModule;
+import Models.Function;
+import Utils.Constants;
+import Utils.CourseReader;
 import javafx.animation.PathTransition;
 import javafx.animation.SequentialTransition;
 import javafx.application.Application;

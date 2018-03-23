@@ -1,3 +1,7 @@
+package Models;
+
+import Utils.Node;
+
 import java.util.Queue;
 import java.util.Stack;
 import java.util.LinkedList;
@@ -5,9 +9,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class Function{
-
     private Map<String,Double> vars = new HashMap<>();
     private Node z;
 
@@ -16,6 +18,7 @@ public class Function{
         inOrder(z);
         vars.put("pi", Math.PI);
     }
+
     private Node parse(String s){ //parse string and create Expression Tree of function
 
         String[] str = s.split("\\s+");//create tokens
@@ -66,6 +69,7 @@ public class Function{
         }
         return v; //return operand
     }
+
     private void inOrder(Node r){ //inorder traversel of tree
         if (r.left != null) inOrder(r.left);
         System.out.print("[" +r.value +"]");

@@ -1,3 +1,6 @@
+package Models;
+
+import Utils.Constants;
 import javafx.geometry.Point2D;
 
 import java.io.*;

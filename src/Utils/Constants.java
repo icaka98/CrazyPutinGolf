@@ -1,3 +1,5 @@
+package Utils;
+
 /**
  * Constants used in the application.
  * @author Hristo Minkov

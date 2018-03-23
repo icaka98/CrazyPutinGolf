@@ -1,3 +1,9 @@
+package Core;
+
+import Models.Course;
+import Utils.Constants;
+import Utils.CourseReader;
+import Models.Function;
 import javafx.geometry.Point2D;
 import java.io.File;
 import java.util.ArrayList;
@@ -48,7 +54,7 @@ public class PhysicsEngine {
      */
     private void updateStateOfBall() {
 
-        System.out.println("currentX+Constants.TIMESTEP_h*velocityX: " + (currentX+Constants.TIMESTEP_h*velocityX));
+        System.out.println("currentX+Constants.TIMESTEP_h*velocityX: " + (currentX+ Constants.TIMESTEP_h*velocityX));
 
         currentX += Constants.TIMESTEP_h*velocityX;
         if(Math.abs(currentX) > Constants.WALL_POSITION)
