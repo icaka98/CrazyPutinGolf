@@ -12,8 +12,17 @@ import javafx.util.Pair;
 import java.util.Arrays;
 import java.util.Optional;
 
-
+/**
+ * @author Hristo Minkov
+ */
 public class CourseDesigner {
+
+    /**
+     * A function that creates the dialog and displays it so that the user can enter
+     * information about the desired course. Then the information is sent ot a
+     * FileWriter which saves it into a file.
+     * @see FileWriter
+     */
     public static void run(){
         Dialog<Pair<String, Course>> dialog = new Dialog<>();
 
@@ -95,6 +104,12 @@ public class CourseDesigner {
         });
     }
 
+    /**
+     * Creating 2D point from a String
+     * @param point the string representation of the point
+     * @return the Point2D object that is corresponding to the String
+     * @see Point2D
+     */
     private static Point2D createPoint(String point) {
         double[] points = Arrays.stream(point.split(","))
                 .mapToDouble(Double::parseDouble).toArray();
