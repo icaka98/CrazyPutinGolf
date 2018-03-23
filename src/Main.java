@@ -177,6 +177,7 @@ public class Main extends Application {
 
         this.ball.setOnMouseDragged(event -> {
             if(this.precomputedMode) return;
+            if(this.animationRunning) return;
 
             double mouseX = event.getSceneX();
             double mouseY = event.getSceneY();
@@ -193,6 +194,7 @@ public class Main extends Application {
 
         this.ball.setOnMouseReleased(event -> {
             if(this.precomputedMode) return;
+            if(this.animationRunning) return;
 
             this.steps++;
 
