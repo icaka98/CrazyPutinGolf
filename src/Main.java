@@ -7,6 +7,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -27,7 +28,8 @@ public class Main extends Application {
     private Pane mainPane;
     private Circle ball, hole;
 
-    private Button next;
+    private Button next, changeMode;
+    private Label modeState;
 
     private static double scalar = Constants.SCALAR;
 
@@ -38,7 +40,7 @@ public class Main extends Application {
     private void initVars() {
         this.steps = 0;
         this.precomputedStep = 0;
-        this.precomputedMode = true;
+        this.precomputedMode = false;
         this.animationRunning = false;
 
         CourseReader courseReader = new CourseReader(new File("src/Setup.txt"));
@@ -73,9 +75,28 @@ public class Main extends Application {
                 this.startY + Constants.SCENE_HEIGHT / 2,
                 10, Color.WHITE);
 
+        this.next = new Button("Next");
+        this.next.setPrefSize(60, 30);
+        this.next.setLayoutX(140.0);
+        this.next.setLayoutY(10.0);
+        this.next.setVisible(false);
+
+        this.changeMode = new Button("Change mode");
+        this.changeMode.setPrefSize(120, 30);
+        this.changeMode.setLayoutX(10.0);
+        this.changeMode.setLayoutY(10.0);
+
+        this.modeState = new Label("Player mode");
+        this.modeState.setLayoutX(20.0);
+        this.modeState.setLayoutY(50.0);
+        this.modeState.setTextFill(Color.WHITE);
+
         this.mainPane.getChildren().add(this.aiming);
         this.mainPane.getChildren().add(this.ball);
         this.mainPane.getChildren().add(this.hole);
+        this.mainPane.getChildren().add(this.changeMode);
+        this.mainPane.getChildren().add(this.next);
+        this.mainPane.getChildren().add(this.modeState);
     }
 
     private void drawField(double maxHeight){
@@ -131,7 +152,7 @@ public class Main extends Application {
         this.drawField(maxHeight);
         this.initComponents();
 
-        ball.setOnMouseDragged(event -> {
+        this.ball.setOnMouseDragged(event -> {
             if(this.precomputedMode) return;
 
             double mouseX = event.getSceneX();
@@ -147,7 +168,7 @@ public class Main extends Application {
             aiming.setFill(Color.ORANGE);
         });
 
-        ball.setOnMouseReleased(event -> {
+        this.ball.setOnMouseReleased(event -> {
             if(this.precomputedMode) return;
 
             this.steps++;
@@ -170,11 +191,6 @@ public class Main extends Application {
             this.executeTransitions(moves);
         });
 
-        this.next = new Button("Next");
-        this.next.setPrefSize(60, 30);
-        this.next.setLayoutX(0.0);
-        this.next.setLayoutY(0.0);
-
         this.next.setOnAction(e -> {
             if(this.animationRunning) return;
 
@@ -195,7 +211,11 @@ public class Main extends Application {
             this.executeTransitions(moves);
         });
 
-        this.mainPane.getChildren().add(this.next);
+        this.changeMode.setOnAction(e -> {
+            this.precomputedMode = !this.precomputedMode;
+            this.next.setVisible(this.precomputedMode);
+            this.modeState.setText(this.precomputedMode ? "Precomputed mode" : "Player mode");
+        });
 
         Scene mainScene = new Scene(this.mainPane,
                 Constants.SCENE_WIDTH,
