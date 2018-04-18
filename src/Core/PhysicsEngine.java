@@ -94,9 +94,9 @@ public class PhysicsEngine {
      */
     private void calculateAcceleration() {
         double g = terrainState.getGravity();
-        double dzTodx = calculateDerivativeWithRespectToX(currentX);
+        double dzTodx = calculateDerivativeWithRespectToX(currentX, currentY);
         System.out.println("dzTodx " + dzTodx);
-        double dzTody = calculateDerivativeWithRespectToY(currentY);
+        double dzTody = calculateDerivativeWithRespectToY(currentX, currentY);
         System.out.println("dzTody " + dzTody);
         double mu = terrainState.getFrictionCoef();
 
@@ -140,7 +140,7 @@ public class PhysicsEngine {
      * @param x value of X
      * @return the value of the derivative
      */
-    private double calculateDerivativeWithRespectToX(double x){
+    private double calculateDerivativeWithRespectToX(double x, double y){
 
         double derivative[] = new double[terrainState.getXcoefficients().size()-1];
         for(int i = 0; i < terrainState.getXcoefficients().size() -1; i++)
@@ -158,7 +158,7 @@ public class PhysicsEngine {
      * @param y value of y
      * @return the value of the derivative
      */
-    private double calculateDerivativeWithRespectToY(double y){
+    private double calculateDerivativeWithRespectToY(double x, double y){
 
         double derivative[] = new double[terrainState.getYcoefficients().size()-1];
         for(int i = 0; i < terrainState.getYcoefficients().size() - 1; i++)
