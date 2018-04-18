@@ -182,9 +182,9 @@ public class PhysicsEngine {
         double velX = endX - currentX;
         double velY = endY - currentY;
 
-        if(Math.abs(velX*2) < terrainState.getMaxVelocity()*2)
+        if(Math.abs(velX) < terrainState.getMaxVelocity())
         {
-            velocityX = velX*2;
+            velocityX = velX * Constants.VELOCITY_SCALAR;
         }
         else if(velX < 0){
             velocityX = -terrainState.getMaxVelocity();
@@ -192,8 +192,8 @@ public class PhysicsEngine {
         else{
             velocityX = terrainState.getMaxVelocity();
         }
-        if(Math.abs(velY*2) < terrainState.getMaxVelocity()*2) {
-            velocityY = velY*2;
+        if(Math.abs(velY) < terrainState.getMaxVelocity()) {
+            velocityY = velY * Constants.VELOCITY_SCALAR;
         }
         else if(velY < 0){
             velocityY = -terrainState.getMaxVelocity();
