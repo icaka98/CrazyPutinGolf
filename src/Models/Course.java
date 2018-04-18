@@ -72,6 +72,8 @@ public class Course {
         this.start = start;
         this.goal = goal;
         this.toleranceRadius = toleranceRadius;
+
+        //TODO the coefficients have to be removed after implementing the numerical derivative
         Xcoefficients = xcoefficients;
         Ycoefficients = ycoefficients;
     }
