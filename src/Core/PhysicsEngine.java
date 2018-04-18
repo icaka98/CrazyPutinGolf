@@ -56,17 +56,18 @@ public class PhysicsEngine {
 
         System.out.println("currentX+Constants.TIMESTEP_h*velocityX: " + (currentX+ Constants.TIMESTEP_h*velocityX));
 
-        currentX += Constants.TIMESTEP_h*velocityX;
+
         if(Math.abs(currentX) > Constants.WALL_POSITION)
         {
             velocityX *= -1;
         }
+        currentX += Constants.TIMESTEP_h*velocityX;
 
-        currentY += Constants.TIMESTEP_h*velocityY;
         if(Math.abs(currentY) > Constants.WALL_POSITION)
         {
             velocityY *= -1;
         }
+        currentY += Constants.TIMESTEP_h*velocityY;
 
         Point2D point2D = new Point2D(currentX,currentY);
         System.out.println("Point: " + point2D.getX() + " "  + point2D.getY());
@@ -84,7 +85,7 @@ public class PhysicsEngine {
         velocityX += Constants.TIMESTEP_h*accelerationX;
 
 
-        return (Math.abs(velocityX) > 0.01 && Math.abs(velocityY) > 0.01);
+        return (Math.abs(velocityX) > Constants.STOP_SPEED || Math.abs(velocityY) > Constants.STOP_SPEED);
     }
 
     /**
