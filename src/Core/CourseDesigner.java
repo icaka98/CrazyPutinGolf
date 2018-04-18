@@ -16,7 +16,8 @@ import java.util.Optional;
  * @author Hristo Minkov
  */
 public class CourseDesigner {
-
+    //TODO instead of typing the numbers we can make sliders
+    //TODO It would be good if we can update the course characteristics without recompiling
     /**
      * A function that creates the dialog and displays it so that the user can enter
      * information about the desired course. Then the information is sent ot a
