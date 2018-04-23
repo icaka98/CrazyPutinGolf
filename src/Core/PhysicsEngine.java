@@ -24,9 +24,10 @@ public class PhysicsEngine {
 
     private double currentX;
     private double currentY;
+    private double h = 0.0001;
 
     private CourseReader courseReader;
-    private Function functionEvaluator;
+    private Function f;
 
     private ArrayList<Point2D> coordinatesOfPath;
 
@@ -45,7 +46,7 @@ public class PhysicsEngine {
     public PhysicsEngine() {
         this.readCourse();
         this.coordinatesOfPath = new ArrayList<>();
-        this.functionEvaluator = new Function(this.courseReader.getEquation());
+        this.f = new Function(this.courseReader.getEquation());
     }
 
     /**
@@ -56,18 +57,17 @@ public class PhysicsEngine {
 
         System.out.println("currentX+Constants.TIMESTEP_h*velocityX: " + (currentX+ Constants.TIMESTEP_h*velocityX));
 
-
+        currentX += Constants.TIMESTEP_h*velocityX;
         if(Math.abs(currentX) > Constants.WALL_POSITION)
         {
             velocityX *= -1;
         }
-        currentX += Constants.TIMESTEP_h*velocityX;
 
+        currentY += Constants.TIMESTEP_h*velocityY;
         if(Math.abs(currentY) > Constants.WALL_POSITION)
         {
             velocityY *= -1;
         }
-        currentY += Constants.TIMESTEP_h*velocityY;
 
         Point2D point2D = new Point2D(currentX,currentY);
         System.out.println("Point: " + point2D.getX() + " "  + point2D.getY());
@@ -85,7 +85,7 @@ public class PhysicsEngine {
         velocityX += Constants.TIMESTEP_h*accelerationX;
 
 
-        return (Math.abs(velocityX) > Constants.STOP_SPEED || Math.abs(velocityY) > Constants.STOP_SPEED);
+        return (Math.abs(velocityX) > 0.01 && Math.abs(velocityY) > 0.01);
     }
 
     /**
@@ -94,9 +94,9 @@ public class PhysicsEngine {
      */
     private void calculateAcceleration() {
         double g = terrainState.getGravity();
-        double dzTodx = calculateDerivativeWithRespectToX(currentX, currentY);
+        double dzTodx = calculateDerivativeWithRespectToX(currentX);
         System.out.println("dzTodx " + dzTodx);
-        double dzTody = calculateDerivativeWithRespectToY(currentX, currentY);
+        double dzTody = calculateDerivativeWithRespectToY(currentY);
         System.out.println("dzTody " + dzTody);
         double mu = terrainState.getFrictionCoef();
 
@@ -132,7 +132,7 @@ public class PhysicsEngine {
      * @return a double number which depends on x and y
      */
     private double calculateHeight(double x, double y){
-         return functionEvaluator.solve(x,y);
+         return f.solve(x,y);
     }
 
     /**
@@ -140,9 +140,9 @@ public class PhysicsEngine {
      * @param x value of X
      * @return the value of the derivative
      */
-    private double calculateDerivativeWithRespectToX(double x, double y){
-
-        double derivative[] = new double[terrainState.getXcoefficients().size()-1];
+    private double calculateDerivativeWithRespectToX(double x){
+        // df(x,y)x = (f(x+h),y) - f(x-h, y))/(2*h)
+        /*double derivative[] = new double[terrainState.getXcoefficients().size()-1];
         for(int i = 0; i < terrainState.getXcoefficients().size() -1; i++)
             derivative[i] = terrainState.getXcoefficients().get(i+1)*(i+1);
 
@@ -150,7 +150,10 @@ public class PhysicsEngine {
         for (int i = 0; i < derivative.length; i++) {
             result+= derivative[i]*Math.pow(x, i);
         }
-        return result;
+        return result;*/
+        double dfx = (f.solve(currentX +h , currentY) - f.solve(currentX - h, currentY))/(2*h);
+        return dfx;
+
     }
 
     /**
@@ -158,9 +161,9 @@ public class PhysicsEngine {
      * @param y value of y
      * @return the value of the derivative
      */
-    private double calculateDerivativeWithRespectToY(double x, double y){
-
-        double derivative[] = new double[terrainState.getYcoefficients().size()-1];
+    private double calculateDerivativeWithRespectToY(double y){
+        // df(x,y)y = (f(x,y+h) - f(x,y-h))/(2*h)
+        /*double derivative[] = new double[terrainState.getYcoefficients().size()-1];
         for(int i = 0; i < terrainState.getYcoefficients().size() - 1; i++)
             derivative[i] = terrainState.getYcoefficients().get(i+1)*(i+1);
 
@@ -168,7 +171,9 @@ public class PhysicsEngine {
         for (int i = 0; i < derivative.length; i++) {
             result+= derivative[i]*Math.pow(y, i);
         }
-        return result;
+        return result;*/
+        double dfy = (f.solve(currentX, currentY +h) - f.solve(currentX, currentY - h))/(2*h);
+        return dfy;
     }
 
 
@@ -182,9 +187,9 @@ public class PhysicsEngine {
         double velX = endX - currentX;
         double velY = endY - currentY;
 
-        if(Math.abs(velX) < terrainState.getMaxVelocity())
+        if(Math.abs(velX*2) < terrainState.getMaxVelocity()*2)
         {
-            velocityX = velX * Constants.VELOCITY_SCALAR;
+            velocityX = velX*2;
         }
         else if(velX < 0){
             velocityX = -terrainState.getMaxVelocity();
@@ -192,8 +197,8 @@ public class PhysicsEngine {
         else{
             velocityX = terrainState.getMaxVelocity();
         }
-        if(Math.abs(velY) < terrainState.getMaxVelocity()) {
-            velocityY = velY * Constants.VELOCITY_SCALAR;
+        if(Math.abs(velY*2) < terrainState.getMaxVelocity()*2) {
+            velocityY = velY*2;
         }
         else if(velY < 0){
             velocityY = -terrainState.getMaxVelocity();
@@ -213,7 +218,7 @@ public class PhysicsEngine {
         double startX = currentX;
         double startY = currentY;
 
-        while (calculateRelevantVelocity())
+        while (calculateRelevantVelocity() && !collisionDetected(currentX +0.2, currentY+0.2))
         {
             updateStateOfBall();
         }
