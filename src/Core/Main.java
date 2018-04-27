@@ -3,8 +3,10 @@ package Core;
 import Models.Course;
 import Models.PrecomputedModule;
 import Models.Function;
+import Models.Putin;
 import Utils.Constants;
 import Utils.CourseReader;
+import Utils.Point;
 import javafx.animation.PathTransition;
 import javafx.animation.SequentialTransition;
 import javafx.application.Application;
@@ -44,6 +46,8 @@ public class Main extends Application {
     private Function functionEvaluator;
     private PrecomputedModule precomputedModule;
 
+    private Putin putin;
+
     /**
      * Initializes all the variable fields of the class.
      */
@@ -68,6 +72,7 @@ public class Main extends Application {
         this.tolerance = course.getToleranceRadius() * scalar * 10;
 
         this.physicsEngine = new PhysicsEngine();
+        this.putin = new Putin(physicsEngine);
     }
 
     /**
@@ -239,12 +244,15 @@ public class Main extends Application {
      * @see PhysicsEngine
      */
     private List<Point2D> prepareEngine(double cenX, double cenY, double aimX, double aimY){
+
+        Point p = putin.go();
+        aimX = p.getVelocityX();
+        aimY = p.getVelocityY();
+
         this.physicsEngine.setCurrentX(cenX);
         this.physicsEngine.setCurrentY(cenY);
-        this.physicsEngine.takeVelocityOfShot(aimX, aimY);
-        System.out.println("end: " + aimX + " " + aimY);
-        System.out.println("current: " + cenX + " " + cenY);
 
+        this.physicsEngine.takeVelocityOfShot(aimX, aimY);
         this.physicsEngine.executeShot();
 
         return this.physicsEngine.getCoordinatesOfPath();
