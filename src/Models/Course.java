@@ -18,24 +18,13 @@ public class Course {
     private Point2D goal;
 
     private double toleranceRadius;
-
-    private ArrayList<Double> Xcoefficients;///the coefficients in front of X in the function of the height
-    private ArrayList<Double> Ycoefficients;///the coefficients in front of Y in the function of the height
-
+    
     public double getGravity() {
         return gravity;
     }
 
     public double getToleranceRadius() {
         return toleranceRadius;
-    }
-
-    public ArrayList<Double> getXcoefficients() {
-        return Xcoefficients;
-    }
-
-    public ArrayList<Double> getYcoefficients() {
-        return Ycoefficients;
     }
 
     public double getFrictionCoef() {
@@ -62,8 +51,6 @@ public class Course {
      * @param start starting point of the ball
      * @param goal the center of the area which the ball shall reach
      * @param toleranceRadius the radius of the area the ball shall reach
-     * @param xcoefficients the coefficients in front of X in the function of the height
-     * @param ycoefficients the coefficients in front of Y in the function of the height
      */
     public Course(double gravity, double frictionCoef, double maxVelocity, Point2D start, Point2D goal, double toleranceRadius, ArrayList<Double> xcoefficients, ArrayList<Double> ycoefficients) {
         this.gravity = gravity;
@@ -72,10 +59,6 @@ public class Course {
         this.start = start;
         this.goal = goal;
         this.toleranceRadius = toleranceRadius;
-
-        //TODO the coefficients have to be removed after implementing the numerical derivative
-        Xcoefficients = xcoefficients;
-        Ycoefficients = ycoefficients;
     }
 
 }
