@@ -1,7 +1,8 @@
 package Core;
 
 import Models.Course;
-        import Utils.Constants;
+import Models.Putin;
+import Utils.Constants;
         import Utils.CourseReader;
         import Models.Function;
         import javafx.geometry.Point2D;
@@ -31,6 +32,10 @@ public class PhysicsEngine {
 
     private ArrayList<Point2D> coordinatesOfPath;
 
+    public Course getTerrainState() {
+        return terrainState;
+    }
+
     public void setCurrentX(double currentX) {
         this.currentX = currentX;
     }
@@ -55,8 +60,7 @@ public class PhysicsEngine {
      */
     private void updateStateOfBall() {
 
-        System.out.println("currentX+Constants.TIMESTEP_h*velocityX: " + (currentX+ Constants.TIMESTEP_h*velocityX));
-
+        //System.out.println("currentX+Constants.TIMESTEP_h*velocityX: " + (currentX+ Constants.TIMESTEP_h*velocityX));
 
         if(Math.abs(currentX) > Constants.WALL_POSITION)
         {
@@ -71,7 +75,7 @@ public class PhysicsEngine {
         currentY += Constants.TIMESTEP_h*velocityY;
 
         Point2D point2D = new Point2D(currentX,currentY);
-        System.out.println("Point: " + point2D.getX() + " "  + point2D.getY());
+        //System.out.println("Point: " + point2D.getX() + " "  + point2D.getY());
         coordinatesOfPath.add(point2D);
     }
 
@@ -85,7 +89,6 @@ public class PhysicsEngine {
         velocityY += Constants.TIMESTEP_h*accelerationY;
         velocityX += Constants.TIMESTEP_h*accelerationX;
 
-
         return (Math.abs(velocityX) > Constants.STOP_SPEED || Math.abs(velocityY) > Constants.STOP_SPEED);
     }
 
@@ -96,9 +99,9 @@ public class PhysicsEngine {
     private void calculateAcceleration() {
         double g = terrainState.getGravity();
         double dzTodx = calculateDerivativeWithRespectToX();
-        System.out.println("dzTodx " + dzTodx);
+        //System.out.println("dzTodx " + dzTodx);
         double dzTody = calculateDerivativeWithRespectToY();
-        System.out.println("dzTody " + dzTody);
+        //System.out.println("dzTody " + dzTody);
         double mu = terrainState.getFrictionCoef();
 
         accelerationX = -g * (dzTodx + mu * (velocityX/Math.sqrt(Math.pow(velocityX,2)+Math.pow(velocityY,2))));
@@ -170,7 +173,7 @@ public class PhysicsEngine {
 
         if(Math.abs(velX) < terrainState.getMaxVelocity())
         {
-            velocityX = velX * Constants.VELOCITY_SCALAR;
+            velocityX = velX;
         }
         else if(velX < 0){
             velocityX = -terrainState.getMaxVelocity();
@@ -178,8 +181,10 @@ public class PhysicsEngine {
         else{
             velocityX = terrainState.getMaxVelocity();
         }
+        velocityX *= Constants.VELOCITY_SCALAR;
+
         if(Math.abs(velY) < terrainState.getMaxVelocity()) {
-            velocityY = velY * Constants.VELOCITY_SCALAR;
+            velocityY = velY;
         }
         else if(velY < 0){
             velocityY = -terrainState.getMaxVelocity();
@@ -187,6 +192,7 @@ public class PhysicsEngine {
         else {
             velocityY = terrainState.getMaxVelocity();
         }
+        velocityY *= Constants.VELOCITY_SCALAR;
     }
 
     /**
@@ -207,6 +213,13 @@ public class PhysicsEngine {
         if(collisionDetected(currentX,currentY)){//if there is a collision detected the ball returns to the initial state
             coordinatesOfPath.add(new Point2D(startX,  startY));
         }
+
+    }
+
+    public Point2D finalDestination() {
+        int lastPointIndex = this.coordinatesOfPath.size() - 1;
+        if(lastPointIndex>0) return this.coordinatesOfPath.get(lastPointIndex);
+        else return this.getTerrainState().getStart();
     }
 }
 
