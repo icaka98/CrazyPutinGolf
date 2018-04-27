@@ -66,7 +66,7 @@ public class CourseReader {
         try {
             this.g = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
             this.mu = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
-            this.vmax = Constants.VELOCITY_SCALAR * Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
+            this.vmax = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
             this.startX = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
             this.startY = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
             this.goalX = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
