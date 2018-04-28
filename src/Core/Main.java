@@ -253,9 +253,10 @@ public class Main extends Application {
      */
     private List<Point2D> prepareEngine(double cenX, double cenY, double aimX, double aimY){
 
-       Point p = putin.go();
-       aimX = p.getVelocityX();
-       aimY = p.getVelocityY();
+        //UNCOMMENT TO ACTIVATE THE BOT
+       //Point p = putin.go();
+       //aimX = p.getVelocityX();
+       //aimY = p.getVelocityY();
 
         this.physicsEngine.setCurrentX(cenX);
         this.physicsEngine.setCurrentY(cenY);
