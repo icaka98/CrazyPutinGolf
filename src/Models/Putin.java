@@ -21,33 +21,39 @@ public class Putin {
 
     }
 
-    public Point go()
-    {
+    public Point go() {
         double maxVelocity = engine.getTerrainState().getMaxVelocity();
         Random rnd = new Random();
-        for (int i = 0; i < 300; i++) {
+        double distance = 1;
+        Point current = null;
+        int br = 0;
+        while (distance > engine.getTerrainState().getToleranceRadius() * 5) {//for (int i = 0; i < 300; i++) {
             engine.setCurrentX(engine.getTerrainState().getStart().getX());
             engine.setCurrentY(engine.getTerrainState().getStart().getY());
 
-            double velocityX = rnd.nextDouble()*maxVelocity*2 - maxVelocity;
-            double velocityY = rnd.nextDouble()*maxVelocity*2 - maxVelocity;
+            double velocityX = rnd.nextDouble() * maxVelocity * 2 - maxVelocity;
+            double velocityY = rnd.nextDouble() * maxVelocity * 2 - maxVelocity;
 
             engine.takeVelocityOfShot(velocityX, velocityY);
             engine.executeShot();
-            Point2D finalDestination  = engine.finalDestination();
+            Point2D finalDestination = engine.finalDestination();
 
-            double distance = finalDestination.distance(this.engine.getTerrainState().getGoal());
-            Point current = new Point(velocityX, velocityY, distance);
+            distance = finalDestination.distance(this.engine.getTerrainState().getGoal());
+            current = new Point(velocityX, velocityY, distance);
             population.add(current);
+            br++;
         }
 
-        Collections.sort(this.population);
+        System.out.println(br);
+        return current;
+/*
+       Collections.sort(this.population);
         for (Point p: this.population)
         {
             System.out.println("distance: " + p.getDistanceToGoal() + " X: " + p.getVelocityX() + " Y: " + p.getVelocityY());
         }
 
-        while (this.population.get(0).getDistanceToGoal() > 0.1)
+        while (this.population.get(0).getDistanceToGoal() > engine.getTerrainState().getToleranceRadius()*5)
         {
             reproduce();
             System.out.println("distance: " + this.population.get(0).getDistanceToGoal()); //+ " X: " + this.population.get(0).getVelocityX() + " Y: " + this.population.get(0).getVelocityY());
@@ -59,9 +65,9 @@ public class Putin {
 
     private void reproduce() {
         ArrayList<Point> newIndividuals = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 7; i++) {
             Point current = this.population.get(i);
-            for (int j = 0; j < 10; j++) {
+            for (int j = 0; j < 7; j++) {
                 Point other = this.population.get(j);
 
                 engine.setCurrentX(engine.getTerrainState().getStart().getX());
@@ -96,6 +102,6 @@ public class Putin {
         }
 
         Collections.sort(newIndividuals);
-        this.population = newIndividuals;
+        this.population = newIndividuals;*/
     }
 }
