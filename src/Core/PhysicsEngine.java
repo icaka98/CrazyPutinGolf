@@ -64,33 +64,26 @@ public class PhysicsEngine {
 
         //System.out.println("currentX+Constants.TIMESTEP_h*velocityX: " + (currentX+ Constants.TIMESTEP_h*velocityX));
 
-        if(Math.abs(currentX) > Constants.WALL_POSITION)
-        {
-            velocityX *= -1;
-        }
-
-        if(Math.abs(currentY) > Constants.WALL_POSITION)
-        {
-            velocityY *= -1;
-        }
-
-        /*if(currentX>Constants.MID_LINE.getX1()/100 && currentX < Constants.MID_LINE.getX2()/100 &&
-                currentY >Constants.MID_LINE.getY1()/100 && currentY<Constants.MID_LINE.getY2()/100)
-        {
-            velocityY *= -1;
-        }*/
-
         double lastX = currentX;
         double lastY = currentY;
         currentX += Constants.TIMESTEP_h*velocityX;
         currentY += Constants.TIMESTEP_h*velocityY;
 
-        Line2D line1 = new Line2D.Double(lastX*100, lastY*100, currentX*100, currentY*100);
-        if(line1.intersectsLine(Constants.MID_LINE)){
+        Line2D path = new Line2D.Double(lastX*Constants.SCALAR, lastY*Constants.SCALAR, currentX*Constants.SCALAR, currentY*Constants.SCALAR);
+
+        if(Constants.MID_LINE.intersectsLine(path) || path.intersectsLine(Constants.UP_WALL) || path.intersectsLine(Constants.BOTTOM_WALL)){
             velocityY *= -1;
             currentX = lastX + Constants.TIMESTEP_h*velocityX;
             currentY = lastY + Constants.TIMESTEP_h*velocityY;
         }
+
+        if(path.intersectsLine(Constants.RIGHT_WALL) || path.intersectsLine(Constants.LEFT_WALL)){
+            velocityX *= -1;
+            currentX = lastX + Constants.TIMESTEP_h*velocityX;
+            currentY = lastY + Constants.TIMESTEP_h*velocityY;
+        }
+
+
         Point2D point2D = new Point2D(currentX,currentY);
         //System.out.println("Point: " + point2D.getX() + " "  + point2D.getY());
         coordinatesOfPath.add(point2D);
