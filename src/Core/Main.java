@@ -36,6 +36,7 @@ public class Main extends Application {
     private Line aiming;
     private Pane mainPane;
     private Circle ball, hole;
+    private Line stopLine;
 
     private Button next, changeMode, courseDesigner;
     private Label modeState;
@@ -88,6 +89,12 @@ public class Main extends Application {
         this.aiming = new Line(0, 0, 0, 0);
         this.aiming.setStrokeWidth(0.0);
 
+        this.stopLine = new Line(
+                 Constants.MID_LINE.getX1()+ Constants.SCENE_WIDTH / 2 - 10, Constants.MID_LINE.getY1() +Constants.SCENE_HEIGHT / 2,
+                 Constants.MID_LINE.getX2()+ Constants.SCENE_WIDTH / 2 - 10,  Constants.MID_LINE.getY2() + Constants.SCENE_HEIGHT / 2);
+
+        this.stopLine.setStrokeWidth(Constants.WALL_THICKNESS);
+
         this.ball = new Circle(
                 this.startX + Constants.SCENE_WIDTH / 2,
                 this.startY + Constants.SCENE_HEIGHT / 2,
@@ -121,6 +128,7 @@ public class Main extends Application {
         this.mainPane.getChildren().add(this.next);
         this.mainPane.getChildren().add(this.modeState);
         this.mainPane.getChildren().add(this.courseDesigner);
+        this.mainPane.getChildren().add(this.stopLine);
     }
 
     /**
@@ -245,9 +253,9 @@ public class Main extends Application {
      */
     private List<Point2D> prepareEngine(double cenX, double cenY, double aimX, double aimY){
 
-        Point p = putin.go();
-        aimX = p.getVelocityX();
-        aimY = p.getVelocityY();
+       Point p = putin.go();
+       aimX = p.getVelocityX();
+       aimY = p.getVelocityY();
 
         this.physicsEngine.setCurrentX(cenX);
         this.physicsEngine.setCurrentY(cenY);
