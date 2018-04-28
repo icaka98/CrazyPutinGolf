@@ -1,5 +1,9 @@
 package Utils;
 
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
 /**
  * Constants used in the application.
  * @author Hristo Minkov
@@ -20,7 +24,7 @@ public class Constants {
 
     public static final int TRANSITION_DURATION = 100;
 
-    public static final double WALL_POSITION = 2.4;
+    public static final double WALL_POSITION = 2.3;
 
     public static final double WALL_THICKNESS = 8.0;
 
@@ -31,6 +35,10 @@ public class Constants {
     public static final String DEFAULT_SAVE_FILE = "src/Assets/save_course.txt";
 
     public static final double STOP_SPEED = 0.1;
+
+    public static final Line2D MID_LINE = new Line2D.Double(
+            -100 , 45
+            ,200 ,45 );
 
     public static final int VELOCITY_SCALAR = 2;
 }
