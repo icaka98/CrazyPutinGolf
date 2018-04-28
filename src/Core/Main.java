@@ -90,15 +90,15 @@ public class Main extends Application {
         this.aiming.setStrokeWidth(0.0);
 
         this.stopLine = new Line(
-                 Constants.MID_LINE.getX1()+ Constants.SCENE_WIDTH / 2 - 10, Constants.MID_LINE.getY1() +Constants.SCENE_HEIGHT / 2,
-                 Constants.MID_LINE.getX2()+ Constants.SCENE_WIDTH / 2 - 10,  Constants.MID_LINE.getY2() + Constants.SCENE_HEIGHT / 2);
+                 Constants.MID_LINE.getX1()+ Constants.SCENE_WIDTH / 2 - 15, Constants.MID_LINE.getY1() +Constants.SCENE_HEIGHT / 2 + 10,
+                 Constants.MID_LINE.getX2()+ Constants.SCENE_WIDTH / 2 - 15,  Constants.MID_LINE.getY2() + Constants.SCENE_HEIGHT / 2 + 10);
 
         this.stopLine.setStrokeWidth(Constants.WALL_THICKNESS);
 
         this.ball = new Circle(
                 this.startX + Constants.SCENE_WIDTH / 2,
                 this.startY + Constants.SCENE_HEIGHT / 2,
-                10, Color.WHITE);
+                Constants.BALL_RADIUS, Color.WHITE);
 
         this.next = new Button("Next");
         this.next.setPrefSize(60, 30);
@@ -254,9 +254,9 @@ public class Main extends Application {
     private List<Point2D> prepareEngine(double cenX, double cenY, double aimX, double aimY){
 
         //UNCOMMENT TO ACTIVATE THE BOT
-       //Point p = putin.go();
-       //aimX = p.getVelocityX();
-       //aimY = p.getVelocityY();
+        //Point p = putin.go();
+        //aimX = p.getVelocityX();
+        //aimY = p.getVelocityY();
 
         this.physicsEngine.setCurrentX(cenX);
         this.physicsEngine.setCurrentY(cenY);
