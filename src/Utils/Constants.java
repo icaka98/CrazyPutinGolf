@@ -22,9 +22,9 @@ public class Constants {
 
     public static final double SCALAR = 100;
 
-    public static final int TRANSITION_DURATION = 100;
+    public static final double BALL_RADIUS = 10;
 
-    public static final double WALL_POSITION = 2.3;
+    public static final int TRANSITION_DURATION = 100;
 
     public static final double WALL_THICKNESS = 8.0;
 
@@ -38,7 +38,13 @@ public class Constants {
 
     public static final Line2D MID_LINE = new Line2D.Double(
             -100 , 45
-            ,200 ,45 );
+            ,170 ,45 );
+
+    public static final Line2D UP_WALL = new Line2D.Double(-Constants.SCENE_WIDTH / 2 , Constants.SCENE_HEIGHT / 2 - (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), Constants.SCENE_WIDTH / 2, Constants.SCENE_HEIGHT / 2 - (Constants.BALL_RADIUS + Constants.WALL_THICKNESS));
+    public static final Line2D BOTTOM_WALL = new Line2D.Double(-Constants.SCENE_WIDTH / 2, -Constants.SCENE_HEIGHT / 2 + (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), Constants.SCENE_WIDTH / 2, -Constants.SCENE_HEIGHT / 2 + (Constants.BALL_RADIUS + Constants.WALL_THICKNESS));
+    public static final Line2D RIGHT_WALL = new Line2D.Double(Constants.SCENE_WIDTH / 2 - (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), -Constants.SCENE_HEIGHT / 2, Constants.SCENE_WIDTH / 2 -(Constants.BALL_RADIUS + Constants.WALL_THICKNESS), Constants.SCENE_HEIGHT / 2);
+    public static final Line2D LEFT_WALL = new Line2D.Double(-Constants.SCENE_WIDTH / 2 + (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), -Constants.SCENE_HEIGHT / 2, -Constants.SCENE_WIDTH / 2 + (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), Constants.SCENE_HEIGHT / 2);
+
 
     public static final int VELOCITY_SCALAR = 2;
 }
