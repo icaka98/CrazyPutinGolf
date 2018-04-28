@@ -6,7 +6,9 @@ import Utils.Constants;
         import Utils.CourseReader;
         import Models.Function;
         import javafx.geometry.Point2D;
-        import java.io.File;
+
+import java.awt.geom.Line2D;
+import java.io.File;
         import java.util.ArrayList;
 
 /**
@@ -66,14 +68,29 @@ public class PhysicsEngine {
         {
             velocityX *= -1;
         }
-        currentX += Constants.TIMESTEP_h*velocityX;
 
         if(Math.abs(currentY) > Constants.WALL_POSITION)
         {
             velocityY *= -1;
         }
+
+        /*if(currentX>Constants.MID_LINE.getX1()/100 && currentX < Constants.MID_LINE.getX2()/100 &&
+                currentY >Constants.MID_LINE.getY1()/100 && currentY<Constants.MID_LINE.getY2()/100)
+        {
+            velocityY *= -1;
+        }*/
+
+        double lastX = currentX;
+        double lastY = currentY;
+        currentX += Constants.TIMESTEP_h*velocityX;
         currentY += Constants.TIMESTEP_h*velocityY;
 
+        Line2D line1 = new Line2D.Double(lastX*100, lastY*100, currentX*100, currentY*100);
+        if(line1.intersectsLine(Constants.MID_LINE)){
+            velocityY *= -1;
+            currentX = lastX + Constants.TIMESTEP_h*velocityX;
+            currentY = lastY + Constants.TIMESTEP_h*velocityY;
+        }
         Point2D point2D = new Point2D(currentX,currentY);
         //System.out.println("Point: " + point2D.getX() + " "  + point2D.getY());
         coordinatesOfPath.add(point2D);
