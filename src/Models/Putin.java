@@ -9,25 +9,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-public class Putin {
-
-    private PhysicsEngine engine;
+public class Putin extends Bot{
 
     private ArrayList<Point> population;
 
     public Putin(PhysicsEngine physicsEngine) {
-        engine = physicsEngine;
+        super(physicsEngine);
         population = new ArrayList<>();
-
     }
 
     public Point go() {
+
         double maxVelocity = engine.getTerrainState().getMaxVelocity();
         Random rnd = new Random();
-        double distance = 1;
+
+        double distance;
         Point current = null;
-        int br = 0;
-        while (distance > engine.getTerrainState().getToleranceRadius() * 5) {//for (int i = 0; i < 300; i++) {
+        for (int i = 0; i < 200; i++) {
             engine.setCurrentX(engine.getTerrainState().getStart().getX());
             engine.setCurrentY(engine.getTerrainState().getStart().getY());
 
@@ -41,12 +39,9 @@ public class Putin {
             distance = finalDestination.distance(this.engine.getTerrainState().getGoal());
             current = new Point(velocityX, velocityY, distance);
             population.add(current);
-            br++;
+
         }
 
-        System.out.println(br);
-        return current;
-/*
        Collections.sort(this.population);
         for (Point p: this.population)
         {
@@ -65,6 +60,8 @@ public class Putin {
 
     private void reproduce() {
         ArrayList<Point> newIndividuals = new ArrayList<>();
+
+        Random rnd  = new Random();
         for (int i = 0; i < 7; i++) {
             Point current = this.population.get(i);
             for (int j = 0; j < 7; j++) {
@@ -77,12 +74,11 @@ public class Putin {
                 double velocityX = (current.getVelocityX() + other.getVelocityX())/2;
                 double velocityY = (current.getVelocityY() + other.getVelocityY())/2;
 
-                Random rnd  = new Random();
 
                 double change = rnd.nextDouble();
                 if(change< 0.9)
                 {
-                    velocityX += change- 0.45;
+                    velocityX += change - 0.45;
                 }
 
                 change = rnd.nextDouble();
@@ -102,6 +98,6 @@ public class Putin {
         }
 
         Collections.sort(newIndividuals);
-        this.population = newIndividuals;*/
+        this.population = newIndividuals;
     }
 }
