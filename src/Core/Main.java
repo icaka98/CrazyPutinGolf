@@ -1,9 +1,6 @@
 package Core;
 
-import Models.Course;
-import Models.PrecomputedModule;
-import Models.Function;
-import Models.Putin;
+import Models.*;
 import Utils.Constants;
 import Utils.CourseReader;
 import Utils.Point;
@@ -47,7 +44,7 @@ public class Main extends Application {
     private Function functionEvaluator;
     private PrecomputedModule precomputedModule;
 
-    private Putin putin;
+    private Bot bot;
 
     /**
      * Initializes all the variable fields of the class.
@@ -73,7 +70,7 @@ public class Main extends Application {
         this.tolerance = course.getToleranceRadius() * scalar * 10;
 
         this.physicsEngine = new PhysicsEngine();
-        this.putin = new Putin(physicsEngine);
+        this.bot = new Putin(physicsEngine);
     }
 
     /**
@@ -254,9 +251,9 @@ public class Main extends Application {
     private List<Point2D> prepareEngine(double cenX, double cenY, double aimX, double aimY){
 
         //UNCOMMENT TO ACTIVATE THE BOT
-        //Point p = putin.go();
-        //aimX = p.getVelocityX();
-        //aimY = p.getVelocityY();
+        Point p = bot.go();
+        aimX = p.getVelocityX();
+        aimY = p.getVelocityY();
 
         this.physicsEngine.setCurrentX(cenX);
         this.physicsEngine.setCurrentY(cenY);
