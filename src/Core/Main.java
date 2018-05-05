@@ -25,6 +25,8 @@ import java.util.List;
 /**
  * @author Hristo Minkov
  */
+
+//TODO make command line instead of putin the buttons on the course field
 public class Main extends Application {
     private double startX, startY, finishX, finishY, tolerance;
     private int steps, precomputedStep;
@@ -35,7 +37,7 @@ public class Main extends Application {
     private Circle ball, hole;
     private Line stopLine;
 
-    private Button next, changeMode, courseDesigner;
+    private Button next, changeMode, courseDesigner, enableBot;
     private Label modeState;
 
     private static double scalar = Constants.SCALAR;
@@ -118,10 +120,16 @@ public class Main extends Application {
         this.courseDesigner.setLayoutX(210.0);
         this.courseDesigner.setLayoutY(10.0);
 
+        this.enableBot = new Button("Bot");
+        this.enableBot.setPrefSize(120, 30);
+        this.enableBot.setLayoutX(370.0);
+        this.enableBot.setLayoutY(10.0);
+
         this.mainPane.getChildren().add(this.aiming);
         this.mainPane.getChildren().add(this.ball);
         this.mainPane.getChildren().add(this.hole);
         this.mainPane.getChildren().add(this.changeMode);
+        this.mainPane.getChildren().add(this.enableBot);
         this.mainPane.getChildren().add(this.next);
         this.mainPane.getChildren().add(this.modeState);
         this.mainPane.getChildren().add(this.courseDesigner);
@@ -217,6 +225,7 @@ public class Main extends Application {
         sequentialTransition.setOnFinished( e -> {
             this.animationRunning = false;
             this.changeMode.setDisable(false);
+            this.enableBot.setDisable(false);
             this.next.setDisable(false);
 
             if(Math.sqrt((this.hole.getCenterX() - this.ball.getCenterX())
@@ -227,7 +236,9 @@ public class Main extends Application {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Congratulations");
                 alert.setHeaderText(null);
-                alert.setContentText("You managed to score in " + this.steps + " steps.");
+
+                if(this.steps == 0) alert.setContentText("The bot scored hole-in-one!");
+                else alert.setContentText("You scored in " + this.steps + " steps.");
 
                 alert.show();
             }
@@ -235,25 +246,22 @@ public class Main extends Application {
 
         this.animationRunning = true;
         this.changeMode.setDisable(true);
+        this.enableBot.setDisable(true);
         this.next.setDisable(true);
         sequentialTransition.play();
     }
 
     /**
      * Executing a shot in the Physics engine
-     * @param cenX the center X of the ball
-     * @param cenY the center Y of the ball
      * @param aimX the X coordinate of the selected velocity
      * @param aimY the Y coordinate of the selected velocity
      * @return collection of all moves that have to be processed
      * @see PhysicsEngine
      */
-    private List<Point2D> prepareEngine(double cenX, double cenY, double aimX, double aimY){
+    private List<Point2D> prepareEngine( double aimX, double aimY){
 
-        //UNCOMMENT TO ACTIVATE THE BOT
-        Point p = bot.go();
-        aimX = p.getVelocityX();
-        aimY = p.getVelocityY();
+        double cenX = (this.ball.getCenterX() - Constants.SCENE_WIDTH / 2) / scalar;
+        double cenY = (this.ball.getCenterY() - Constants.SCENE_HEIGHT / 2) / scalar;
 
         this.physicsEngine.setCurrentX(cenX);
         this.physicsEngine.setCurrentY(cenY);
@@ -311,10 +319,7 @@ public class Main extends Application {
             double aimX = (aiming.getEndX() - Constants.SCENE_WIDTH / 2) / scalar;
             double aimY = (aiming.getEndY() - Constants.SCENE_HEIGHT / 2) / scalar;
 
-            double cenX = (this.ball.getCenterX() - Constants.SCENE_WIDTH / 2) / scalar;
-            double cenY = (this.ball.getCenterY() - Constants.SCENE_HEIGHT / 2) / scalar;
-
-            List<Point2D> moves = this.prepareEngine(cenX, cenY, aimX, aimY);
+            List<Point2D> moves = this.prepareEngine(aimX, aimY);
             System.out.println("LEN: " + moves.size());
 
             aiming.setEndY(0);
@@ -335,12 +340,9 @@ public class Main extends Application {
             Point2D nextMove = this.precomputedModule.getVelocities().get(this.precomputedStep++);
             this.steps++;
 
-            double cenX = (this.ball.getCenterX() - Constants.SCENE_WIDTH / 2) / scalar;
-            double cenY = (this.ball.getCenterY() - Constants.SCENE_HEIGHT / 2) / scalar;
+            System.out.printf("%f %f %f %f\n", nextMove.getX(), nextMove.getY());
 
-            System.out.printf("%f %f %f %f\n", cenX, cenY, nextMove.getX(), nextMove.getY());
-
-            List<Point2D> moves = this.prepareEngine(cenX, cenY, nextMove.getX(), nextMove.getY());
+            List<Point2D> moves = this.prepareEngine(nextMove.getX(), nextMove.getY());
             System.out.println("LEN: " + moves.size());
 
             this.executeTransitions(moves);
@@ -350,6 +352,17 @@ public class Main extends Application {
             this.precomputedMode = !this.precomputedMode;
             this.next.setVisible(this.precomputedMode);
             this.modeState.setText(this.precomputedMode ? "Precomputed mode" : "Player mode");
+        });
+
+        this.enableBot.setOnAction(e -> {
+            Point p = bot.go();
+            double aimX = p.getVelocityX();
+            double aimY = p.getVelocityY();
+
+            List<Point2D> moves = this.prepareEngine(aimX, aimY);
+            System.out.println("LEN: " + moves.size());
+
+            this.executeTransitions(moves);
         });
 
         this.courseDesigner.setOnAction(e -> {
