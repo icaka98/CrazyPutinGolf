@@ -13,6 +13,9 @@ public class Putin extends Bot{
 
     private ArrayList<Point> population;
 
+    private double initialX;
+    private double initialY;
+
     public Putin(PhysicsEngine physicsEngine) {
         super(physicsEngine);
         population = new ArrayList<>();
@@ -23,11 +26,14 @@ public class Putin extends Bot{
         double maxVelocity = engine.getTerrainState().getMaxVelocity();
         Random rnd = new Random();
 
+        initialX = engine.getCurrentX();
+        initialY = engine.getCurrentY();
+
         double distance;
         Point current = null;
-        for (int i = 0; i < 200; i++) {
-            engine.setCurrentX(engine.getTerrainState().getStart().getX());
-            engine.setCurrentY(engine.getTerrainState().getStart().getY());
+        for (int i = 0; i < 250; i++) {
+            engine.setCurrentX(initialX);
+            engine.setCurrentY(initialY);
 
             double velocityX = rnd.nextDouble() * maxVelocity * 2 - maxVelocity;
             double velocityY = rnd.nextDouble() * maxVelocity * 2 - maxVelocity;
@@ -67,8 +73,8 @@ public class Putin extends Bot{
             for (int j = 0; j < 7; j++) {
                 Point other = this.population.get(j);
 
-                engine.setCurrentX(engine.getTerrainState().getStart().getX());
-                engine.setCurrentY(engine.getTerrainState().getStart().getY());
+                engine.setCurrentX(initialX);
+                engine.setCurrentY(initialY);
 
 
                 double velocityX = (current.getVelocityX() + other.getVelocityX())/2;
