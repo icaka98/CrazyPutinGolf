@@ -70,16 +70,27 @@ public class PhysicsEngine {
      */
     private void updateStateOfBall() {
 
-        //System.out.println("currentX+Constants.TIMESTEP_h*velocityX: " + (currentX+ Constants.TIMESTEP_h*velocityX));
-
         double lastX = currentX;
         double lastY = currentY;
         currentX += Constants.TIMESTEP_h*velocityX;
         currentY += Constants.TIMESTEP_h*velocityY;
 
-        Line2D path = new Line2D.Double(lastX*Constants.SCALAR, lastY*Constants.SCALAR, currentX*Constants.SCALAR, currentY*Constants.SCALAR);
+        Line2D path = new Line2D.Double(lastX*Constants.SCALAR, lastY*Constants.SCALAR,
+                currentX*Constants.SCALAR, currentY*Constants.SCALAR);//the line between the last and the current point
 
-        if(Constants.MID_LINE.intersectsLine(path) || path.intersectsLine(Constants.UP_WALL) || path.intersectsLine(Constants.BOTTOM_WALL)){
+        if(Constants.UP_MID_LINE.intersectsLine(path) || Constants.DOWN_MID_LINE.intersectsLine(path)){
+            velocityY *= -1;
+            currentX = lastX + Constants.TIMESTEP_h*velocityX;
+            currentY = lastY + Constants.TIMESTEP_h*velocityY;
+        }
+
+        if(Constants.RIGHT_MID_LINE.intersectsLine(path) || Constants.LEFT_MID_LINE.intersectsLine(path)){
+            velocityX *= -1;
+            currentX = lastX + Constants.TIMESTEP_h*velocityX;
+            currentY = lastY + Constants.TIMESTEP_h*velocityY;
+        }
+
+        if(path.intersectsLine(Constants.UP_WALL) || path.intersectsLine(Constants.BOTTOM_WALL)){
             velocityY *= -1;
             currentX = lastX + Constants.TIMESTEP_h*velocityX;
             currentY = lastY + Constants.TIMESTEP_h*velocityY;
@@ -117,9 +128,8 @@ public class PhysicsEngine {
     private void calculateAcceleration() {
         double g = terrainState.getGravity();
         double dzTodx = calculateDerivativeWithRespectToX();
-        //System.out.println("dzTodx " + dzTodx);
         double dzTody = calculateDerivativeWithRespectToY();
-        //System.out.println("dzTody " + dzTody);
+
         double mu = terrainState.getFrictionCoef();
 
         accelerationX = -g * (dzTodx + mu * (velocityX/Math.sqrt(Math.pow(velocityX,2)+Math.pow(velocityY,2))));

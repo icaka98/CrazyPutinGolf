@@ -36,9 +36,23 @@ public class Constants {
 
     public static final double STOP_SPEED = 0.1;
 
-    public static final Line2D MID_LINE = new Line2D.Double(
+    public static final Line2D DOWN_MID_LINE = new Line2D.Double(
             -100 , 85
             ,100 ,85 );
+
+    public static final Line2D UP_MID_LINE = new Line2D.Double(
+            -100 , 103
+            ,100 ,103 );
+
+    public static final Line2D LEFT_MID_LINE = new Line2D.Double(
+            -100 , 85
+            ,-100 ,103 );
+
+    public static final Line2D RIGHT_MID_LINE = new Line2D.Double(
+            100 , 85
+            ,100 ,103 );
+
+
 
     public static final Line2D UP_WALL = new Line2D.Double(-Constants.SCENE_WIDTH / 2 , Constants.SCENE_HEIGHT / 2 - (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), Constants.SCENE_WIDTH / 2, Constants.SCENE_HEIGHT / 2 - (Constants.BALL_RADIUS + Constants.WALL_THICKNESS));
     public static final Line2D BOTTOM_WALL = new Line2D.Double(-Constants.SCENE_WIDTH / 2, -Constants.SCENE_HEIGHT / 2 + (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), Constants.SCENE_WIDTH / 2, -Constants.SCENE_HEIGHT / 2 + (Constants.BALL_RADIUS + Constants.WALL_THICKNESS));

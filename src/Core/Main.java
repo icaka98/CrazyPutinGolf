@@ -72,7 +72,7 @@ public class Main extends Application {
         this.tolerance = course.getToleranceRadius() * scalar * 10;
 
         this.physicsEngine = new PhysicsEngine();
-        this.bot = new Putin(physicsEngine);
+        this.bot = new Randy(physicsEngine);
     }
 
     /**
@@ -89,8 +89,8 @@ public class Main extends Application {
         this.aiming.setStrokeWidth(0.0);
 
         this.stopLine = new Line(
-                 Constants.MID_LINE.getX1()+ Constants.SCENE_WIDTH / 2 - 15, Constants.MID_LINE.getY1() +Constants.SCENE_HEIGHT / 2 + 10,
-                 Constants.MID_LINE.getX2()+ Constants.SCENE_WIDTH / 2 - 15,  Constants.MID_LINE.getY2() + Constants.SCENE_HEIGHT / 2 + 10);
+                 Constants.DOWN_MID_LINE.getX1()+ Constants.SCENE_WIDTH / 2 + 8, Constants.DOWN_MID_LINE.getY1() +Constants.SCENE_HEIGHT / 2 + 8,
+                 Constants.DOWN_MID_LINE.getX2()+ Constants.SCENE_WIDTH / 2 - 8,  Constants.DOWN_MID_LINE.getY2() + Constants.SCENE_HEIGHT / 2 + 8);
 
         this.stopLine.setStrokeWidth(Constants.WALL_THICKNESS);
 
@@ -285,6 +285,7 @@ public class Main extends Application {
 
         double maxHeight = this.functionEvaluator.solve(Constants.SCENE_WIDTH / 2.0 / scalar,
                 Constants.SCENE_HEIGHT / 2.0 / scalar);
+
 
         double minHeight = this.functionEvaluator.solve(- 1.66666667, - Constants.SCENE_HEIGHT / 2.0 / scalar);
         minHeight = Math.min(minHeight, this.functionEvaluator.solve(- Constants.SCENE_WIDTH / 2 / scalar,
