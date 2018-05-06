@@ -56,6 +56,14 @@ public class PhysicsEngine {
         this.f = new Function(this.courseReader.getEquation());
     }
 
+    public double getCurrentX() {
+        return currentX;
+    }
+
+    public double getCurrentY() {
+        return currentY;
+    }
+
     /**
      * the moves in specific direction with certain power denoted by velocityX-Y
      * the new state of the ball is added to a list containing all ball states
