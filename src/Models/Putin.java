@@ -13,9 +13,6 @@ public class Putin extends Bot{
 
     private ArrayList<Point> population;
 
-    private double initialX;
-    private double initialY;
-
     public Putin(PhysicsEngine physicsEngine) {
         super(physicsEngine);
         population = new ArrayList<>();
