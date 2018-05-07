@@ -82,7 +82,7 @@ public class PhysicsEngine {
         Line2D path = new Line2D.Double(lastX*Constants.SCALAR, lastY*Constants.SCALAR,
                 currentX*Constants.SCALAR, currentY*Constants.SCALAR);//the line between the last and the current point
 
-        /*if(Constants.UP_MID_LINE.intersectsLine(path) || Constants.DOWN_MID_LINE.intersectsLine(path)){
+        if(Constants.UP_MID_LINE.intersectsLine(path) || Constants.DOWN_MID_LINE.intersectsLine(path)){
             velocityY *= -1;
             currentX = lastX + Constants.TIMESTEP_h*velocityX;
             currentY = lastY + Constants.TIMESTEP_h*velocityY;
@@ -93,7 +93,7 @@ public class PhysicsEngine {
             currentX = lastX + Constants.TIMESTEP_h*velocityX;
             currentY = lastY + Constants.TIMESTEP_h*velocityY;
         }
-*/
+
         if(path.intersectsLine(Constants.UP_WALL) || path.intersectsLine(Constants.BOTTOM_WALL)){
             velocityY *= -1;
             currentX = lastX + Constants.TIMESTEP_h*velocityX;
@@ -108,7 +108,7 @@ public class PhysicsEngine {
 
 
         Point2D point2D = new Point2D(currentX,currentY);
-        //System.out.println("Point: " + point2D.getX() + " "  + point2D.getY());
+        //System.out.println("Shot: " + point2D.getX() + " "  + point2D.getY());
         coordinatesOfPath.add(point2D);
     }
 

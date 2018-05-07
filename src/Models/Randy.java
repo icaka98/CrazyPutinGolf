@@ -1,7 +1,7 @@
 package Models;
 
 import Core.PhysicsEngine;
-import Utils.Point;
+import Utils.Shot;
 import javafx.geometry.Point2D;
 
 import java.util.Random;
@@ -13,14 +13,14 @@ public class Randy extends Bot {
         super(physicsEngine);
     }
     @Override
-    public Point go() {
+    public Shot go() {
         initialX = engine.getCurrentX();
         initialY = engine.getCurrentY();
 
         double maxVelocity = engine.getTerrainState().getMaxVelocity();
         Random rnd = new Random();
         double distance = 1;
-        Point current = null;
+        Shot current = null;
         int br = 0;
         while (distance > engine.getTerrainState().getToleranceRadius() * 10) {
             engine.setCurrentX(initialX);
@@ -34,7 +34,7 @@ public class Randy extends Bot {
             Point2D finalDestination = engine.finalDestination();
 
             distance = finalDestination.distance(engine.getTerrainState().getGoal());
-            current = new Point(velocityX, velocityY, distance);
+            current = new Shot(velocityX, velocityY, distance);
             br++;
         }
 

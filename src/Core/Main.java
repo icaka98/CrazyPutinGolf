@@ -3,7 +3,7 @@ package Core;
 import Models.*;
 import Utils.Constants;
 import Utils.CourseReader;
-import Utils.Point;
+import Utils.Shot;
 import javafx.animation.PathTransition;
 import javafx.animation.SequentialTransition;
 import javafx.application.Application;
@@ -72,7 +72,7 @@ public class Main extends Application {
         this.tolerance = course.getToleranceRadius() * scalar * 10;
 
         this.physicsEngine = new PhysicsEngine();
-        this.bot = new Randy(physicsEngine);
+        this.bot = new Putin(physicsEngine);
     }
 
     /**
@@ -356,9 +356,9 @@ public class Main extends Application {
         });
 
         this.enableBot.setOnAction(e -> {
-            Point p = bot.go();
+            Shot p = bot.go();
             double aimX = p.getVelocityX();
-            double aimY = p.getVelocityY();
+            double aimY =p.getVelocityY();
 
             List<Point2D> moves = this.prepareEngine(aimX, aimY);
             System.out.println("LEN: " + moves.size());

@@ -1,7 +1,7 @@
 package Models;
 
 import Core.PhysicsEngine;
-import Utils.Point;
+import Utils.Shot;
 
 public abstract class Bot {
     protected PhysicsEngine engine;
@@ -13,5 +13,5 @@ public abstract class Bot {
         engine = physicsEngine;
     }
 
-    public abstract Point go();
+    public abstract Shot go();
 }
