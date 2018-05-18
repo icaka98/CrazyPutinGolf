@@ -19,6 +19,7 @@ import java.io.File;
 public class PhysicsEngine {
     private Course terrainState;
 
+    private double g, mu, h;
     private double velocityX;
     private double velocityY;
 
@@ -27,6 +28,7 @@ public class PhysicsEngine {
 
     private double currentX;
     private double currentY;
+    private int count;
 
     private CourseReader courseReader;
 
@@ -57,6 +59,10 @@ public class PhysicsEngine {
 
         this.currentY = this.getTerrainState().getStart().getY();
         this.currentX = this.getTerrainState().getStart().getX();
+        g = terrainState.getGravity();
+        mu = terrainState.getFrictionCoef();
+        h = Constants.TIMESTEP_h;
+
 
     }
 
@@ -74,36 +80,40 @@ public class PhysicsEngine {
      */
     private void updateStateOfBall() {
 
+
+        calculateRelevantVelocity(h);
+
         double lastX = currentX;
         double lastY = currentY;
-        currentX += Constants.TIMESTEP_h*velocityX;
-        currentY += Constants.TIMESTEP_h*velocityY;
+
+        currentX += h*velocityX;
+        currentY += h*velocityY;
 
         Line2D path = new Line2D.Double(lastX*Constants.SCALAR, lastY*Constants.SCALAR,
                 currentX*Constants.SCALAR, currentY*Constants.SCALAR);//the line between the last and the current point
 
         if(Constants.UP_MID_LINE.intersectsLine(path) || Constants.DOWN_MID_LINE.intersectsLine(path)){
             velocityY *= -1;
-            currentX = lastX + Constants.TIMESTEP_h*velocityX;
-            currentY = lastY + Constants.TIMESTEP_h*velocityY;
+            currentX = lastX + h*velocityX;
+            currentY = lastY + h*velocityY;
         }
 
         if(Constants.RIGHT_MID_LINE.intersectsLine(path) || Constants.LEFT_MID_LINE.intersectsLine(path)){
             velocityX *= -1;
-            currentX = lastX + Constants.TIMESTEP_h*velocityX;
-            currentY = lastY + Constants.TIMESTEP_h*velocityY;
+            currentX = lastX + h*velocityX;
+            currentY = lastY + h*velocityY;
         }
 
         if(path.intersectsLine(Constants.UP_WALL) || path.intersectsLine(Constants.BOTTOM_WALL)){
             velocityY *= -1;
-            currentX = lastX + Constants.TIMESTEP_h*velocityX;
-            currentY = lastY + Constants.TIMESTEP_h*velocityY;
+            currentX = lastX + h*velocityX;
+            currentY = lastY + h*velocityY;
         }
 
         if(path.intersectsLine(Constants.RIGHT_WALL) || path.intersectsLine(Constants.LEFT_WALL)){
             velocityX *= -1;
-            currentX = lastX + Constants.TIMESTEP_h*velocityX;
-            currentY = lastY + Constants.TIMESTEP_h*velocityY;
+            currentX = lastX + h*velocityX;
+            currentY = lastY + h*velocityY;
         }
 
 
@@ -114,31 +124,51 @@ public class PhysicsEngine {
 
     /**
      * the method updates the velocity of the ball depending on the current acceleration
-     * @return true if the speed of the ball is enough to move, false if the ball does not have sufficient speed to move
      */
-    private boolean calculateRelevantVelocity() {
-        calculateAcceleration();
+    private void calculateRelevantVelocity(double h) {
+        double x = currentX, y=currentY, vx = velocityX, vy = velocityY, ax = accelerationX, ay = accelerationY;
+        double[] a = calculateAcceleration(x+h/2*vx,y+h/2*vy,vx+h/2*ax,vy+h/2*ay);
+        vx = velocityX + h*a[0];
+        vy = velocityY + h*a[1];
 
-        velocityY += Constants.TIMESTEP_h*accelerationY;
-        velocityX += Constants.TIMESTEP_h*accelerationX;
+        System.out.println("Ax = " +a[0]);
+        System.out.println("Ay = " +a[1]);
+        System.out.println("Vx = " +vx);
+        System.out.println("Vy = " +vy);
 
-        return (Math.abs(velocityX) > Constants.STOP_SPEED || Math.abs(velocityY) > Constants.STOP_SPEED);
+        velocityX = vx;
+        velocityY = vy;
+
     }
+
 
     /**
      * the acceleration of the ball is calculated by standard formula which takes into account:
      * partial derivatives of the height of the function,velocity, friction coefficient and gravity
      */
-    private void calculateAcceleration() {
-        double g = terrainState.getGravity();
-        double dzTodx = calculateDerivativeWithRespectToX();
-        double dzTody = calculateDerivativeWithRespectToY();
 
-        double mu = terrainState.getFrictionCoef();
+    private double calculateXAcceleration(double x, double y, double vx, double vy){
+        double dzTodx = calculateDerivativeWithRespectToX(x, y);
 
-        accelerationX = -g * (dzTodx + mu * (velocityX/Math.sqrt(Math.pow(velocityX,2)+Math.pow(velocityY,2))));
+        double ax = -g * (dzTodx + mu * (vx/Math.sqrt(Math.pow(vx,2)+Math.pow(vy,2))));
+        return ax;
+    }
 
-        accelerationY = -g * (dzTody + mu * (velocityY/Math.sqrt(Math.pow(velocityX,2)+Math.pow(velocityY,2))));
+    private double calculateYAcceleration(double x, double y, double vx, double vy){
+        double dzTody = calculateDerivativeWithRespectToY(x, y);
+
+        double ay = -g * (dzTody + mu * (vy/Math.sqrt(Math.pow(vx,2)+Math.pow(vy,2))));
+        return ay;
+    }
+
+    private double[] calculateAcceleration(double x, double y, double vx, double vy){
+        double dzTodx = calculateDerivativeWithRespectToX(x, y);
+        double dzTody = calculateDerivativeWithRespectToY(x, y);
+
+        double[] a = new double[2];
+        a[0] = -g * (dzTodx + mu * (vx/Math.sqrt(Math.pow(vx,2)+Math.pow(vy,2))));
+        a[1] = -g * (dzTody + mu * (vy/Math.sqrt(Math.pow(vx,2)+Math.pow(vy,2))));
+        return a;
     }
 
     /**
@@ -148,7 +178,7 @@ public class PhysicsEngine {
      * @return true if the ball has fallen into the water(z<0), false if the ball is on the ground(z>=0)
      */
     private boolean collisionDetected(double x, double y){
-        return calculateHeight(x, y) < 0;
+        return f.solve(x,y) < 0;
     }
 
     /**
@@ -168,17 +198,18 @@ public class PhysicsEngine {
      * @return a double number which depends on x and y
      */
     private double calculateHeight(double x, double y){
-        return f.solve(x,y);
+        return f.solve(x, y);
     }
 
     /**
      * partial derivative calculated with respect to X, using the currentX and currentY
      * @return the value of the derivative
      */
-    private double calculateDerivativeWithRespectToX(){
-        // df(x,y)x = (f(x+h),y) - f(x-h, y))/(2*h)
-        double h = 0.0001;
-        return (f.solve(currentX +h , currentY) - f.solve(currentX - h, currentY))/(2*h);
+    private double calculateDerivativeWithRespectToX(double x, double y){
+        // df(x,y)/dx = (f(x+h),y) - f(x-h, y))/(2*h)
+        double h = 0.000001;
+        //System.out.println("dx = " + dx);
+        return (f.solve(x +h , y) - f.solve(x - h, y))/(2*h);
 
     }
 
@@ -186,10 +217,11 @@ public class PhysicsEngine {
      * partial derivative calculated with respect to Y, using the currentX and currentY
      * @return the value of the derivative
      */
-    private double calculateDerivativeWithRespectToY(){
+    private double calculateDerivativeWithRespectToY(double x, double y){
         // df(x,y)y = (f(x,y+h) - f(x,y-h))/(2*h)
-        double h = 0.0001;
-        return (f.solve(currentX, currentY +h) - f.solve(currentX, currentY - h))/(2*h);
+        double h = 0.000001;
+        //System.out.println("dy = " +dy);
+        return (f.solve(x, y +h) - f.solve(x, y - h))/(2*h);
     }
 
 
@@ -200,6 +232,7 @@ public class PhysicsEngine {
      * @param endY Y coordinate of the end of the shot arrow
      */
     public void takeVelocityOfShot(double endX, double endY){
+        count = 0;
         double velX = endX - currentX;
         double velY = endY - currentY;
 
@@ -225,6 +258,7 @@ public class PhysicsEngine {
             velocityY = terrainState.getMaxVelocity();
         }
         velocityY *= Constants.VELOCITY_SCALAR;
+
     }
 
     /**
@@ -236,8 +270,9 @@ public class PhysicsEngine {
 
         double startX = currentX;
         double startY = currentY;
+        calculateRelevantVelocity(h/2);
 
-        while (calculateRelevantVelocity())
+        while (Math.abs(velocityX) > Constants.STOP_SPEED || Math.abs(velocityY) > Constants.STOP_SPEED)
         {
             updateStateOfBall();
         }
