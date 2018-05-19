@@ -1,7 +1,5 @@
 package Models;
 
-import smile.interpolation.*;
-
 public class Temp {
 
     static double[] x1 = new double[5];

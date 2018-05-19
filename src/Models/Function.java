@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import smile.interpolation.*;
 
 /**
  * @author Mathieu Coenegracht
