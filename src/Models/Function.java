@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import smile.interpolation.*;
+
 /**
  * @author Mathieu Coenegracht
  * Class Function takes a function string as input and generates an expression tree which can be used to evaluate the function for different variables
@@ -107,9 +109,14 @@ public class Function{
     public double solve(double x, double y){ //solve equation for x and y values
         vars.put("x", x);
         vars.put("y", y);
+
         //System.out.println(vars.containsKey("pi"));
         return eval(z);
     }
+
+    //public double Interpolation(double x, double y){
+      //  BicubicInterpolation bicubicInterpolation = new BicubicInterpolation();
+    //}
 
     /**
      * Method that does a postorder traversal of the tree and compares the leaf nodes with the keys
