@@ -8,7 +8,6 @@ import java.util.Random;
 
 public class Randy extends Bot {
 
-
     public Randy(PhysicsEngine physicsEngine) {
         super(physicsEngine);
     }
@@ -22,12 +21,15 @@ public class Randy extends Bot {
         double distance = 1;
         Shot current = null;
         int br = 0;
-        while (distance > engine.getTerrainState().getToleranceRadius() * 10) {
+        while (distance > engine.getTerrainState().getToleranceRadius() * 5) {
             engine.setCurrentX(initialX);
             engine.setCurrentY(initialY);
 
-            double velocityX = rnd.nextDouble() * maxVelocity * 2 - maxVelocity;
-            double velocityY = rnd.nextDouble() * maxVelocity * 2 - maxVelocity;
+            double xDirection = engine.getTerrainState().getGoal().getX() - engine.getTerrainState().getStart().getX();
+            double yDirection = engine.getTerrainState().getGoal().getY() - engine.getTerrainState().getStart().getY();
+
+            double velocityX = (rnd.nextDouble() - 0.5)*2 + xDirection;
+            double velocityY = (rnd.nextDouble() - 0.5)*2 + yDirection;//* maxVelocity * 2 - maxVelocity;
 
             engine.takeVelocityOfShot(velocityX, velocityY);
             engine.executeShot();
