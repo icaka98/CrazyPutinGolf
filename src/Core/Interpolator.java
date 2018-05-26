@@ -24,11 +24,11 @@ public class Interpolator {
         fillX(courseXL, pointMatrix, a, b);
         fillY(courseXL, pointMatrix, a, b);
         fillXY(courseXL, pointMatrix, a, b);
-        
+
         zeros(tmpResultMx);
         zeros(finalResultMx);
 
-        multiply(courseXL.getB(),RightFactor,tmpResultMx);
+        multiply(courseXL.getSetStuff(),RightFactor,tmpResultMx);
         multiply(LeftFactor,tmpResultMx,finalResultMx);
         setCoefficient(finalResultMx, courseXL);
         coefficientMatrixXL[a][b]= courseXL;
