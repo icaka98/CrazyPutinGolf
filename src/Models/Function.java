@@ -1,5 +1,6 @@
 package Models;
 
+import Core.Interpolator;
 import Utils.Node;
 
 import java.util.Queue;
@@ -106,11 +107,14 @@ public class Function{
      * @return output value of the function dependent on the two input values
      */
     public double solve(double x, double y){ //solve equation for x and y values
-        vars.put("x", x);
+        /*vars.put("x", x);
         vars.put("y", y);
 
         //System.out.println(vars.containsKey("pi"));
         return eval(z);
+        */
+        //TODO Tell silvia the domain and range of our course so she can implement this...!
+        Interpolator.designCourse(x,y);
     }
 
     //public double Interpolation(double x, double y){
