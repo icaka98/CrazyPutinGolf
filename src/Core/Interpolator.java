@@ -16,14 +16,15 @@ public class Interpolator {
         coefficientMatrixXL = new MatrixXL[5][5];
         double[][] pointMatrix = courseXL.getPointMatrix();
 
-        courseXL.set(0,0, course[a][b]);
-        courseXL.set(0,1, course[a][b+1]);
-        courseXL.set(1,0, course[a+1][b]);
-        courseXL.set(1,1, course[a+1][b+1]);
+        courseXL.set(0,0, pointMatrix[a][b]);
+        courseXL.set(0,1, pointMatrix[a][b+1]);
+        courseXL.set(1,0, pointMatrix[a+1][b]);
+        courseXL.set(1,1, pointMatrix[a+1][b+1]);
 
-        fillX(courseXL, course, a, b);
-        fillY(courseXL, course, a, b);
-        fillXY(courseXL, course, a, b);
+        fillX(courseXL, pointMatrix, a, b);
+        fillY(courseXL, pointMatrix, a, b);
+        fillXY(courseXL, pointMatrix, a, b);
+        
         zeros(tmpResultMx);
         zeros(finalResultMx);
 
@@ -32,7 +33,7 @@ public class Interpolator {
         setCoefficient(finalResultMx, courseXL);
         coefficientMatrixXL[a][b]= courseXL;
 
-        return finalize();
+        return finish();
     }
 
     public static void multiply (double[][] A, double[][] B, double[][] C) {
@@ -172,7 +173,7 @@ public class Interpolator {
     }
 
 
-    public static MatrixXL[][] finalize() {
+    public static MatrixXL[][] finish() {
         return coefficientMatrixXL;
     }
 }
