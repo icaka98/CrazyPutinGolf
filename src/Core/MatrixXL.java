@@ -49,7 +49,7 @@ public class MatrixXL {
         return pointMatrix;
     }
 
-    public void setValue(int x, int y, double z){
+    public void set(int x, int y, double z){
         pointMatrix[x][y] = z;
     }
 
