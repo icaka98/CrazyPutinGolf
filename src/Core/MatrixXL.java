@@ -2,7 +2,7 @@ package Core;
 
 public class MatrixXL {
 
-    //TODO method set
+    //TODO method setValue
 
     // TODO methods getLeftFactor/getRightFactor/getPointMatrix
 
