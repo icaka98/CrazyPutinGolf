@@ -1,6 +1,7 @@
 package Models;
 
 import Core.Interpolator;
+import Core.MatrixXL;
 import Utils.Node;
 
 import java.util.Queue;
@@ -107,14 +108,30 @@ public class Function{
      * @return output value of the function dependent on the two input values
      */
     public double solve(double x, double y){ //solve equation for x and y values
+        int a,b;
+        double z =0;
+        MatrixXL[][] courseCoeff = new MatrixXL[5][5];
+        MatrixXL cellCoeff;
+        a = (int) (x + 2.5);
+        b = (int) (y + 2.5);
+
+        Interpolator.designCourse(a,b);
+        courseCoeff = Interpolator.getCoefficients();
+        cellCoeff = courseCoeff[a][b];
+
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                z = z + (cellCoeff.getCoefficient(i,j)*Math.pow(a,i)*Math.pow(b,j));
+            }
+        }
+
+        return z;
         /*vars.put("x", x);
         vars.put("y", y);
 
         //System.out.println(vars.containsKey("pi"));
         return eval(z);
         */
-        //TODO Tell silvia the domain and range of our course so she can implement this...!
-        Interpolator.designCourse(x,y);
     }
 
     //public double Interpolation(double x, double y){

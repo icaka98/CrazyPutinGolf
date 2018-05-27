@@ -71,4 +71,6 @@ public class MatrixXL {
     public double[][] getSetStuff(){
         return setStuff;
     }
+
+    public double getCoefficient (int i, int j) { return this.setStuff [i][j]; }
 }

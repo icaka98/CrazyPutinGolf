@@ -4,7 +4,7 @@ public class Interpolator {
     private double[][] pointMatrix = new double[6][6];
     private static MatrixXL[][] coefficientMatrixXL;
 
-    public static MatrixXL[][] designCourse(int a, int b) {
+    public static void designCourse(int a, int b) {
         MatrixXL courseXL = new MatrixXL();
 
         double[][] LeftFactor = courseXL.getLeftFactor();
@@ -33,7 +33,6 @@ public class Interpolator {
         setCoefficient(finalResultMx, courseXL);
         coefficientMatrixXL[a][b]= courseXL;
 
-        return finish();
     }
 
     public static void multiply (double[][] A, double[][] B, double[][] C) {
@@ -173,7 +172,7 @@ public class Interpolator {
     }
 
 
-    public static MatrixXL[][] finish() {
+    public static MatrixXL[][] getCoefficients() {
         return coefficientMatrixXL;
     }
 }
