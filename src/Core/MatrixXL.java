@@ -1,5 +1,4 @@
 package Core;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class MatrixXL {
 
@@ -7,7 +6,6 @@ public class MatrixXL {
     private double[][] rightFactor;
 
     private double[][] setStuff;
-    private double min, max, cntr30, cntr70;
     private double[][] pointMatrix = new double[6][6];
 
     public MatrixXL(){
@@ -24,32 +22,48 @@ public class MatrixXL {
                 { 0, 1, -2, 1 },
                 { 0, 0, -1, 1 },
         };
-        this.min = -6;
-        this.max = 6;
-        this.cntr30 = 0;
-        this.cntr70 = 0;
 
         newPointMatrix();
     }
 
     public void newPointMatrix() {
-        for(int i = 0; i < 6; i++){
-            for(int j = 0; j < 6; j++){
-                double r = ThreadLocalRandom.current().nextDouble(min,max + 1);
-                pointMatrix[i][j] = r;
-                if(r < 0) {
-                    cntr30++;
-                } else {
-                    cntr70++;
-                }
-                if(cntr30 > (36*0.3)){
-                    min = 0;
-                }
-                if(cntr70 > (36*0.7)){
-                    max = 0;
-                }
-            }
-        }
+        
+        pointMatrix[0][0]=-1;
+        pointMatrix[0][1]=-1;
+        pointMatrix[0][2]=-1;
+        pointMatrix[0][3]=1;
+        pointMatrix[0][4]=1;
+        pointMatrix[0][5]=0;
+        pointMatrix[1][0]=-1;
+        pointMatrix[1][1]=-1;
+        pointMatrix[1][2]=2;
+        pointMatrix[1][3]=3;
+        pointMatrix[1][4]=1;
+        pointMatrix[1][5]=0;
+        pointMatrix[2][0]=-1;
+        pointMatrix[2][1]=1;
+        pointMatrix[2][2]=1;
+        pointMatrix[2][3]=2;
+        pointMatrix[2][4]=1;
+        pointMatrix[2][5]=2;
+        pointMatrix[3][0]=1;
+        pointMatrix[3][1]=2;
+        pointMatrix[3][2]=1;
+        pointMatrix[3][3]=0;
+        pointMatrix[3][4]=1;
+        pointMatrix[3][5]=2;
+        pointMatrix[4][0]=1;
+        pointMatrix[4][1]=2;
+        pointMatrix[4][2]=3;
+        pointMatrix[4][3]=4;
+        pointMatrix[4][4]=1;
+        pointMatrix[4][5]=4;
+        pointMatrix[5][0]=1;
+        pointMatrix[5][1]=1;
+        pointMatrix[5][2]=0;
+        pointMatrix[5][3]=2;
+        pointMatrix[5][4]=3;
+        pointMatrix[5][5]=4;
     }
 
     public double[][] getLeftFactor() {

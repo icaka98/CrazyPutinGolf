@@ -19,6 +19,19 @@ public class Function{
     private Map<String,Double> vars = new HashMap<>();
     private Node z;
 
+    double minHeight = 0;
+    double maxHeight = 0;
+    /*double[][] points = {
+            {1, 0, 0},
+            {1, 0, 1},
+            {0, 1, 2},
+            {1, 1, 2},
+            {2, 3, 4}
+    };
+    double[] pointsX1 = {0,1,2,3,4};
+    double[] pointsX2 = {1,2,3};*/
+
+
     /**
      * Constructor that creates an object of the function class and calls the method that generates the expression tree
      * @param s function string
@@ -110,10 +123,16 @@ public class Function{
     public double solve(double x, double y){ //solve equation for x and y values
         int a,b;
         double z =0;
-        MatrixXL[][] courseCoeff = new MatrixXL[5][5];
+        MatrixXL[][] courseCoeff;
         MatrixXL cellCoeff;
         a = (int) (x + 2.5);
         b = (int) (y + 2.5);
+        if(a>4) { a = 4; }
+        if(b>4) { b = 4; }
+        if(a<0) { a = 0; }
+        if(b<0) { b = 0; }
+        double aModule = (((x*4)+10) % 4) / 10;
+        double bModule = (((y*4)+10) % 4) / 10;
 
         Interpolator.designCourse(a,b);
         courseCoeff = Interpolator.getCoefficients();
@@ -121,22 +140,22 @@ public class Function{
 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                z = z + (cellCoeff.getCoefficient(i,j)*Math.pow(a,i)*Math.pow(b,j));
+                z = z + (cellCoeff.getCoefficient(i,j)*Math.pow(aModule,i)*Math.pow(bModule,j));
             }
         }
-
+        if (z>maxHeight) { maxHeight = z; }
+        if (z<minHeight) { minHeight = z; }
         return z;
+
         /*vars.put("x", x);
         vars.put("y", y);
 
         //System.out.println(vars.containsKey("pi"));
         return eval(z);
         */
+       // BicubicInterpolation bicubicInterpolation = new BicubicInterpolation(pointsX1,pointsX2,points);
+        //return bicubicInterpolation.interpolate(x,y);
     }
-
-    //public double Interpolation(double x, double y){
-      //  BicubicInterpolation bicubicInterpolation = new BicubicInterpolation();
-    //}
 
     /**
      * Method that does a postorder traversal of the tree and compares the leaf nodes with the keys

@@ -149,10 +149,20 @@ public class Main extends Application {
 
                 Circle point = new Circle(x + Constants.SCENE_WIDTH / 2,
                         y + Constants.SCENE_HEIGHT / 2, 3, Color.GREEN);
-
+                System.out.println("Height: " + height);
+                System.out.println("MinHeight " + minHeight);
+                System.out.println("MaxHeight " + maxHeight);
+                //int blueRatio = (int) (255*(1.0 - height/Function.minHeight));
+                int blueRatio = (int) (255*(1.0 + height/minHeight));
+                if (blueRatio < 0)  blueRatio = 0;
+                if (blueRatio > 255)  blueRatio = 255;
+                //int greenRatio = 105 + (int)(130.0*(height/Function.maxHeight));
+                int greenRatio = 105 + (int)(130.0*(height/(maxHeight*2)));
+                if (greenRatio < 0)  greenRatio = 0;
+                if (greenRatio > 255)  greenRatio = 255;
                 if(height < 0.0)
                     point.setFill(
-                            Color.rgb(0,0, (int)(255*(1.0 - height/minHeight))));
+                            Color.rgb(0,0, blueRatio));
                 else{
                     if(Constants.SCENE_WIDTH / 2 - x < Constants.WALL_THICKNESS
                             || x < -Constants.SCENE_WIDTH / 2 + Constants.WALL_THICKNESS
@@ -160,7 +170,8 @@ public class Main extends Application {
                             || Constants.SCENE_HEIGHT / 2 - y < Constants.WALL_THICKNESS){
                         point.setFill(Color.valueOf("#ECD540"));
                     }else point.setFill(
-                            Color.rgb(0,105 + (int)(130.0*(height/maxHeight)),0));
+
+                            Color.rgb(0,greenRatio,0));
                 }
 
                 this.mainPane.getChildren().add(point);
