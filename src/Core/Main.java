@@ -6,15 +6,20 @@ import Utils.CourseReader;
 import Utils.Shot;
 import javafx.animation.*;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -37,7 +42,7 @@ public class Main extends Application {
     private Line stopLine;
 
     private Button next, changeMode, courseDesigner, enableBot, restartBtn;
-    private Label modeState, functionLabel, positionLabel, titleLabel;
+    private Label modeState, functionLabel, positionLabel, titleLabel, goalLabel;
 
     private static double scalar = Constants.SCALAR;
 
@@ -119,18 +124,48 @@ public class Main extends Application {
 
         this.modeState = new Label("Mode: Player mode");
         this.modeState.setLayoutX(510.0);
-        this.modeState.setLayoutY(10.0);
+        this.modeState.setLayoutY(180.0);
         this.modeState.setTextFill(Color.BLACK);
 
         this.functionLabel = new Label("Function: " + this.courseReader.getEquation().replaceAll("\\s+", ""));
         this.functionLabel.setLayoutX(510.0);
-        this.functionLabel.setLayoutY(30.0);
+        this.functionLabel.setLayoutY(90.0);
         this.functionLabel.setTextFill(Color.BLACK);
 
         this.positionLabel = new Label("Ball position: (" + this.ball.getCenterX() +" , " + this.ball.getCenterY() + ")");
         this.positionLabel.setLayoutX(510.0);
-        this.positionLabel.setLayoutY(60.0);
+        this.positionLabel.setLayoutY(110.0);
         this.positionLabel.setTextFill(Color.BLACK);
+
+        this.goalLabel = new Label(
+                "Goal position: (" +
+                        (this.hole.getCenterX() + "").substring(0, 5) +
+                        " , " +
+                        (this.hole.getCenterY() + "").substring(0, 5) +
+                        ")");
+        this.goalLabel.setLayoutX(510.0);
+        this.goalLabel.setLayoutY(150.0);
+        this.goalLabel.setTextFill(Color.BLACK);
+
+        VBox vbox = new VBox();
+        vbox.setPadding(new Insets(10));
+        vbox.setSpacing(8);
+        vbox.setLayoutX(511);
+        vbox.setLayoutY(60);
+        vbox.setStyle("-fx-border-color: black");
+
+        vbox.getChildren().addAll(this.modeState, this.goalLabel, this.positionLabel, this.functionLabel);
+
+        DropShadow ds = new DropShadow();
+        ds.setOffsetY(1.0f);
+        ds.setColor(Color.color(0.4f, 0.4f, 0.4f));
+
+        this.titleLabel = new Label("Putin Golf");
+        this.titleLabel.setLayoutX(545.0);
+        this.titleLabel.setLayoutY(10.0);
+        this.titleLabel.setTextFill(Color.GREEN);
+        this.titleLabel.setEffect(ds);
+        this.titleLabel.setFont(Font.font(null, FontWeight.BOLD, 32));
 
         this.courseDesigner = new Button("Course designer");
         this.courseDesigner.setPrefSize(160, 40);
@@ -148,11 +183,11 @@ public class Main extends Application {
         this.mainPane.getChildren().add(this.changeMode);
         this.mainPane.getChildren().add(this.enableBot);
         this.mainPane.getChildren().add(this.next);
-        this.mainPane.getChildren().add(this.modeState);
         this.mainPane.getChildren().add(this.courseDesigner);
         this.mainPane.getChildren().add(this.stopLine);
         this.mainPane.getChildren().add(this.restartBtn);
-        this.mainPane.getChildren().add(this.functionLabel);
+        this.mainPane.getChildren().add(this.titleLabel);
+        this.mainPane.getChildren().add(vbox);
     }
 
     /**
@@ -234,6 +269,7 @@ public class Main extends Application {
         transition.setDuration(Duration.millis(Constants.TRANSITION_DURATION));
         transition.setPath(path);
         transition.setCycleCount(1);
+
 
         this.ball.setCenterX(endX);
         this.ball.setCenterY(endY);
@@ -343,14 +379,16 @@ public class Main extends Application {
 
         final Timeline timeline = new Timeline(
                 new KeyFrame(
-                        Duration.millis( 200 ),
+                        Duration.millis(200),
                         event -> {
+                            String ballX = (this.ball.getCenterX() + "").substring(0, 5);
+                            String ballY = (this.ball.getCenterY() + "").substring(0, 5);
                             this.positionLabel.setText(
-                                    "Ball position: (" + this.ball.getCenterX() +" , " + this.ball.getCenterY() + ")");
+                                    "Ball position: (" + ballX + " , " + ballY + ")");
                         }
                 )
         );
-        timeline.setCycleCount( Animation.INDEFINITE );
+        timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
 
         this.ball.setOnMouseDragged(event -> {
