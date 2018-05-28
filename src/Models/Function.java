@@ -21,15 +21,15 @@ public class Function{
 
     double minHeight = 0;
     double maxHeight = 0;
-    /*double[][] points = {
-            {1, 0, 0},
-            {1, 0, 1},
-            {0, 1, 2},
-            {1, 1, 2},
-            {2, 3, 4}
+    double[][] points = {
+            {0, 0, -1},
+            {0, 0, -1},
+            {0, 0, 0},
+            {0, 0, 0},
+            {0, 0, 0}
     };
     double[] pointsX1 = {0,1,2,3,4};
-    double[] pointsX2 = {1,2,3};*/
+    double[] pointsX2 = {0,1,2};
 
 
     /**
@@ -121,7 +121,7 @@ public class Function{
      * @return output value of the function dependent on the two input values
      */
     public double solve(double x, double y){ //solve equation for x and y values
-        int a,b;
+        /*int a,b;
         double z =0;
         MatrixXL[][] courseCoeff;
         MatrixXL cellCoeff;
@@ -145,7 +145,7 @@ public class Function{
         }
         if (z>maxHeight) { maxHeight = z; }
         if (z<minHeight) { minHeight = z; }
-        return z;
+        return z;*/
 
         /*vars.put("x", x);
         vars.put("y", y);
@@ -153,8 +153,8 @@ public class Function{
         //System.out.println(vars.containsKey("pi"));
         return eval(z);
         */
-       // BicubicInterpolation bicubicInterpolation = new BicubicInterpolation(pointsX1,pointsX2,points);
-        //return bicubicInterpolation.interpolate(x,y);
+       BicubicInterpolation bicubicInterpolation = new BicubicInterpolation(pointsX1,pointsX2,points);
+       return bicubicInterpolation.interpolate(x,y);
     }
 
     /**

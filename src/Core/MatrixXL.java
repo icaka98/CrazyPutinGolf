@@ -27,7 +27,7 @@ public class MatrixXL {
     }
 
     public void newPointMatrix() {
-        
+
         pointMatrix[0][0]=-1;
         pointMatrix[0][1]=-1;
         pointMatrix[0][2]=-1;
