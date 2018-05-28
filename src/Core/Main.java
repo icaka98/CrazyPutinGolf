@@ -4,8 +4,7 @@ import Models.*;
 import Utils.Constants;
 import Utils.CourseReader;
 import Utils.Shot;
-import javafx.animation.PathTransition;
-import javafx.animation.SequentialTransition;
+import javafx.animation.*;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
@@ -38,7 +37,7 @@ public class Main extends Application {
     private Line stopLine;
 
     private Button next, changeMode, courseDesigner, enableBot, restartBtn;
-    private Label modeState, functionLabel, positionLabel;
+    private Label modeState, functionLabel, positionLabel, titleLabel;
 
     private static double scalar = Constants.SCALAR;
 
@@ -127,6 +126,11 @@ public class Main extends Application {
         this.functionLabel.setLayoutX(510.0);
         this.functionLabel.setLayoutY(30.0);
         this.functionLabel.setTextFill(Color.BLACK);
+
+        this.positionLabel = new Label("Ball position: (" + this.ball.getCenterX() +" , " + this.ball.getCenterY() + ")");
+        this.positionLabel.setLayoutX(510.0);
+        this.positionLabel.setLayoutY(60.0);
+        this.positionLabel.setTextFill(Color.BLACK);
 
         this.courseDesigner = new Button("Course designer");
         this.courseDesigner.setPrefSize(160, 40);
@@ -337,6 +341,17 @@ public class Main extends Application {
             this.restart();
         });
 
+        final Timeline timeline = new Timeline(
+                new KeyFrame(
+                        Duration.millis( 200 ),
+                        event -> {
+                            this.positionLabel.setText(
+                                    "Ball position: (" + this.ball.getCenterX() +" , " + this.ball.getCenterY() + ")");
+                        }
+                )
+        );
+        timeline.setCycleCount( Animation.INDEFINITE );
+        timeline.play();
 
         this.ball.setOnMouseDragged(event -> {
             if(this.precomputedMode) return;

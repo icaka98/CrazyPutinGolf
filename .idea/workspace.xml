@@ -2,14 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c36c1ea2-1b58-4517-b14c-1bd597f968ea" name="Default" comment="">
-<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Core/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Core/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Models/Function.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Models/Function.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Utils/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utils/Constants.java" afterDir="false" />
-=======
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Models/Function.java" afterPath="$PROJECT_DIR$/src/Models/Function.java" />
->>>>>>> 39d4ac7ae4e64b08ca9b62f81a93d084e95108cc
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,18 +21,15 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Core/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
             <state relative-caret-position="119">
               <caret line="114" lean-forward="true" selection-start-line="114" selection-end-line="114" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="docComment;class#Main#0" />
-=======
             <state relative-caret-position="-216">
               <caret line="76" column="29" lean-forward="false" selection-start-line="76" selection-start-column="29" selection-end-line="76" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
->>>>>>> 39d4ac7ae4e64b08ca9b62f81a93d084e95108cc
               </folding>
             </state>
           </provider>
@@ -216,11 +210,8 @@
         <option value="$PROJECT_DIR$/src/Core/MatrixXL.java" />
         <option value="$PROJECT_DIR$/src/Core/Interpolator.java" />
         <option value="$PROJECT_DIR$/src/Models/Function.java" />
-<<<<<<< HEAD
         <option value="$PROJECT_DIR$/src/Utils/Constants.java" />
         <option value="$PROJECT_DIR$/src/Core/Main.java" />
-=======
->>>>>>> 39d4ac7ae4e64b08ca9b62f81a93d084e95108cc
       </list>
     </option>
   </component>
@@ -233,7 +224,6 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-<<<<<<< HEAD
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="687" />
     <option name="width" value="1239" />
