@@ -50,7 +50,6 @@ public class Main extends Application {
     private static double scalar = Constants.SCALAR;
 
     private Stage mainStage;
-    private Scene mainScene;
     private PhysicsEngine physicsEngine;
     private CourseReader courseReader;
     private Function functionEvaluator;
@@ -110,9 +109,9 @@ public class Main extends Application {
                 Constants.BALL_RADIUS, Color.WHITE);
 
         this.next = new Button("Next");
-        this.next.setPrefSize(60, 30);
-        this.next.setLayoutX(510.0);
-        this.next.setLayoutY(130.0);
+        this.next.setPrefSize(120, 30);
+        this.next.setLayoutX(567.0);
+        this.next.setLayoutY(315.0);
         this.next.setVisible(false);
 
         this.changeMode = new Button("Change mode");
@@ -154,7 +153,7 @@ public class Main extends Application {
         vbox.setPadding(new Insets(10));
         vbox.setSpacing(8);
         vbox.setLayoutX(511);
-        vbox.setLayoutY(60);
+        vbox.setLayoutY(65);
         vbox.setStyle("-fx-border-color: black");
 
         vbox.getChildren().addAll(this.modeState, this.goalLabel, this.positionLabel, this.functionLabel);
@@ -272,7 +271,6 @@ public class Main extends Application {
         transition.setDuration(Duration.millis(Constants.TRANSITION_DURATION));
         transition.setPath(path);
         transition.setCycleCount(1);
-
 
         this.ball.setCenterX(endX);
         this.ball.setCenterY(endY);
