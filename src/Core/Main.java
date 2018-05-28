@@ -23,6 +23,9 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
 
@@ -455,12 +458,23 @@ public class Main extends Application {
         this.enableBot.setOnAction(e -> {
             Shot p = bot.go();
             double aimX = p.getVelocityX();
-            double aimY =p.getVelocityY();
+            double aimY = p.getVelocityY();
+
+            this.aiming.setEndX((aimX * scalar + Constants.FIELD_WIDTH / 2));
+            this.aiming.setEndY((aimY * scalar + Constants.FIELD_HEIGHT / 2));
+            this.aiming.setStartX(this.ball.getCenterX());
+            this.aiming.setStartY(this.ball.getCenterY());
+            this.aiming.setStrokeWidth(6.9f);
 
             List<Point2D> moves = this.prepareEngine(aimX, aimY);
             System.out.println("LEN: " + moves.size());
 
-            this.executeTransitions(moves);
+            Timer timer = new Timer(666, arg0 -> {
+                this.executeTransitions(moves);
+                this.aiming.setStrokeWidth(0.0f);
+            });
+            timer.setRepeats(false);
+            timer.start();
         });
 
         this.courseDesigner.setOnAction(e -> {
