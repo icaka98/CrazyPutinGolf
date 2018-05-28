@@ -28,7 +28,7 @@ import java.util.List;
 
 //TODO make command line instead of putin the buttons on the course field
 public class Main extends Application {
-    private double startX, startY, finishX, finishY, tolerance;
+    private double startX, startY, finishX, finishY, tolerance, maxHeight, minHeight;
     private int steps, precomputedStep;
     private boolean precomputedMode, animationRunning;
 
@@ -37,11 +37,13 @@ public class Main extends Application {
     private Circle ball, hole;
     private Line stopLine;
 
-    private Button next, changeMode, courseDesigner, enableBot;
+    private Button next, changeMode, courseDesigner, enableBot, restartBtn;
     private Label modeState;
 
     private static double scalar = Constants.SCALAR;
 
+    private Stage mainStage;
+    private Scene mainScene;
     private PhysicsEngine physicsEngine;
     private Function functionEvaluator;
     private PrecomputedModule precomputedModule;
@@ -80,8 +82,8 @@ public class Main extends Application {
      */
     private void initComponents(){
         this.hole = new Circle(
-                this.finishX + Constants.SCENE_WIDTH / 2,
-                this.finishY + Constants.SCENE_HEIGHT / 2,
+                this.finishX + Constants.FIELD_WIDTH / 2,
+                this.finishY + Constants.FIELD_HEIGHT / 2,
                 this.tolerance, Color.BLACK);
         this.hole.setOpacity(.6);
 
@@ -89,41 +91,46 @@ public class Main extends Application {
         this.aiming.setStrokeWidth(0.0);
 
         this.stopLine = new Line(
-                 Constants.DOWN_MID_LINE.getX1()+ Constants.SCENE_WIDTH / 2 + 8, Constants.DOWN_MID_LINE.getY1() +Constants.SCENE_HEIGHT / 2 + 8,
-                 Constants.DOWN_MID_LINE.getX2()+ Constants.SCENE_WIDTH / 2 - 8,  Constants.DOWN_MID_LINE.getY2() + Constants.SCENE_HEIGHT / 2 + 8);
+                Constants.DOWN_MID_LINE.getX1()+ Constants.FIELD_WIDTH / 2 + 8, Constants.DOWN_MID_LINE.getY1() +Constants.FIELD_HEIGHT / 2 + 8,
+                Constants.DOWN_MID_LINE.getX2()+ Constants.FIELD_WIDTH / 2 - 8,  Constants.DOWN_MID_LINE.getY2() + Constants.FIELD_HEIGHT / 2 + 8);
 
         this.stopLine.setStrokeWidth(Constants.WALL_THICKNESS);
 
         this.ball = new Circle(
-                this.startX + Constants.SCENE_WIDTH / 2,
-                this.startY + Constants.SCENE_HEIGHT / 2,
+                this.startX + Constants.FIELD_WIDTH / 2,
+                this.startY + Constants.FIELD_HEIGHT / 2,
                 Constants.BALL_RADIUS, Color.WHITE);
 
         this.next = new Button("Next");
         this.next.setPrefSize(60, 30);
-        this.next.setLayoutX(140.0);
-        this.next.setLayoutY(10.0);
+        this.next.setLayoutX(510.0);
+        this.next.setLayoutY(130.0);
         this.next.setVisible(false);
 
         this.changeMode = new Button("Change mode");
         this.changeMode.setPrefSize(120, 30);
-        this.changeMode.setLayoutX(10.0);
-        this.changeMode.setLayoutY(10.0);
+        this.changeMode.setLayoutX(510.0);
+        this.changeMode.setLayoutY(90.0);
+
+        this.restartBtn = new Button("Restart");
+        this.restartBtn.setPrefSize(120, 30);
+        this.restartBtn.setLayoutX(510);
+        this.restartBtn.setLayoutY(160);
 
         this.modeState = new Label("Player mode");
-        this.modeState.setLayoutX(20.0);
-        this.modeState.setLayoutY(50.0);
-        this.modeState.setTextFill(Color.WHITE);
+        this.modeState.setLayoutX(510.0);
+        this.modeState.setLayoutY(200.0);
+        this.modeState.setTextFill(Color.BLACK);
 
         this.courseDesigner = new Button("Course designer");
         this.courseDesigner.setPrefSize(150, 30);
-        this.courseDesigner.setLayoutX(210.0);
+        this.courseDesigner.setLayoutX(510.0);
         this.courseDesigner.setLayoutY(10.0);
 
         this.enableBot = new Button("Bot");
         this.enableBot.setPrefSize(120, 30);
-        this.enableBot.setLayoutX(370.0);
-        this.enableBot.setLayoutY(10.0);
+        this.enableBot.setLayoutX(510.0);
+        this.enableBot.setLayoutY(50.0);
 
         this.mainPane.getChildren().add(this.aiming);
         this.mainPane.getChildren().add(this.ball);
@@ -134,6 +141,7 @@ public class Main extends Application {
         this.mainPane.getChildren().add(this.modeState);
         this.mainPane.getChildren().add(this.courseDesigner);
         this.mainPane.getChildren().add(this.stopLine);
+        this.mainPane.getChildren().add(this.restartBtn);
     }
 
     /**
@@ -142,13 +150,13 @@ public class Main extends Application {
      * @param minHeight the minimum height of the course function
      */
     private void drawField(double maxHeight, double minHeight){
-        for(double x = -Constants.SCENE_WIDTH / 2; x < Constants.SCENE_WIDTH / 2; x += 3.5){
-            for(double y = -Constants.SCENE_HEIGHT / 2; y < Constants.SCENE_HEIGHT / 2; y += 3.5){
+        for(double x = -Constants.FIELD_WIDTH / 2; x < Constants.FIELD_WIDTH / 2; x += 3.5){
+            for(double y = -Constants.FIELD_HEIGHT / 2; y < Constants.FIELD_HEIGHT / 2; y += 3.5){
 
                 double height = this.functionEvaluator.solve(x / scalar, y / scalar);
 
-                Circle point = new Circle(x + Constants.SCENE_WIDTH / 2,
-                        y + Constants.SCENE_HEIGHT / 2, 3, Color.GREEN);
+                Circle point = new Circle(x + Constants.FIELD_WIDTH / 2,
+                        y + Constants.FIELD_HEIGHT / 2, 3, Color.GREEN);
                 System.out.println("Height: " + height);
                 System.out.println("MinHeight " + minHeight);
                 System.out.println("MaxHeight " + maxHeight);
@@ -164,10 +172,10 @@ public class Main extends Application {
                     point.setFill(
                             Color.rgb(0,0, blueRatio));
                 else{
-                    if(Constants.SCENE_WIDTH / 2 - x < Constants.WALL_THICKNESS
-                            || x < -Constants.SCENE_WIDTH / 2 + Constants.WALL_THICKNESS
-                            || y < -Constants.SCENE_HEIGHT / 2 + Constants.WALL_THICKNESS
-                            || Constants.SCENE_HEIGHT / 2 - y < Constants.WALL_THICKNESS){
+                    if(Constants.FIELD_WIDTH / 2 - x < Constants.WALL_THICKNESS
+                            || x < -Constants.FIELD_WIDTH / 2 + Constants.WALL_THICKNESS
+                            || y < -Constants.FIELD_HEIGHT / 2 + Constants.WALL_THICKNESS
+                            || Constants.FIELD_HEIGHT / 2 - y < Constants.WALL_THICKNESS){
                         point.setFill(Color.valueOf("#ECD540"));
                     }else point.setFill(
 
@@ -178,12 +186,12 @@ public class Main extends Application {
             }
         }
 
-        for(double x = -Constants.SCENE_WIDTH / 2; x < Constants.SCENE_WIDTH / 2; x += 3.5){
-            for(double y = -Constants.SCENE_HEIGHT / 2; y < Constants.SCENE_HEIGHT / 2; y += 3.5){
+        for(double x = -Constants.FIELD_WIDTH / 2; x < Constants.FIELD_WIDTH / 2; x += 3.5){
+            for(double y = -Constants.FIELD_HEIGHT / 2; y < Constants.FIELD_HEIGHT / 2; y += 3.5){
 
                 double height = this.functionEvaluator.solve(x / scalar, y / scalar);
 
-                if(x + Constants.SCENE_WIDTH / 2 - 10 <= 4.5){
+                if(x + Constants.FIELD_WIDTH / 2 - 10 <= 4.5){
                     Circle fence = new Circle(x, y, 3, Color.BLACK);
                     this.mainPane.getChildren().add(fence);
                 }
@@ -204,8 +212,8 @@ public class Main extends Application {
         Line path = new Line(
                 this.ball.getCenterX(),
                 this.ball.getCenterY(),
-                (move.getX()) * scalar + Constants.SCENE_WIDTH / 2,
-                (move.getY()) * scalar + Constants.SCENE_HEIGHT / 2);
+                (move.getX()) * scalar + Constants.FIELD_WIDTH / 2,
+                (move.getY()) * scalar + Constants.FIELD_HEIGHT / 2);
 
         double endX = path.getEndX();
         double endY = path.getEndY();
@@ -271,8 +279,8 @@ public class Main extends Application {
      */
     private List<Point2D> prepareEngine( double aimX, double aimY){
 
-        double cenX = (this.ball.getCenterX() - Constants.SCENE_WIDTH / 2) / scalar;
-        double cenY = (this.ball.getCenterY() - Constants.SCENE_HEIGHT / 2) / scalar;
+        double cenX = (this.ball.getCenterX() - Constants.FIELD_WIDTH / 2) / scalar;
+        double cenY = (this.ball.getCenterY() - Constants.FIELD_HEIGHT / 2) / scalar;
 
         this.physicsEngine.setCurrentX(cenX);
         this.physicsEngine.setCurrentY(cenY);
@@ -283,6 +291,21 @@ public class Main extends Application {
         return this.physicsEngine.getCoordinatesOfPath();
     }
 
+    private void calculateMinMax(){
+        for(double x = -Constants.FIELD_WIDTH / 2; x < Constants.FIELD_WIDTH / 2; x += 3.5){
+            for(double y = -Constants.FIELD_HEIGHT / 2; y < Constants.FIELD_HEIGHT / 2; y += 3.5){
+                double height = this.functionEvaluator.solve(x / scalar, y / scalar);
+                this.maxHeight = Math.max(this.maxHeight, height);
+                this.minHeight = Math.min(this.minHeight, height);
+            }
+        }
+    }
+
+    private void restart(){
+        this.mainStage.close();
+        start(this.mainStage);
+    }
+
     /**
      * The core method of the application - everything starts here
      * @param primaryStage the main Stage to which components are attached
@@ -290,20 +313,23 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
+        this.mainStage = primaryStage;
         primaryStage.setTitle(Constants.STAGE_TITLE);
 
         this.initVars();
 
-        double maxHeight = this.functionEvaluator.solve(Constants.SCENE_WIDTH / 2.0 / scalar,
-                Constants.SCENE_HEIGHT / 2.0 / scalar);
+        this.maxHeight = Double.MIN_VALUE;
+        this.minHeight = Double.MAX_VALUE;
 
+        this.calculateMinMax();
 
-        double minHeight = this.functionEvaluator.solve(- 1.66666667, - Constants.SCENE_HEIGHT / 2.0 / scalar);
-        minHeight = Math.min(minHeight, this.functionEvaluator.solve(- Constants.SCENE_WIDTH / 2 / scalar,
-                - Constants.SCENE_HEIGHT / 2.0 / scalar));
-
-        this.drawField(maxHeight, minHeight);
+        this.drawField(this.maxHeight, this.minHeight);
         this.initComponents();
+
+        this.restartBtn.setOnAction(e -> {
+            this.restart();
+        });
+
 
         this.ball.setOnMouseDragged(event -> {
             if(this.precomputedMode) return;
@@ -328,8 +354,8 @@ public class Main extends Application {
 
             this.steps++;
 
-            double aimX = (aiming.getEndX() - Constants.SCENE_WIDTH / 2) / scalar;
-            double aimY = (aiming.getEndY() - Constants.SCENE_HEIGHT / 2) / scalar;
+            double aimX = (aiming.getEndX() - Constants.FIELD_WIDTH / 2) / scalar;
+            double aimY = (aiming.getEndY() - Constants.FIELD_HEIGHT / 2) / scalar;
 
             List<Point2D> moves = this.prepareEngine(aimX, aimY);
             System.out.println("LEN: " + moves.size());
