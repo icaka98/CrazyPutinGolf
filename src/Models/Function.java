@@ -147,14 +147,14 @@ public class Function{
         if (z<minHeight) { minHeight = z; }
         return z;*/
 
-        /*vars.put("x", x);
+        vars.put("x", x);
         vars.put("y", y);
 
         //System.out.println(vars.containsKey("pi"));
         return eval(z);
-        */
-       BicubicInterpolation bicubicInterpolation = new BicubicInterpolation(pointsX1,pointsX2,points);
-       return bicubicInterpolation.interpolate(x,y);
+
+       //BicubicInterpolation bicubicInterpolation = new BicubicInterpolation(pointsX1,pointsX2,points);
+       //return bicubicInterpolation.interpolate(x,y);
     }
 
     /**

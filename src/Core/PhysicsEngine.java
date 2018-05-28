@@ -97,7 +97,7 @@ public class PhysicsEngine {
         Line2D path = new Line2D.Double(lastX*Constants.SCALAR, lastY*Constants.SCALAR,
                 currentX*Constants.SCALAR, currentY*Constants.SCALAR);//the line between the last and the current point
 
-        if(Constants.UP_MID_LINE.intersectsLine(path) || Constants.DOWN_MID_LINE.intersectsLine(path)){
+       /*if(Constants.UP_MID_LINE.intersectsLine(path) || Constants.DOWN_MID_LINE.intersectsLine(path)){
             currentX = lastX;
             currentY = lastY;
             velocityX = lastVx;
@@ -105,8 +105,6 @@ public class PhysicsEngine {
 
             velocityY *= -1;
             rk4();
-            //currentX = lastX + h*velocityX;
-            //currentY = lastY + h*velocityY;
 
         }
 
@@ -116,12 +114,9 @@ public class PhysicsEngine {
             velocityX = lastVx;
             velocityY = lastVy;
 
-            velocityY *= -1;
+            velocityX *= -1;
             rk4();
-            /*velocityX *= -1;
-            currentX = lastX + h*velocityX;
-            currentY = lastY + h*velocityY;*/
-        }
+        }*/
 
         if(path.intersectsLine(Constants.UP_WALL) || path.intersectsLine(Constants.BOTTOM_WALL)){
             /*velocityY *= -1;
@@ -145,7 +140,7 @@ public class PhysicsEngine {
             velocityX = lastVx;
             velocityY = lastVy;
 
-            velocityY *= -1;
+            velocityX *= -1;
             rk4();
         }
 

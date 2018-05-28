@@ -14,6 +14,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
@@ -132,6 +134,16 @@ public class Main extends Application {
         this.enableBot.setLayoutX(510.0);
         this.enableBot.setLayoutY(50.0);
 
+        Arc arc = new Arc();
+        arc.setCenterX(300);
+        arc.setCenterY(250);
+        arc.setRadiusX(285);
+        arc.setRadiusY(285);
+        arc.setStartAngle(260.0f);
+        arc.setLength(45.0f);
+        arc.setType(ArcType.ROUND);
+        arc.setOpacity(0.4);
+
         this.mainPane.getChildren().add(this.aiming);
         this.mainPane.getChildren().add(this.ball);
         this.mainPane.getChildren().add(this.hole);
@@ -142,6 +154,8 @@ public class Main extends Application {
         this.mainPane.getChildren().add(this.courseDesigner);
         this.mainPane.getChildren().add(this.stopLine);
         this.mainPane.getChildren().add(this.restartBtn);
+
+        //this.mainPane.getChildren().add(arc);
     }
 
     /**
@@ -157,9 +171,9 @@ public class Main extends Application {
 
                 Circle point = new Circle(x + Constants.FIELD_WIDTH / 2,
                         y + Constants.FIELD_HEIGHT / 2, 3, Color.GREEN);
-                System.out.println("Height: " + height);
-                System.out.println("MinHeight " + minHeight);
-                System.out.println("MaxHeight " + maxHeight);
+                //System.out.println("Height: " + height);
+                //System.out.println("MinHeight " + minHeight);
+                //System.out.println("MaxHeight " + maxHeight);
                 //int blueRatio = (int) (255*(1.0 - height/Function.minHeight));
                 int blueRatio = (int) (255*(1.0 + height/minHeight));
                 if (blueRatio < 0)  blueRatio = 0;
@@ -395,7 +409,7 @@ public class Main extends Application {
         this.enableBot.setOnAction(e -> {
             Shot p = bot.go();
             double aimX = p.getVelocityX();
-            double aimY =p.getVelocityY();
+            double aimY = p.getVelocityY();
 
             List<Point2D> moves = this.prepareEngine(aimX, aimY);
             System.out.println("LEN: " + moves.size());
