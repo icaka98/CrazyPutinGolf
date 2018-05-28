@@ -38,13 +38,14 @@ public class Main extends Application {
     private Line stopLine;
 
     private Button next, changeMode, courseDesigner, enableBot, restartBtn;
-    private Label modeState;
+    private Label modeState, functionLabel, positionLabel;
 
     private static double scalar = Constants.SCALAR;
 
     private Stage mainStage;
     private Scene mainScene;
     private PhysicsEngine physicsEngine;
+    private CourseReader courseReader;
     private Function functionEvaluator;
     private PrecomputedModule precomputedModule;
 
@@ -59,9 +60,9 @@ public class Main extends Application {
         this.precomputedMode = false;
         this.animationRunning = false;
 
-        CourseReader courseReader = new CourseReader(new File(Constants.DEFAULT_COURSE_FILE));
+        this.courseReader = new CourseReader(new File(Constants.DEFAULT_COURSE_FILE));
         this.mainPane = new Pane();
-        this.functionEvaluator = new Function(courseReader.getEquation());
+        this.functionEvaluator = new Function(this.courseReader.getEquation());
         this.precomputedModule = new PrecomputedModule();
 
         Course course = courseReader.getCourse();
@@ -108,29 +109,34 @@ public class Main extends Application {
         this.next.setVisible(false);
 
         this.changeMode = new Button("Change mode");
-        this.changeMode.setPrefSize(120, 30);
-        this.changeMode.setLayoutX(510.0);
-        this.changeMode.setLayoutY(90.0);
+        this.changeMode.setPrefSize(160, 40);
+        this.changeMode.setLayoutX(545);
+        this.changeMode.setLayoutY(270);
 
         this.restartBtn = new Button("Restart");
-        this.restartBtn.setPrefSize(120, 30);
-        this.restartBtn.setLayoutX(510);
-        this.restartBtn.setLayoutY(160);
+        this.restartBtn.setPrefSize(160, 40);
+        this.restartBtn.setLayoutX(545);
+        this.restartBtn.setLayoutY(440);
 
-        this.modeState = new Label("Player mode");
+        this.modeState = new Label("Mode: Player mode");
         this.modeState.setLayoutX(510.0);
-        this.modeState.setLayoutY(200.0);
+        this.modeState.setLayoutY(10.0);
         this.modeState.setTextFill(Color.BLACK);
 
-        this.courseDesigner = new Button("Course designer");
-        this.courseDesigner.setPrefSize(150, 30);
-        this.courseDesigner.setLayoutX(510.0);
-        this.courseDesigner.setLayoutY(10.0);
+        this.functionLabel = new Label("Function: " + this.courseReader.getEquation().replaceAll("\\s+", ""));
+        this.functionLabel.setLayoutX(510.0);
+        this.functionLabel.setLayoutY(30.0);
+        this.functionLabel.setTextFill(Color.BLACK);
 
-        this.enableBot = new Button("Bot");
-        this.enableBot.setPrefSize(120, 30);
-        this.enableBot.setLayoutX(510.0);
-        this.enableBot.setLayoutY(50.0);
+        this.courseDesigner = new Button("Course designer");
+        this.courseDesigner.setPrefSize(160, 40);
+        this.courseDesigner.setLayoutX(545);
+        this.courseDesigner.setLayoutY(370);
+
+        this.enableBot = new Button("Bot Shot");
+        this.enableBot.setPrefSize(160, 40);
+        this.enableBot.setLayoutX(545.0);
+        this.enableBot.setLayoutY(200.0);
 
         this.mainPane.getChildren().add(this.aiming);
         this.mainPane.getChildren().add(this.ball);
@@ -142,6 +148,7 @@ public class Main extends Application {
         this.mainPane.getChildren().add(this.courseDesigner);
         this.mainPane.getChildren().add(this.stopLine);
         this.mainPane.getChildren().add(this.restartBtn);
+        this.mainPane.getChildren().add(this.functionLabel);
     }
 
     /**
@@ -378,7 +385,7 @@ public class Main extends Application {
             Point2D nextMove = this.precomputedModule.getVelocities().get(this.precomputedStep++);
             this.steps++;
 
-            System.out.printf("%f %f %f %f\n", nextMove.getX(), nextMove.getY());
+            System.out.printf("%f %f\n", nextMove.getX(), nextMove.getY());
 
             List<Point2D> moves = this.prepareEngine(nextMove.getX(), nextMove.getY());
             System.out.println("LEN: " + moves.size());

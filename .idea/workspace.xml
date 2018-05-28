@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c36c1ea2-1b58-4517-b14c-1bd597f968ea" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CrazyPutinGolf.iml" beforeDir="false" afterPath="$PROJECT_DIR$/CrazyPutinGolf.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Core/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Core/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Models/Function.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Models/Function.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Utils/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utils/Constants.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -18,40 +17,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Core/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="325" column="53" selection-start-line="325" selection-start-column="53" selection-end-line="325" selection-end-column="53" />
+            <state relative-caret-position="119">
+              <caret line="114" lean-forward="true" selection-start-line="114" selection-end-line="114" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="docComment;class#Main#0" />
-                <element signature="docComment;method#initVars#0;class#Main#0" />
-                <element signature="method#initVars#0;class#Main#0" />
-                <element signature="docComment;method#initComponents#0;class#Main#0" />
-                <element signature="method#initComponents#0;class#Main#0" />
-                <element signature="docComment;method#drawField#0;class#Main#0" />
-                <element signature="method#drawField#0;class#Main#0" />
-                <element signature="docComment;method#createNextTransition#0;class#Main#0" />
-                <element signature="method#createNextTransition#0;class#Main#0" />
-                <element signature="docComment;method#executeTransitions#0;class#Main#0" />
-                <element signature="method#executeTransitions#0;class#Main#0" />
-                <element signature="docComment;method#prepareEngine#0;class#Main#0" />
-                <element signature="method#prepareEngine#0;class#Main#0" />
-                <element signature="e#11288#11761#0" />
-                <element signature="e#11767#11859#0" />
-                <element signature="docComment;method#start#0;class#Main#0" />
-                <element signature="docComment;method#main#0;class#Main#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Constants.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Constants.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Utils/Constants.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="16" column="40" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="40" />
+            <state relative-caret-position="1003">
+              <caret line="63" lean-forward="true" selection-start-line="63" selection-end-line="63" />
               <folding>
                 <element signature="docComment;class#Constants#0" />
               </folding>
@@ -103,8 +86,8 @@
         <option value="$PROJECT_DIR$/src/Assets/save_course.txt" />
         <option value="$PROJECT_DIR$/src/Core/MatrixXL.java" />
         <option value="$PROJECT_DIR$/src/Models/Function.java" />
-        <option value="$PROJECT_DIR$/src/Core/Main.java" />
         <option value="$PROJECT_DIR$/src/Utils/Constants.java" />
+        <option value="$PROJECT_DIR$/src/Core/Main.java" />
       </list>
     </option>
   </component>
@@ -118,9 +101,9 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="688" />
+    <option name="x" value="687" />
     <option name="width" value="1239" />
-    <option name="height" value="1088" />
+    <option name="height" value="1089" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -128,6 +111,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -168,7 +152,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="AndroidView" />
       <pane id="Scope" />
     </panes>
@@ -268,11 +251,13 @@
       <workItem from="1527346946748" duration="4769000" />
       <workItem from="1527495542570" duration="190000" />
       <workItem from="1527495769608" duration="11002000" />
+      <workItem from="1527515896187" duration="2681000" />
+      <workItem from="1527521789935" duration="544000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17104000" />
+    <option name="totallyTimeSpent" value="21250000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
@@ -280,84 +265,33 @@
     <layout>
       <window_info anchor="right" id="Palette" order="0" />
       <window_info anchor="bottom" id="TODO" order="8" />
-      <window_info anchor="bottom" id="Messages" order="1" weight="0.3282313" />
+      <window_info anchor="bottom" id="Messages" order="1" weight="0.3287483" />
       <window_info anchor="right" id="Palette&#9;" order="8" />
       <window_info id="Image Layers" order="6" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
       <window_info anchor="bottom" id="Event Log" order="0" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="1" />
-      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="4" />
-      <window_info active="true" anchor="bottom" id="Run" order="3" visible="true" weight="0.36394557" />
-      <window_info anchor="bottom" id="Terminal" order="6" />
-      <window_info id="Capture Tool" order="0" />
-      <window_info id="Designer" order="1" />
-      <window_info content_ui="combo" id="Project" order="4" visible="true" weight="0.16549571" />
-      <window_info anchor="right" id="Database" order="5" />
-      <window_info id="Structure" order="2" side_tool="true" />
-      <window_info anchor="right" id="Ant Build" order="2" />
-      <window_info id="UI Designer" order="3" />
-      <window_info anchor="right" id="Theme Preview" order="6" />
-      <window_info id="Favorites" order="5" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="2" weight="0.32894737" />
-      <window_info anchor="right" id="Palette" order="0" />
-      <window_info id="Designer" order="1" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="7" weight="0.25" />
-      <window_info anchor="right" id="Capture Analysis" order="4" />
-      <window_info anchor="bottom" id="Inspection" order="10" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="2" weight="0.14701803" />
-      <window_info anchor="bottom" id="Terminal" order="6" />
-      <window_info id="Structure" order="2" side_tool="true" />
-      <window_info anchor="right" id="Commander" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="4" />
-      <window_info anchor="bottom" id="Run" order="3" weight="0.35900962" />
-      <window_info id="Image Layers" order="6" />
-      <window_info id="Capture Tool" order="0" />
-      <window_info id="UI Designer" order="3" />
-      <window_info anchor="bottom" id="Debug" order="2" weight="0.32894737" />
-      <window_info anchor="right" id="Theme Preview" order="6" />
-      <window_info anchor="right" id="Database" order="5" />
-      <window_info anchor="right" id="Palette&#9;" order="8" />
-      <window_info anchor="bottom" id="Message" order="5" />
-      <window_info anchor="bottom" id="Event Log" order="0" side_tool="true" />
-      <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
-      <window_info id="Favorites" order="5" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="7" weight="0.32894737" />
-      <window_info anchor="bottom" id="Messages" order="1" weight="0.3287483" />
-      <window_info anchor="right" id="Maven Projects" order="1" />
-      <window_info content_ui="combo" id="Project" order="4" weight="0.1671141" />
-    </layout>
-    <layout-to-restore>
-      <window_info anchor="right" id="Palette" order="0" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="7" weight="0.25" />
-      <window_info anchor="right" id="Capture Analysis" order="4" />
-      <window_info anchor="bottom" id="Run" order="3" visible="true" weight="0.3640351" />
-      <window_info anchor="right" id="Theme Preview" order="6" />
-      <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="4" visible="true" weight="0.23125" />
-      <window_info id="Structure" order="2" side_tool="true" />
-      <window_info anchor="right" id="Commander" order="3" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="2" />
-      <window_info anchor="bottom" id="TODO" order="8" />
-      <window_info id="Image Layers" order="6" />
-      <window_info id="Designer" order="1" />
-      <window_info id="UI Designer" order="3" />
-      <window_info anchor="bottom" id="Find" order="7" />
-      <window_info anchor="right" id="Database" order="5" />
-      <window_info anchor="right" id="Palette&#9;" order="8" />
+      <window_info anchor="bottom" id="Run" order="3" visible="true" weight="0.35884354" />
       <window_info anchor="bottom" id="Terminal" order="6" />
-      <window_info anchor="bottom" id="Debug" order="2" weight="0.32894737" />
-      <window_info anchor="bottom" id="Inspection" order="10" weight="0.4" />
-      <window_info anchor="bottom" id="Version Control" order="4" />
-      <window_info anchor="bottom" id="Event Log" order="0" side_tool="true" />
       <window_info id="Capture Tool" order="0" />
-      <window_info anchor="bottom" id="Message" order="5" />
-      <window_info anchor="bottom" id="Messages" order="1" weight="0.32894737" />
-      <window_info anchor="right" id="Maven Projects" order="1" />
+      <window_info id="Designer" order="1" />
+      <window_info active="true" content_ui="combo" id="Project" order="4" visible="true" weight="0.167057" />
+      <window_info anchor="right" id="Database" order="5" />
+      <window_info id="Structure" order="2" side_tool="true" />
+      <window_info anchor="right" id="Ant Build" order="2" weight="0.14701803" />
+      <window_info id="UI Designer" order="3" />
+      <window_info anchor="right" id="Theme Preview" order="6" />
       <window_info id="Favorites" order="5" side_tool="true" />
-    </layout-to-restore>
+      <window_info anchor="bottom" id="Debug" order="2" weight="0.32894737" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="7" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="10" weight="0.4" />
+      <window_info anchor="right" id="Commander" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Message" order="5" />
+      <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="7" weight="0.32894737" />
+    </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -382,22 +316,6 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;class#Main#0" />
-            <element signature="docComment;method#initVars#0;class#Main#0" />
-            <element signature="method#initVars#0;class#Main#0" />
-            <element signature="docComment;method#initComponents#0;class#Main#0" />
-            <element signature="method#initComponents#0;class#Main#0" />
-            <element signature="docComment;method#drawField#0;class#Main#0" />
-            <element signature="method#drawField#0;class#Main#0" />
-            <element signature="docComment;method#createNextTransition#0;class#Main#0" />
-            <element signature="method#createNextTransition#0;class#Main#0" />
-            <element signature="docComment;method#executeTransitions#0;class#Main#0" />
-            <element signature="method#executeTransitions#0;class#Main#0" />
-            <element signature="docComment;method#prepareEngine#0;class#Main#0" />
-            <element signature="method#prepareEngine#0;class#Main#0" />
-            <element signature="e#11288#11761#0" />
-            <element signature="e#11767#11859#0" />
-            <element signature="docComment;method#start#0;class#Main#0" />
-            <element signature="docComment;method#main#0;class#Main#0" />
           </folding>
         </state>
       </provider>
@@ -524,13 +442,6 @@
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Temp/Temp1_gameOfLife - 2.zip/gameOfLife/GameOfLife.java" />
-    <entry file="file://$PROJECT_DIR$/src/Assets/Setup.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="1" column="4" selection-end-line="8" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Models/LinearInterpolation.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="84">
@@ -589,29 +500,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Assets/save_course.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="92">
-          <caret line="4" column="12" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Core/MatrixXL.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="667">
           <caret line="29" selection-start-line="29" selection-end-line="29" />
-          <folding>
-            <element signature="e#2986#2987#0" expanded="true" />
-            <element signature="e#3019#3020#0" expanded="true" />
-            <element signature="e#3061#3062#0" expanded="true" />
-            <element signature="e#3095#3096#0" expanded="true" />
-            <element signature="e#3137#3138#0" expanded="true" />
-            <element signature="e#3171#3172#0" expanded="true" />
-            <element signature="e#3217#3218#0" expanded="true" />
-            <element signature="e#3251#3252#0" expanded="true" />
-            <element signature="e#2243#2244#0" expanded="true" />
-            <element signature="e#2274#2275#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -619,13 +511,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2041">
           <caret line="148" selection-start-line="148" selection-end-line="148" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Models/Function.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="24" column="21" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -639,39 +524,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Core/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/Assets/save_course.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
-          <caret line="325" column="53" selection-start-line="325" selection-start-column="53" selection-end-line="325" selection-end-column="53" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="docComment;class#Main#0" />
-            <element signature="docComment;method#initVars#0;class#Main#0" />
-            <element signature="method#initVars#0;class#Main#0" />
-            <element signature="docComment;method#initComponents#0;class#Main#0" />
-            <element signature="method#initComponents#0;class#Main#0" />
-            <element signature="docComment;method#drawField#0;class#Main#0" />
-            <element signature="method#drawField#0;class#Main#0" />
-            <element signature="docComment;method#createNextTransition#0;class#Main#0" />
-            <element signature="method#createNextTransition#0;class#Main#0" />
-            <element signature="docComment;method#executeTransitions#0;class#Main#0" />
-            <element signature="method#executeTransitions#0;class#Main#0" />
-            <element signature="docComment;method#prepareEngine#0;class#Main#0" />
-            <element signature="method#prepareEngine#0;class#Main#0" />
-            <element signature="e#11288#11761#0" />
-            <element signature="e#11767#11859#0" />
-            <element signature="docComment;method#start#0;class#Main#0" />
-            <element signature="docComment;method#main#0;class#Main#0" />
-          </folding>
+          <caret line="8" column="36" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Assets/Setup.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="13" lean-forward="true" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Models/Function.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="152" column="38" selection-start-line="152" selection-start-column="38" selection-end-line="152" selection-end-column="38" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Utils/Constants.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="16" column="40" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="40" />
+        <state relative-caret-position="1003">
+          <caret line="63" lean-forward="true" selection-start-line="63" selection-end-line="63" />
           <folding>
             <element signature="docComment;class#Constants#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Core/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="114" lean-forward="true" selection-start-line="114" selection-end-line="114" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="docComment;class#Main#0" />
           </folding>
         </state>
       </provider>
