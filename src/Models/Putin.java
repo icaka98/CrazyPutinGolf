@@ -45,7 +45,7 @@ public class Putin extends Bot{
 
         }
 
-       Collections.sort(this.population);
+        Collections.sort(this.population);
         for (Shot p: this.population)
         {
             System.out.println("distance: " + p.getDistanceToGoal() + " X: " + p.getVelocityX() + " Y: " + p.getVelocityY());
@@ -53,7 +53,7 @@ public class Putin extends Bot{
 
         long startTime = System.nanoTime();
         long currentTime = System.nanoTime();
-        while (this.population.get(0).getDistanceToGoal() > engine.getTerrainState().getToleranceRadius()*5 && (currentTime-startTime)<1000000000)
+        while (this.population.get(0).getDistanceToGoal() > engine.getTerrainState().getToleranceRadius()*5 && (currentTime-startTime)<2000000000)
         {
             reproduce();
             System.out.println("distance: " + this.population.get(0).getDistanceToGoal()); //+ " X: " + this.population.get(0).getVelocityX() + " Y: " + this.population.get(0).getVelocityY());
