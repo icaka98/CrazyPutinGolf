@@ -45,7 +45,6 @@ public class Main extends Application {
     private static double scalar = Constants.SCALAR;
 
     private Stage mainStage;
-    private Scene mainScene;
     private PhysicsEngine physicsEngine;
     private Function functionEvaluator;
     private PrecomputedModule precomputedModule;
@@ -104,9 +103,9 @@ public class Main extends Application {
                 Constants.BALL_RADIUS, Color.WHITE);
 
         this.next = new Button("Next");
-        this.next.setPrefSize(60, 30);
-        this.next.setLayoutX(510.0);
-        this.next.setLayoutY(130.0);
+        this.next.setPrefSize(120, 30);
+        this.next.setLayoutX(567.0);
+        this.next.setLayoutY(315.0);
         this.next.setVisible(false);
 
         this.changeMode = new Button("Change mode");
@@ -124,6 +123,49 @@ public class Main extends Application {
         this.modeState.setLayoutY(200.0);
         this.modeState.setTextFill(Color.BLACK);
 
+<<<<<<< HEAD
+=======
+        this.functionLabel = new Label("Function: " + this.courseReader.getEquation().replaceAll("\\s+", ""));
+        this.functionLabel.setLayoutX(510.0);
+        this.functionLabel.setLayoutY(90.0);
+        this.functionLabel.setTextFill(Color.BLACK);
+
+        this.positionLabel = new Label("Ball position: (" + this.ball.getCenterX() +" , " + this.ball.getCenterY() + ")");
+        this.positionLabel.setLayoutX(510.0);
+        this.positionLabel.setLayoutY(110.0);
+        this.positionLabel.setTextFill(Color.BLACK);
+
+        this.goalLabel = new Label(
+                "Goal position: (" +
+                        (this.hole.getCenterX() + "").substring(0, 5) +
+                        " , " +
+                        (this.hole.getCenterY() + "").substring(0, 5) +
+                        ")");
+        this.goalLabel.setLayoutX(510.0);
+        this.goalLabel.setLayoutY(150.0);
+        this.goalLabel.setTextFill(Color.BLACK);
+
+        VBox vbox = new VBox();
+        vbox.setPadding(new Insets(10));
+        vbox.setSpacing(8);
+        vbox.setLayoutX(511);
+        vbox.setLayoutY(65);
+        vbox.setStyle("-fx-border-color: black");
+
+        vbox.getChildren().addAll(this.modeState, this.goalLabel, this.positionLabel, this.functionLabel);
+
+        DropShadow ds = new DropShadow();
+        ds.setOffsetY(1.0f);
+        ds.setColor(Color.color(0.4f, 0.4f, 0.4f));
+
+        this.titleLabel = new Label("Putin Golf");
+        this.titleLabel.setLayoutX(545.0);
+        this.titleLabel.setLayoutY(10.0);
+        this.titleLabel.setTextFill(Color.GREEN);
+        this.titleLabel.setEffect(ds);
+        this.titleLabel.setFont(Font.font(null, FontWeight.BOLD, 32));
+
+>>>>>>> 7a19f57e15268723a95800683f3ce3f7ecb9d4d0
         this.courseDesigner = new Button("Course designer");
         this.courseDesigner.setPrefSize(150, 30);
         this.courseDesigner.setLayoutX(510.0);

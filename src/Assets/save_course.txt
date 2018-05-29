@@ -2,8 +2,16 @@ g = 9.81;
 mu = 0.5;
 vmax = 3;
 startX = 0.0;
+<<<<<<< HEAD
 startY = 0.2;
 goalX = 0.0;
 goalY = 2.0;
 tolerance = 0.02;
 z = ( 0.4 *( x ^ 4 ) + 0.002 * y )
+=======
+startY = 0.0;
+goalX = 0.0;
+goalY = 1.0;
+tolerance = 0.02;
+z = ( ( 0.1 * x ) + ( 0.03 * ( x ^ 2 ) ) + ( 0.2 * y ) )
+>>>>>>> 7a19f57e15268723a95800683f3ce3f7ecb9d4d0
