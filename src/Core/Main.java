@@ -4,23 +4,28 @@ import Models.*;
 import Utils.Constants;
 import Utils.CourseReader;
 import Utils.Shot;
-import javafx.animation.PathTransition;
-import javafx.animation.SequentialTransition;
+import javafx.animation.*;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Arc;
-import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
 
@@ -40,12 +45,13 @@ public class Main extends Application {
     private Line stopLine;
 
     private Button next, changeMode, courseDesigner, enableBot, restartBtn;
-    private Label modeState;
+    private Label modeState, functionLabel, positionLabel, titleLabel, goalLabel;
 
     private static double scalar = Constants.SCALAR;
 
     private Stage mainStage;
     private PhysicsEngine physicsEngine;
+    private CourseReader courseReader;
     private Function functionEvaluator;
     private PrecomputedModule precomputedModule;
 
@@ -60,9 +66,9 @@ public class Main extends Application {
         this.precomputedMode = false;
         this.animationRunning = false;
 
-        CourseReader courseReader = new CourseReader(new File(Constants.DEFAULT_COURSE_FILE));
+        this.courseReader = new CourseReader(new File(Constants.DEFAULT_COURSE_FILE));
         this.mainPane = new Pane();
-        this.functionEvaluator = new Function(courseReader.getEquation());
+        this.functionEvaluator = new Function(this.courseReader.getEquation());
         this.precomputedModule = new PrecomputedModule();
 
         Course course = courseReader.getCourse();
@@ -109,22 +115,20 @@ public class Main extends Application {
         this.next.setVisible(false);
 
         this.changeMode = new Button("Change mode");
-        this.changeMode.setPrefSize(120, 30);
-        this.changeMode.setLayoutX(510.0);
-        this.changeMode.setLayoutY(90.0);
+        this.changeMode.setPrefSize(160, 40);
+        this.changeMode.setLayoutX(545);
+        this.changeMode.setLayoutY(270);
 
         this.restartBtn = new Button("Restart");
-        this.restartBtn.setPrefSize(120, 30);
-        this.restartBtn.setLayoutX(510);
-        this.restartBtn.setLayoutY(160);
+        this.restartBtn.setPrefSize(160, 40);
+        this.restartBtn.setLayoutX(545);
+        this.restartBtn.setLayoutY(440);
 
-        this.modeState = new Label("Player mode");
+        this.modeState = new Label("Mode: Player mode");
         this.modeState.setLayoutX(510.0);
-        this.modeState.setLayoutY(200.0);
+        this.modeState.setLayoutY(180.0);
         this.modeState.setTextFill(Color.BLACK);
 
-<<<<<<< HEAD
-=======
         this.functionLabel = new Label("Function: " + this.courseReader.getEquation().replaceAll("\\s+", ""));
         this.functionLabel.setLayoutX(510.0);
         this.functionLabel.setLayoutY(90.0);
@@ -165,26 +169,15 @@ public class Main extends Application {
         this.titleLabel.setEffect(ds);
         this.titleLabel.setFont(Font.font(null, FontWeight.BOLD, 32));
 
->>>>>>> 7a19f57e15268723a95800683f3ce3f7ecb9d4d0
         this.courseDesigner = new Button("Course designer");
-        this.courseDesigner.setPrefSize(150, 30);
-        this.courseDesigner.setLayoutX(510.0);
-        this.courseDesigner.setLayoutY(10.0);
+        this.courseDesigner.setPrefSize(160, 40);
+        this.courseDesigner.setLayoutX(545);
+        this.courseDesigner.setLayoutY(370);
 
-        this.enableBot = new Button("Bot");
-        this.enableBot.setPrefSize(120, 30);
-        this.enableBot.setLayoutX(510.0);
-        this.enableBot.setLayoutY(50.0);
-
-        Arc arc = new Arc();
-        arc.setCenterX(300);
-        arc.setCenterY(250);
-        arc.setRadiusX(285);
-        arc.setRadiusY(285);
-        arc.setStartAngle(260.0f);
-        arc.setLength(45.0f);
-        arc.setType(ArcType.ROUND);
-        arc.setOpacity(0.4);
+        this.enableBot = new Button("Bot Shot");
+        this.enableBot.setPrefSize(160, 40);
+        this.enableBot.setLayoutX(545.0);
+        this.enableBot.setLayoutY(200.0);
 
         this.mainPane.getChildren().add(this.aiming);
         this.mainPane.getChildren().add(this.ball);
@@ -192,12 +185,11 @@ public class Main extends Application {
         this.mainPane.getChildren().add(this.changeMode);
         this.mainPane.getChildren().add(this.enableBot);
         this.mainPane.getChildren().add(this.next);
-        this.mainPane.getChildren().add(this.modeState);
         this.mainPane.getChildren().add(this.courseDesigner);
         this.mainPane.getChildren().add(this.stopLine);
         this.mainPane.getChildren().add(this.restartBtn);
-
-        //this.mainPane.getChildren().add(arc);
+        this.mainPane.getChildren().add(this.titleLabel);
+        this.mainPane.getChildren().add(vbox);
     }
 
     /**
@@ -213,9 +205,9 @@ public class Main extends Application {
 
                 Circle point = new Circle(x + Constants.FIELD_WIDTH / 2,
                         y + Constants.FIELD_HEIGHT / 2, 3, Color.GREEN);
-                //System.out.println("Height: " + height);
-                //System.out.println("MinHeight " + minHeight);
-                //System.out.println("MaxHeight " + maxHeight);
+                System.out.println("Height: " + height);
+                System.out.println("MinHeight " + minHeight);
+                System.out.println("MaxHeight " + maxHeight);
                 //int blueRatio = (int) (255*(1.0 - height/Function.minHeight));
                 int blueRatio = (int) (255*(1.0 + height/minHeight));
                 if (blueRatio < 0)  blueRatio = 0;
@@ -386,6 +378,19 @@ public class Main extends Application {
             this.restart();
         });
 
+        final Timeline timeline = new Timeline(
+                new KeyFrame(
+                        Duration.millis(200),
+                        event -> {
+                            String ballX = (this.ball.getCenterX() + "").substring(0, 5);
+                            String ballY = (this.ball.getCenterY() + "").substring(0, 5);
+                            this.positionLabel.setText(
+                                    "Ball position: (" + ballX + " , " + ballY + ")");
+                        }
+                )
+        );
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
 
         this.ball.setOnMouseDragged(event -> {
             if(this.precomputedMode) return;
@@ -434,7 +439,7 @@ public class Main extends Application {
             Point2D nextMove = this.precomputedModule.getVelocities().get(this.precomputedStep++);
             this.steps++;
 
-            System.out.printf("%f %f %f %f\n", nextMove.getX(), nextMove.getY());
+            System.out.printf("%f %f\n", nextMove.getX(), nextMove.getY());
 
             List<Point2D> moves = this.prepareEngine(nextMove.getX(), nextMove.getY());
             System.out.println("LEN: " + moves.size());
@@ -453,10 +458,21 @@ public class Main extends Application {
             double aimX = p.getVelocityX();
             double aimY = p.getVelocityY();
 
+            this.aiming.setEndX((aimX * scalar + Constants.FIELD_WIDTH / 2));
+            this.aiming.setEndY((aimY * scalar + Constants.FIELD_HEIGHT / 2));
+            this.aiming.setStartX(this.ball.getCenterX());
+            this.aiming.setStartY(this.ball.getCenterY());
+            this.aiming.setStrokeWidth(6.9f);
+
             List<Point2D> moves = this.prepareEngine(aimX, aimY);
             System.out.println("LEN: " + moves.size());
 
-            this.executeTransitions(moves);
+            Timer timer = new Timer(666, arg0 -> {
+                this.executeTransitions(moves);
+                this.aiming.setStrokeWidth(0.0f);
+            });
+            timer.setRepeats(false);
+            timer.start();
         });
 
         this.courseDesigner.setOnAction(e -> {
