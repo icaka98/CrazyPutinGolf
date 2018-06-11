@@ -16,6 +16,8 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
@@ -81,7 +83,7 @@ public class Main extends Application {
         this.tolerance = course.getToleranceRadius() * scalar * 10;
 
         this.physicsEngine = new PhysicsEngine();
-        this.bot = new Putin(physicsEngine);
+        this.bot = new Randy(physicsEngine);
     }
 
     /**
@@ -109,10 +111,9 @@ public class Main extends Application {
                 Constants.BALL_RADIUS, Color.WHITE);
 
         this.next = new Button("Next");
-        this.next.setPrefSize(120, 30);
-        this.next.setLayoutX(567.0);
-        this.next.setLayoutY(315.0);
-        this.next.setVisible(false);
+        this.next.setPrefSize(60, 30);
+        this.next.setLayoutX(510.0);
+        this.next.setLayoutY(130.0);
 
         this.changeMode = new Button("Change mode");
         this.changeMode.setPrefSize(160, 40);
@@ -153,7 +154,7 @@ public class Main extends Application {
         vbox.setPadding(new Insets(10));
         vbox.setSpacing(8);
         vbox.setLayoutX(511);
-        vbox.setLayoutY(65);
+        vbox.setLayoutY(60);
         vbox.setStyle("-fx-border-color: black");
 
         vbox.getChildren().addAll(this.modeState, this.goalLabel, this.positionLabel, this.functionLabel);
@@ -179,6 +180,16 @@ public class Main extends Application {
         this.enableBot.setLayoutX(545.0);
         this.enableBot.setLayoutY(200.0);
 
+        Arc arc = new Arc();
+        arc.setCenterX(300);
+        arc.setCenterY(250);
+        arc.setRadiusX(285);
+        arc.setRadiusY(285);
+        arc.setStartAngle(260.0f);
+        arc.setLength(45.0f);
+        arc.setType(ArcType.ROUND);
+        arc.setOpacity(0.4);
+
         this.mainPane.getChildren().add(this.aiming);
         this.mainPane.getChildren().add(this.ball);
         this.mainPane.getChildren().add(this.hole);
@@ -188,8 +199,10 @@ public class Main extends Application {
         this.mainPane.getChildren().add(this.courseDesigner);
         this.mainPane.getChildren().add(this.stopLine);
         this.mainPane.getChildren().add(this.restartBtn);
+
         this.mainPane.getChildren().add(this.titleLabel);
         this.mainPane.getChildren().add(vbox);
+
     }
 
     /**
@@ -205,9 +218,9 @@ public class Main extends Application {
 
                 Circle point = new Circle(x + Constants.FIELD_WIDTH / 2,
                         y + Constants.FIELD_HEIGHT / 2, 3, Color.GREEN);
-                System.out.println("Height: " + height);
-                System.out.println("MinHeight " + minHeight);
-                System.out.println("MaxHeight " + maxHeight);
+                //System.out.println("Height: " + height);
+                //System.out.println("MinHeight " + minHeight);
+                //System.out.println("MaxHeight " + maxHeight);
                 //int blueRatio = (int) (255*(1.0 - height/Function.minHeight));
                 int blueRatio = (int) (255*(1.0 + height/minHeight));
                 if (blueRatio < 0)  blueRatio = 0;
@@ -271,6 +284,7 @@ public class Main extends Application {
         transition.setDuration(Duration.millis(Constants.TRANSITION_DURATION));
         transition.setPath(path);
         transition.setCycleCount(1);
+
 
         this.ball.setCenterX(endX);
         this.ball.setCenterY(endY);
@@ -457,6 +471,7 @@ public class Main extends Application {
             Shot p = bot.go();
             double aimX = p.getVelocityX();
             double aimY = p.getVelocityY();
+
 
             this.aiming.setEndX((aimX * scalar + Constants.FIELD_WIDTH / 2));
             this.aiming.setEndY((aimY * scalar + Constants.FIELD_HEIGHT / 2));
