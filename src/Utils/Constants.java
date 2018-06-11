@@ -16,7 +16,7 @@ public class Constants {
 
     public static final int FIELD_HEIGHT = 500;
 
-    public static final int SCENE_WIDTH = 800;
+    public static final int SCENE_WIDTH = 750;
 
     public static final int SCENE_HEIGHT = 500;
 
@@ -39,20 +39,20 @@ public class Constants {
     public static final double STOP_SPEED = 0.1;
 
     public static final Line2D DOWN_MID_LINE = new Line2D.Double(
-            -39 , 65
-            ,39 ,65 );
+            -100 , 85
+            ,100 ,85 );
 
     public static final Line2D UP_MID_LINE = new Line2D.Double(
-            -39 , 83
-            ,39 ,83 );
+            -100 , 103
+            ,100 ,103 );
 
     public static final Line2D LEFT_MID_LINE = new Line2D.Double(
-            -39 , 65
-            ,-39 ,83 );
+            -100 , 85
+            ,-100 ,103 );
 
     public static final Line2D RIGHT_MID_LINE = new Line2D.Double(
-            39 , 65
-            ,39 ,83 );
+            100 , 85
+            ,100 ,103 );
 
     public static final Line2D UP_WALL = new Line2D.Double(-Constants.FIELD_WIDTH / 2 , Constants.FIELD_HEIGHT / 2 - (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), Constants.FIELD_WIDTH / 2, Constants.FIELD_HEIGHT / 2 - (Constants.BALL_RADIUS + Constants.WALL_THICKNESS));
     public static final Line2D BOTTOM_WALL = new Line2D.Double(-Constants.FIELD_WIDTH / 2, -Constants.FIELD_HEIGHT / 2 + (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), Constants.FIELD_WIDTH / 2, -Constants.FIELD_HEIGHT / 2 + (Constants.BALL_RADIUS + Constants.WALL_THICKNESS));
