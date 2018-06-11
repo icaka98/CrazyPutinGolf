@@ -25,8 +25,8 @@ public class Randy extends Bot {
             engine.setCurrentX(initialX);
             engine.setCurrentY(initialY);
 
-            double xDirection = engine.getTerrainState().getGoal().getX() - engine.getTerrainState().getStart().getX();
-            double yDirection = engine.getTerrainState().getGoal().getY() - engine.getTerrainState().getStart().getY();
+            double xDirection = engine.getTerrainState().getGoal().getX();
+            double yDirection = engine.getTerrainState().getGoal().getY();
 
             double velocityX = (rnd.nextDouble() - 0.5)*2 + xDirection;
             double velocityY = (rnd.nextDouble() - 0.5)*2 + yDirection;//* maxVelocity * 2 - maxVelocity;
