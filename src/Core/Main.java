@@ -92,43 +92,30 @@ public class Main extends Application {
         this.stopLine = ComponentFactory.getStopWall();
         this.ball = ComponentFactory.getBall(this.startX, this.startY);
 
-        this.next = new Button("Next");
-        this.next.setPrefSize(100, 30);
-        this.next.setLayoutX(575.0);
-        this.next.setLayoutY(315.0);
+        this.next = ComponentFactory.getButton("Next", 100, 30, 575, 315);
         this.next.setVisible(false);
 
-        this.changeMode = new Button("Change mode");
-        this.changeMode.setPrefSize(160, 40);
-        this.changeMode.setLayoutX(545);
-        this.changeMode.setLayoutY(270);
-
-        this.restartBtn = new Button("Restart");
-        this.restartBtn.setPrefSize(160, 40);
-        this.restartBtn.setLayoutX(545);
-        this.restartBtn.setLayoutY(440);
+        this.changeMode = ComponentFactory.getButton("Change mode", 160, 40, 545, 270);
+        this.restartBtn = ComponentFactory.getButton("Restart", 160, 40, 545, 440);
+        this.courseDesigner = ComponentFactory.getButton("Course designer", 160, 40, 545, 370);
+        this.enableBot = ComponentFactory.getButton("Bot Shot", 160, 40, 545, 200);
 
         this.modeState = new Label("Mode: Player mode");
         this.modeState.setLayoutX(510.0);
         this.modeState.setLayoutY(180.0);
         this.modeState.setTextFill(Color.BLACK);
 
-        this.functionLabel = new Label("Function: " + this.courseReader.getEquation().replaceAll("\\s+", ""));
+        this.functionLabel = new Label("Function: " + this.courseReader.getCompactEquation());
         this.functionLabel.setLayoutX(510.0);
         this.functionLabel.setLayoutY(90.0);
         this.functionLabel.setTextFill(Color.BLACK);
 
-        this.positionLabel = new Label("Ball position: (" + this.ball.getCenterX() +" , " + this.ball.getCenterY() + ")");
+        this.positionLabel = new Label(this.getBallInfo());
         this.positionLabel.setLayoutX(510.0);
         this.positionLabel.setLayoutY(110.0);
         this.positionLabel.setTextFill(Color.BLACK);
 
-        this.goalLabel = new Label(
-                "Goal position: (" +
-                        (this.hole.getCenterX() + "").substring(0, 5) +
-                        " , " +
-                        (this.hole.getCenterY() + "").substring(0, 5) +
-                        ")");
+        this.goalLabel = new Label(this.getGoalInfo());
         this.goalLabel.setLayoutX(510.0);
         this.goalLabel.setLayoutY(150.0);
         this.goalLabel.setTextFill(Color.BLACK);
@@ -152,16 +139,6 @@ public class Main extends Application {
         this.titleLabel.setTextFill(Color.GREEN);
         this.titleLabel.setEffect(ds);
         this.titleLabel.setFont(Font.font(null, FontWeight.BOLD, 32));
-
-        this.courseDesigner = new Button("Course designer");
-        this.courseDesigner.setPrefSize(160, 40);
-        this.courseDesigner.setLayoutX(545);
-        this.courseDesigner.setLayoutY(370);
-
-        this.enableBot = new Button("Bot Shot");
-        this.enableBot.setPrefSize(160, 40);
-        this.enableBot.setLayoutX(545.0);
-        this.enableBot.setLayoutY(200.0);
 
         Arc arc = new Arc();
         arc.setCenterX(300);
@@ -347,6 +324,18 @@ public class Main extends Application {
     private void restart(){
         this.mainStage.close();
         start(this.mainStage);
+    }
+
+    private String getBallInfo(){
+        return "Ball position: (" + this.ball.getCenterX() +" , " + this.ball.getCenterY() + ")";
+    }
+
+    private String getGoalInfo(){
+        return "Goal position: (" +
+                (this.hole.getCenterX() + "").substring(0, 5) +
+                " , " +
+                (this.hole.getCenterY() + "").substring(0, 5) +
+                ")";
     }
 
     /**
