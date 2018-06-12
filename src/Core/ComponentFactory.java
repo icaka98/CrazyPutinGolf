@@ -1,7 +1,11 @@
 package Core;
 
 import Utils.Constants;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -51,5 +55,32 @@ class ComponentFactory {
         button.setLayoutY(layoutY);
 
         return button;
+    }
+
+    static Label getLabel(String text, double layoutX, double layoutY){
+        Label label = new Label(text);
+        label.setLayoutX(layoutX);
+        label.setLayoutY(layoutY);
+
+        return label;
+    }
+
+    static VBox getVBox(){
+        VBox vbox = new VBox();
+        vbox.setPadding(new Insets(10));
+        vbox.setSpacing(8);
+        vbox.setLayoutX(511);
+        vbox.setLayoutY(60);
+        vbox.setStyle("-fx-border-color: black");
+
+        return vbox;
+    }
+
+    static DropShadow getDropShadow(){
+        DropShadow ds = new DropShadow();
+        ds.setOffsetY(1.0f);
+        ds.setColor(Color.color(0.4f, 0.4f, 0.4f));
+
+        return ds;
     }
 }
