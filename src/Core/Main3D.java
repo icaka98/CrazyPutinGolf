@@ -162,17 +162,13 @@ public class Main3D extends Application {
 
         this.amplification = (float) (-200.0f / this.maxHeight);
 
-        int waterPts = 0;
-        for (double x = -2.5; x <= 2.5; x+=0.005) {
-            for (double y = -2.5; y <= 2.5; y+=0.005) {
+        for (double x = -2.5; x <= 2.5; x+=1) {
+            for (double y = -2.5; y <= 2.5; y+=1) {
                 double z = (solve(x, y) * this.amplification);
                 mesh.getPoints().addAll(
                         (int)(x * Constants.SCALAR),
                         (int)(z * Constants.SCALAR),
                         (int)(y * Constants.SCALAR));
-                if((int)z > 0) {
-                    waterPts++;
-                }
             }
         }
 
@@ -182,11 +178,10 @@ public class Main3D extends Application {
         this.ball.setTranslateX(200);
         this.ball.setTranslateY(this.solve(200, -200) * this.amplification - this.ball.getRadius());
 
-
         this.arrow = new Cylinder();
 
         // texture
-        int size = 1000;
+        int size = 6;
         for (float x = 0; x < size - 1; x++) {
             for (float y = 0; y < size - 1; y++) {
                 float x0 = x / (float) size;
@@ -195,10 +190,10 @@ public class Main3D extends Application {
                 float y1 = (y + 1) / (float) size;
 
                 mesh.getTexCoords().addAll(
-                        x0, y0,
-                        x0, y1,
+                        x1, y1,
                         x1, y0,
-                        x1, y1
+                        x0, y1,
+                        x0, y0
                 );
             }
         }
@@ -206,14 +201,23 @@ public class Main3D extends Application {
         // faces
         for (int x = 0; x < size - 1; x++) {
             for (int z = 0; z < size - 1; z++) {
-                int tl = x * size + z;
-                int bl = x * size + z + 1;
-                int tr = (x + 1) * size + z;
-                int br = (x + 1) * size + z + 1;
+                int p0 = x * size + z;
+                int p1 = x * size + z + 1;
+                int p2 = (x + 1) * size + z;
+                int p3 = (x + 1) * size + z + 1;
 
-                int offset = (x * (size - 1) + z ) * 8 / 2;
-                mesh.getFaces().addAll(tr, offset + 2, br, offset + 3, bl, offset + 1);
-                mesh.getFaces().addAll(bl, offset + 1, tl, offset, tr, offset + 2);
+                int offset = (x * (size - 1) + z ) * 4;
+
+                int f0 = offset;
+                int f1 = offset + 1;
+                int f2 = offset + 2;
+                int f3 = offset + 3;
+                mesh.getFaces().addAll(p2, f2, p1, f1, p0, f0);
+                mesh.getFaces().addAll(p2, f2, p3, f3, p1, f1);
+                if(p0<100){
+                    System.out.print(p2 + "," + f3 + ","+ p0 + ","+ f2 + ","+ p1 + "," + f0 + ",    ");
+                    System.out.print(p2 + "," + f3 + ","+ p1 + ","+ f0 + ","+ p3 + "," + f1 + ",    ");
+                }
             }
         }
 
@@ -221,8 +225,8 @@ public class Main3D extends Application {
         cube.setTranslateX(400);
 
         PhongMaterial fieldMaterial = new PhongMaterial();
-        fieldMaterial.setSpecularColor(Color.RED);
-        fieldMaterial.setDiffuseColor(Color.RED);
+        fieldMaterial.setSpecularColor(Color.LIGHTGREEN);
+        fieldMaterial.setDiffuseColor(Color.LIGHTGREEN);
 
         MeshView meshView = new MeshView(mesh);
         meshView.setMaterial(fieldMaterial);
