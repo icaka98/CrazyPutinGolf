@@ -6,25 +6,37 @@ public class Shot implements Comparable {
     private boolean found;
 
     public Shot(double endX, double endY, double distanceToGoal) {
-        this.velocityX = endX;
-        this.velocityY = endY;
-        this.distanceToGoal = distanceToGoal;
-        this.found = false;
+        this.setVelocityX(endX);
+        this.setVelocityY(endY);
+        this.setDistanceToGoal(distanceToGoal);
+        this.setFound(false);
     }
 
     public double getDistanceToGoal() {
-        return distanceToGoal;
+        return this.distanceToGoal;
+    }
+
+    private void setDistanceToGoal(double distanceToGoal) {
+        this.distanceToGoal = distanceToGoal;
     }
 
     public double getVelocityX() {
-        return velocityX;
+        return this.velocityX;
+    }
+
+    private void setVelocityX(double velocityX) {
+        this.velocityX = velocityX;
     }
 
     public double getVelocityY() {
-        return velocityY;
+        return this.velocityY;
     }
 
-    public void setFound(boolean found) {
+    private void setVelocityY(double velocityY) {
+        this.velocityY = velocityY;
+    }
+
+    private void setFound(boolean found) {
         this.found = found;
     }
 
