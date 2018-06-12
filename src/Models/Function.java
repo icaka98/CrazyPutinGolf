@@ -87,9 +87,9 @@ public class Function{
         if(!operators.isEmpty()) { // create subtree of operation if there are still operators on the stack
             Node op = operators.pop();
 
-            if(op.value.equals("+") || op.value.equals("-") || op.value.equals("*") || op.value.equals("/") || op.value.equals("^")){
+            if(op.value.equals("+") || op.value.equals("-") || op.value.equals("*")
+                    || op.value.equals("/") || op.value.equals("^")){
                 op.left = operands.pop(); op.right = v;
-
             }else if(op.value.equals("sqrt")){
                 op.right = v;
             }else if(op.value.equals("sin")){

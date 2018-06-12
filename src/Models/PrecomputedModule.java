@@ -33,8 +33,7 @@ public class PrecomputedModule {
                 line = line.substring(1, line.length() - 2);
                 double[] point = Arrays.stream(line.split(", ")).mapToDouble(Double::parseDouble).toArray();
 
-                this.precompiledVelocity.add(
-                        new Point2D(point[0], point[1]));
+                this.precompiledVelocity.add(new Point2D(point[0], point[1]));
 
                 line = bufferedReader.readLine();
             }
