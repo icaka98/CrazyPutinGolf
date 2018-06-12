@@ -20,23 +20,34 @@ public class PhysicsEngine {
     private Course terrainState;
 
     private double g, mu, h;
-    private double velocityX;
-    private double velocityY;
-
-    //private double accelerationX;
-    //private double accelerationY;
-
-    private double currentX;
-    private double currentY;
+    private double velocityX, velocityY;
+    private double currentX, currentY;
 
     private CourseReader courseReader;
-
     private Function f;
 
     private ArrayList<Point2D> coordinatesOfPath;
 
+    //private double accelerationX;
+    //private double accelerationY;
+
+    public PhysicsEngine() {
+        this.readCourse();
+
+        this.coordinatesOfPath = new ArrayList<>();
+        this.f = new Function(this.courseReader.getEquation());
+
+        this.currentY = this.getTerrainState().getStart().getY();
+        this.currentX = this.getTerrainState().getStart().getX();
+
+        this.g = this.terrainState.getGravity();
+        this.mu = this.terrainState.getFrictionCoef();
+
+        this.h = Constants.TIMESTEP_h;
+    }
+
     public Course getTerrainState() {
-        return terrainState;
+        return this.terrainState;
     }
 
     public void setCurrentX(double currentX) {
@@ -51,26 +62,12 @@ public class PhysicsEngine {
         return this.coordinatesOfPath;
     }
 
-    public PhysicsEngine() {
-        this.readCourse();
-        this.coordinatesOfPath = new ArrayList<>();
-        this.f = new Function(this.courseReader.getEquation());
-
-        this.currentY = this.getTerrainState().getStart().getY();
-        this.currentX = this.getTerrainState().getStart().getX();
-        g = terrainState.getGravity();
-        mu = terrainState.getFrictionCoef();
-        h = Constants.TIMESTEP_h;
-
-
-    }
-
     public double getCurrentX() {
-        return currentX;
+        return this.currentX;
     }
 
     public double getCurrentY() {
-        return currentY;
+        return this.currentY;
     }
 
     /**
@@ -78,10 +75,8 @@ public class PhysicsEngine {
      * the new state of the ball is added to a list containing all ball states
      */
     private void updateStateOfBall() {
-
         //double[] v = calculateVelocity(h/2);
         //calculateRelevantVelocity();
-
 
         double lastX = currentX;
         double lastY = currentY;
@@ -97,57 +92,61 @@ public class PhysicsEngine {
         Line2D path = new Line2D.Double(lastX*Constants.SCALAR, lastY*Constants.SCALAR,
                 currentX*Constants.SCALAR, currentY*Constants.SCALAR);//the line between the last and the current point
 
-       if(Constants.UP_MID_LINE.intersectsLine(path) || Constants.DOWN_MID_LINE.intersectsLine(path)){
-            currentX = lastX;
-            currentY = lastY;
-            velocityX = lastVx;
-            velocityY = lastVy;
+        if(Constants.UP_MID_LINE.intersectsLine(path)
+                || Constants.DOWN_MID_LINE.intersectsLine(path)){
+            this.currentX = lastX;
+            this.currentY = lastY;
+            this.velocityX = lastVx;
+            this.velocityY = lastVy;
 
-            velocityY *= -1;
+            this.velocityY *= -1;
             rk4();
 
         }
 
-        if(Constants.RIGHT_MID_LINE.intersectsLine(path) || Constants.LEFT_MID_LINE.intersectsLine(path)){
-            currentX = lastX;
-            currentY = lastY;
-            velocityX = lastVx;
-            velocityY = lastVy;
+        if(Constants.RIGHT_MID_LINE.intersectsLine(path)
+                || Constants.LEFT_MID_LINE.intersectsLine(path)){
+            this.currentX = lastX;
+            this.currentY = lastY;
+            this.velocityX = lastVx;
+            this.velocityY = lastVy;
 
-            velocityX *= -1;
+            this.velocityX *= -1;
             rk4();
         }
 
-        if(path.intersectsLine(Constants.UP_WALL) || path.intersectsLine(Constants.BOTTOM_WALL)){
+        if(path.intersectsLine(Constants.UP_WALL)
+                || path.intersectsLine(Constants.BOTTOM_WALL)){
             /*velocityY *= -1;
             currentX = lastX + h*velocityX;
             currentY = lastY + h*velocityY;*/
-            currentX = lastX;
-            currentY = lastY;
-            velocityX = lastVx;
-            velocityY = lastVy;
+            this.currentX = lastX;
+            this.currentY = lastY;
+            this.velocityX = lastVx;
+            this.velocityY = lastVy;
 
-            velocityY *= -1;
+            this.velocityY *= -1;
             rk4();
         }
 
-        if(path.intersectsLine(Constants.RIGHT_WALL) || path.intersectsLine(Constants.LEFT_WALL)){
+        if(path.intersectsLine(Constants.RIGHT_WALL)
+                || path.intersectsLine(Constants.LEFT_WALL)){
             /*velocityX *= -1;
             currentX = lastX + h*velocityX;
             currentY = lastY + h*velocityY;*/
-            currentX = lastX;
-            currentY = lastY;
-            velocityX = lastVx;
-            velocityY = lastVy;
+            this.currentX = lastX;
+            this.currentY = lastY;
+            this.velocityX = lastVx;
+            this.velocityY = lastVy;
 
-            velocityX *= -1;
+            this.velocityX *= -1;
             rk4();
         }
 
 
-        Point2D point2D = new Point2D(currentX,currentY);
+        Point2D point2D = new Point2D(this.currentX, this.currentY);
         //System.out.println("Shot: " + point2D.getX() + " "  + point2D.getY());
-        coordinatesOfPath.add(point2D);
+        this.coordinatesOfPath.add(point2D);
     }
 
     /**
@@ -174,44 +173,36 @@ public class PhysicsEngine {
         lx3 = h * calcXAcceleration(x + kx2, y + ky2, vx + lx2, vy + ly2);
         ly3 = h * calcYAcceleration(x + kx2, y + ky2, vx + lx2, vy + ly2);
 
-        currentX = x + (1.0 / 6.0) * (kx0 + 2 * kx1 + 2 * kx2 + kx3);
-        currentY = y + (1.0 / 6.0) * (ky0 + 2 * ky1 + 2 * ky2 + ky3);
+        this.currentX = x + (1.0 / 6.0) * (kx0 + 2 * kx1 + 2 * kx2 + kx3);
+        this.currentY = y + (1.0 / 6.0) * (ky0 + 2 * ky1 + 2 * ky2 + ky3);
 
-        velocityX = vx + (1.0 / 6.0) * (lx0 + 2 * lx1 + 2 * lx2 + lx3);
-        velocityY = vy + (1.0 / 6.0) * (ly0 + 2 * ly1 + 2 * ly2 + ly3);
-
-
+        this.velocityX = vx + (1.0 / 6.0) * (lx0 + 2 * lx1 + 2 * lx2 + lx3);
+        this.velocityY = vy + (1.0 / 6.0) * (ly0 + 2 * ly1 + 2 * ly2 + ly3);
     }
 
     /**
      * the acceleration of the ball is calculated by standard formula which takes into account:
      * partial derivatives of the height of the function,velocity, friction coefficient and gravity
      */
-
     private double calcXAcceleration(double x, double y, double vx, double vy){
         double dzTodx = calculateDerivativeWithRespectToX(x, y);
 
-        double ax = -g * (dzTodx + mu * (vx/Math.sqrt(Math.pow(vx,2)+Math.pow(vy,2))));
-        return ax;
-
+        return -g * (dzTodx + mu * (vx/Math.sqrt(Math.pow(vx,2)+Math.pow(vy,2))));
     }
 
     private double calcYAcceleration(double x, double y, double vx, double vy){
         double dzTody = calculateDerivativeWithRespectToY(x, y);
 
-        double ay = -g * (dzTody + mu * (vy/Math.sqrt(Math.pow(vx,2)+Math.pow(vy,2))));
-        return ay;
-
+        return -g * (dzTody + mu * (vy/Math.sqrt(Math.pow(vx,2)+Math.pow(vy,2))));
     }
 
     /**
-     *
      * @param x current X coordinate of the ball
      * @param y current Y coordinate of the ball
      * @return true if the ball has fallen into the water(z<0), false if the ball is on the ground(z>=0)
      */
     private boolean collisionDetected(double x, double y){
-        return f.solve(x,y) < 0;
+        return this.f.solve(x,y) < 0;
     }
 
     /**
@@ -219,11 +210,10 @@ public class PhysicsEngine {
      */
     private void readCourse(){
         File file = new File(Constants.DEFAULT_COURSE_FILE);
-        courseReader = new CourseReader(file);
+        this.courseReader = new CourseReader(file);
 
-        this.terrainState = courseReader.getCourse();
+        this.terrainState = this.courseReader.getCourse();
     }
-
 
     /**
      * partial derivative calculated with respect to X, using a given x and a given y
@@ -247,7 +237,6 @@ public class PhysicsEngine {
         return (f.solve(x,y-2*h)-8*f.solve(x,y-h)+8*f.solve(x,y+h)-f.solve(x,y+2*h))/(12*h);
     }
 
-
     /**
      * A function that calculates the velocity of the player's shot based on the end point of the shot arrow and the current point of the ball
      * It takes into account the max velocity
@@ -255,32 +244,23 @@ public class PhysicsEngine {
      * @param endY Y coordinate of the end of the shot arrow
      */
     public void takeVelocityOfShot(double endX, double endY){
-        double velX = endX - currentX;
-        double velY = endY - currentY;
+        double velX = endX - this.currentX;
+        double velY = endY - this.currentY;
 
-        if(Math.abs(velX) < terrainState.getMaxVelocity())
-        {
-            velocityX = velX;
-        }
-        else if(velX < 0){
-            velocityX = -terrainState.getMaxVelocity();
-        }
-        else{
-            velocityX = terrainState.getMaxVelocity();
-        }
-        velocityX *= Constants.VELOCITY_SCALAR;
+        if(Math.abs(velX) < this.terrainState.getMaxVelocity()) this.velocityX = velX;
+        else if(velX < 0) this.velocityX = - this.terrainState.getMaxVelocity();
+        else this.velocityX = this.terrainState.getMaxVelocity();
 
-        if(Math.abs(velY) < terrainState.getMaxVelocity()) {
-            velocityY = velY;
-        }
-        else if(velY < 0){
-            velocityY = -terrainState.getMaxVelocity();
-        }
-        else {
-            velocityY = terrainState.getMaxVelocity();
-        }
-        velocityY *= Constants.VELOCITY_SCALAR;
+        this.velocityX *= Constants.VELOCITY_SCALAR;
 
+        if(Math.abs(velY) < this.terrainState.getMaxVelocity())
+            this.velocityY = velY;
+        else if(velY < 0)
+            this.velocityY = - this.terrainState.getMaxVelocity();
+        else
+            this.velocityY = this.terrainState.getMaxVelocity();
+
+        this.velocityY *= Constants.VELOCITY_SCALAR;
     }
 
     /**
@@ -290,26 +270,30 @@ public class PhysicsEngine {
     public void executeShot(){
         this.coordinatesOfPath = new ArrayList<>();
 
-        double startX = currentX;
-        double startY = currentY;
+        double startX = this.currentX;
+        double startY = this.currentY;
         //calculateRelevantVelocity();
         rk4();
 
-        while ((Math.abs(velocityX) > Constants.STOP_SPEED || Math.abs(velocityY) > Constants.STOP_SPEED) && !collisionDetected(currentX,currentY))
-        {
-            updateStateOfBall();
+        while ((Math.abs(velocityX) > Constants.STOP_SPEED
+                || Math.abs(velocityY) > Constants.STOP_SPEED)
+                && !collisionDetected(this.currentX, this.currentY)) {
+            this.updateStateOfBall();
         }
 
-        if(collisionDetected(currentX,currentY)){//if there is a collision detected the ball returns to the initial state
-            coordinatesOfPath.add(new Point2D(startX,  startY));
+        //if there is a collision detected the ball returns to the initial state
+        if(collisionDetected(this.currentX, this.currentY)){
+            this.coordinatesOfPath.add(new Point2D(startX,  startY));
         }
-
     }
 
     public Point2D finalDestination() {
         int lastPointIndex = this.coordinatesOfPath.size() - 1;
-        if(lastPointIndex>0) return this.coordinatesOfPath.get(lastPointIndex);
-        else return this.getTerrainState().getStart();
+
+        if(lastPointIndex > 0)
+            return this.coordinatesOfPath.get(lastPointIndex);
+        else
+            return this.getTerrainState().getStart();
     }
 }
 
