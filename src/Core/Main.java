@@ -111,9 +111,10 @@ public class Main extends Application {
                 Constants.BALL_RADIUS, Color.WHITE);
 
         this.next = new Button("Next");
-        this.next.setPrefSize(60, 30);
-        this.next.setLayoutX(510.0);
-        this.next.setLayoutY(130.0);
+        this.next.setPrefSize(100, 30);
+        this.next.setLayoutX(575.0);
+        this.next.setLayoutY(315.0);
+        this.next.setVisible(false);
 
         this.changeMode = new Button("Change mode");
         this.changeMode.setPrefSize(160, 40);
