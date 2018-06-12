@@ -9,7 +9,7 @@ public abstract class Bot {
     protected double initialX;
     protected double initialY;
 
-    public Bot(PhysicsEngine physicsEngine) {
+    protected Bot(PhysicsEngine physicsEngine) {
         engine = physicsEngine;
     }
 
