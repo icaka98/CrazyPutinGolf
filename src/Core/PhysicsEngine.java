@@ -17,11 +17,11 @@ import java.io.File;
  * @author Mathieu Coenegracht
  */
 public class PhysicsEngine {
-    private Course terrainState;
-
     private double g, mu, h;
     private double velocityX, velocityY;
     private double currentX, currentY;
+
+    private Course terrainState;
 
     private CourseReader courseReader;
     private Function f;

@@ -34,12 +34,11 @@ import java.util.List;
 /**
  * @author Hristo Minkov
  */
-
-//TODO make command line instead of putin the buttons on the course field
 public class Main extends Application {
     private double startX, startY, finishX, finishY, tolerance, maxHeight, minHeight;
     private int steps, precomputedStep;
     private boolean precomputedMode, animationRunning;
+    private static double scalar = Constants.SCALAR;
 
     private Line aiming;
     private Pane mainPane;
@@ -48,8 +47,6 @@ public class Main extends Application {
 
     private Button next, changeMode, courseDesigner, enableBot, restartBtn;
     private Label modeState, functionLabel, positionLabel, titleLabel, goalLabel;
-
-    private static double scalar = Constants.SCALAR;
 
     private Stage mainStage;
     private PhysicsEngine physicsEngine;
@@ -73,7 +70,7 @@ public class Main extends Application {
         this.functionEvaluator = new Function(this.courseReader.getEquation());
         this.precomputedModule = new PrecomputedModule();
 
-        Course course = courseReader.getCourse();
+        Course course = this.courseReader.getCourse();
 
         this.startX = course.getStart().getX() * scalar;
         this.startY = course.getStart().getY() * scalar;
@@ -83,32 +80,17 @@ public class Main extends Application {
         this.tolerance = course.getToleranceRadius() * scalar * 10;
 
         this.physicsEngine = new PhysicsEngine();
-        this.bot = new Randy(physicsEngine);
+        this.bot = new Randy(this.physicsEngine);
     }
 
     /**
      * Initializes all the graphic components of the class.
      */
     private void initComponents(){
-        this.hole = new Circle(
-                this.finishX + Constants.FIELD_WIDTH / 2,
-                this.finishY + Constants.FIELD_HEIGHT / 2,
-                this.tolerance, Color.BLACK);
-        this.hole.setOpacity(.6);
-
-        this.aiming = new Line(0, 0, 0, 0);
-        this.aiming.setStrokeWidth(0.0);
-
-        this.stopLine = new Line(
-                Constants.DOWN_MID_LINE.getX1()+ Constants.FIELD_WIDTH / 2 + 8, Constants.DOWN_MID_LINE.getY1() +Constants.FIELD_HEIGHT / 2 + 8,
-                Constants.DOWN_MID_LINE.getX2()+ Constants.FIELD_WIDTH / 2 - 8,  Constants.DOWN_MID_LINE.getY2() + Constants.FIELD_HEIGHT / 2 + 8);
-
-        this.stopLine.setStrokeWidth(Constants.WALL_THICKNESS);
-
-        this.ball = new Circle(
-                this.startX + Constants.FIELD_WIDTH / 2,
-                this.startY + Constants.FIELD_HEIGHT / 2,
-                Constants.BALL_RADIUS, Color.WHITE);
+        this.hole = ComponentFactory.getHole(this.finishX, this.finishY, this.tolerance);
+        this.aiming = ComponentFactory.getAiming();
+        this.stopLine = ComponentFactory.getStopWall();
+        this.ball = ComponentFactory.getBall(this.startX, this.startY);
 
         this.next = new Button("Next");
         this.next.setPrefSize(100, 30);
@@ -200,10 +182,8 @@ public class Main extends Application {
         this.mainPane.getChildren().add(this.courseDesigner);
         this.mainPane.getChildren().add(this.stopLine);
         this.mainPane.getChildren().add(this.restartBtn);
-
         this.mainPane.getChildren().add(this.titleLabel);
         this.mainPane.getChildren().add(vbox);
-
     }
 
     /**
