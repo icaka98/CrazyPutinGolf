@@ -92,8 +92,8 @@ public class CourseDesigner {
                             Double.parseDouble(vmaxField.getText()),
                             createPoint(startField.getText()),
                             createPoint(goalField.getText()),
-                            Double.parseDouble(tolerance.getText()),
-                            null, null));
+                            Double.parseDouble(tolerance.getText())
+                        ));
             }
             return null;
         });

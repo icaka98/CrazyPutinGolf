@@ -4,8 +4,6 @@ import Models.Course;
 import javafx.geometry.Point2D;
 import java.io.*;
 import java.lang.Double;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * @author Silvia Fallone
@@ -38,9 +36,8 @@ public class CourseReader {
                 this.vmax,
                 new Point2D(this.startX, this.startY),
                 new Point2D(this.goalX, this.goalY),
-                this.tolerance,
-                new ArrayList<>(Arrays.asList(0.0, 0.1, 0.03)),
-                new ArrayList<>(Arrays.asList(0.1, 0.2)));
+                this.tolerance
+        );
     }
 
     /**

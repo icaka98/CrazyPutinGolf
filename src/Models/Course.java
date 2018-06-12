@@ -4,44 +4,15 @@ import javafx.geometry.Point2D;
 
 import java.util.ArrayList;
 
-
 /**
  * @author Zhecho Mitev
  * Class Course contains all information about the terrain and the ball of the game
  */
 public class Course {
-    private double gravity;
-    private double frictionCoef;
-    private double maxVelocity;
+    private double gravity, frictionCoef;
+    private double maxVelocity, toleranceRadius;
 
-    private Point2D start;
-    private Point2D goal;
-
-    private double toleranceRadius;
-    
-    public double getGravity() {
-        return gravity;
-    }
-
-    public double getToleranceRadius() {
-        return toleranceRadius;
-    }
-
-    public double getFrictionCoef() {
-        return frictionCoef;
-    }
-
-    public double getMaxVelocity() {
-        return maxVelocity;
-    }
-
-    public Point2D getStart() {
-        return start;
-    }
-
-    public Point2D getGoal() {
-        return goal;
-    }
+    private Point2D start, goal;
 
     /**
      *
@@ -52,7 +23,8 @@ public class Course {
      * @param goal the center of the area which the ball shall reach
      * @param toleranceRadius the radius of the area the ball shall reach
      */
-    public Course(double gravity, double frictionCoef, double maxVelocity, Point2D start, Point2D goal, double toleranceRadius, ArrayList<Double> xcoefficients, ArrayList<Double> ycoefficients) {
+    public Course(double gravity, double frictionCoef, double maxVelocity,
+                  Point2D start, Point2D goal, double toleranceRadius) {
         this.gravity = gravity;
         this.frictionCoef = frictionCoef;
         this.maxVelocity = maxVelocity;
@@ -61,4 +33,27 @@ public class Course {
         this.toleranceRadius = toleranceRadius;
     }
 
+    public double getGravity() {
+        return this.gravity;
+    }
+
+    public double getToleranceRadius() {
+        return this.toleranceRadius;
+    }
+
+    public double getFrictionCoef() {
+        return this.frictionCoef;
+    }
+
+    public double getMaxVelocity() {
+        return this.maxVelocity;
+    }
+
+    public Point2D getStart() {
+        return this.start;
+    }
+
+    public Point2D getGoal() {
+        return this.goal;
+    }
 }

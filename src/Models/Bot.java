@@ -5,12 +5,10 @@ import Utils.Shot;
 
 public abstract class Bot {
     protected PhysicsEngine engine;
-
-    protected double initialX;
-    protected double initialY;
+    protected double initialX, initialY;
 
     protected Bot(PhysicsEngine physicsEngine) {
-        engine = physicsEngine;
+        this.engine = physicsEngine;
     }
 
     public abstract Shot go();
