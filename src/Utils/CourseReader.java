@@ -85,4 +85,12 @@ public class CourseReader {
     public String getEquation() {
         return this.equation;
     }
+
+    /**
+     * Get the equation that shapes the course field in a compact form
+     * @return the equation that shapes the course field
+     */
+    public String getCompactEquation(){
+        return this.equation.replaceAll("\\s+", "");
+    }
 }
