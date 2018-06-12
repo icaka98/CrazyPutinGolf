@@ -6,18 +6,14 @@ import Utils.CourseReader;
 import Utils.Shot;
 import javafx.animation.*;
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Arc;
-import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
@@ -26,8 +22,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
 
@@ -410,7 +404,7 @@ public class Main extends Application {
         });
 
         this.enableBot.setOnAction(e -> {
-            Shot p = bot.go();
+            Shot p = this.bot.go();
             double aimX = p.getVelocityX();
             double aimY = p.getVelocityY();
 
@@ -433,7 +427,7 @@ public class Main extends Application {
         });
 
         this.courseDesigner.setOnAction(e -> {
-            if(animationRunning) return;
+            if(this.animationRunning) return;
 
             CourseDesigner.run();
         });
