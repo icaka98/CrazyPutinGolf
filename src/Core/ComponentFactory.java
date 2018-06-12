@@ -1,6 +1,7 @@
 package Core;
 
 import Utils.Constants;
+import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -39,5 +40,16 @@ class ComponentFactory {
                 startX + Constants.FIELD_WIDTH / 2,
                 startY + Constants.FIELD_HEIGHT / 2,
                 Constants.BALL_RADIUS, Color.WHITE);
+    }
+
+    static Button getButton(String text,
+                            double prefW, double prefH,
+                            double layoutX, double layoutY){
+        Button button = new Button(text);
+        button.setPrefSize(prefW, prefH);
+        button.setLayoutX(layoutX);
+        button.setLayoutY(layoutY);
+
+        return button;
     }
 }
