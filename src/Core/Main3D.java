@@ -160,13 +160,15 @@ public class Main3D extends Application {
 
         this.maxHeight = this.maxHeight * Constants.SCALAR;
 
-        this.amplification = (float) (-200.0f / this.maxHeight);
+        this.amplification = (float) -1;//(-250.0f / this.maxHeight);
 
         int size = 100;
 
         for (double x = -2.5; x <= 2.5; x+=4.9999/((float)(size-1))) {
             for (double y = -2.5; y <= 2.5; y+=4.9999/((float)(size-1))) {
                 double z = (solve(x, y) * this.amplification);
+                if(z < -2.5) z = -2.5;
+                if(z > 2.5) z = 2.5;
                 mesh.getPoints().addAll(
                         (int)(x * Constants.SCALAR),
                         (int)(z * Constants.SCALAR),
