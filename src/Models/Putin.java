@@ -10,51 +10,49 @@ import java.util.Collections;
 import java.util.Random;
 
 public class Putin extends Bot{
-
     private ArrayList<Shot> population;
 
     public Putin(PhysicsEngine physicsEngine) {
         super(physicsEngine);
-        population = new ArrayList<>();
+        this.population = new ArrayList<>();
     }
 
     public Shot go() {
-
-        double maxVelocity = engine.getTerrainState().getMaxVelocity();
+        double maxVelocity = this.engine.getTerrainState().getMaxVelocity();
         Random rnd = new Random();
 
-        initialX = engine.getCurrentX();
-        initialY = engine.getCurrentY();
+        this.initialX = this.engine.getCurrentX();
+        this.initialY = this.engine.getCurrentY();
 
         double distance;
         Shot current = null;
         for (int i = 0; i < 250; i++) {
-            engine.setCurrentX(initialX);
-            engine.setCurrentY(initialY);
+            this.engine.setCurrentX(this.initialX);
+            this.engine.setCurrentY(this.initialY);
 
             double velocityX = rnd.nextDouble() * maxVelocity * 2 - maxVelocity;
             double velocityY = rnd.nextDouble() * maxVelocity * 2 - maxVelocity;
 
-            engine.takeVelocityOfShot(velocityX, velocityY);
-            engine.executeShot();
-            Point2D finalDestination = engine.finalDestination();
+            this.engine.takeVelocityOfShot(velocityX, velocityY);
+            this.engine.executeShot();
+            Point2D finalDestination = this.engine.finalDestination();
 
             distance = finalDestination.distance(this.engine.getTerrainState().getGoal());
             current = new Shot(velocityX, velocityY, distance);
-            population.add(current);
+            this.population.add(current);
 
         }
 
-       Collections.sort(this.population);
-        for (Shot p: this.population)
-        {
+        Collections.sort(this.population);
+
+        for (Shot p: this.population) {
             System.out.println("distance: " + p.getDistanceToGoal() + " X: " + p.getVelocityX() + " Y: " + p.getVelocityY());
         }
 
         long startTime = System.nanoTime();
         long currentTime = System.nanoTime();
-        while (this.population.get(0).getDistanceToGoal() > engine.getTerrainState().getToleranceRadius()*5 && (currentTime-startTime)<1000000000)
-        {
+        while (this.population.get(0).getDistanceToGoal() > engine.getTerrainState().getToleranceRadius()*5
+                && (currentTime-startTime) < 2000000000) {
             reproduce();
             System.out.println("distance: " + this.population.get(0).getDistanceToGoal()); //+ " X: " + this.population.get(0).getVelocityX() + " Y: " + this.population.get(0).getVelocityY());
             System.out.println("distance: " + this.population.get(1).getDistanceToGoal()); //+ " X: " + this.population.get(0).getVelocityX() + " Y: " + this.population.get(0).getVelocityY());
@@ -73,8 +71,8 @@ public class Putin extends Bot{
             for (int j = 0; j < 7; j++) {
                 Shot other = this.population.get(j);
 
-                engine.setCurrentX(initialX);
-                engine.setCurrentY(initialY);
+                this.engine.setCurrentX(this.initialX);
+                this.engine.setCurrentY(this.initialY);
 
 
                 double velocityX = (current.getVelocityX() + other.getVelocityX())/2;
@@ -82,20 +80,14 @@ public class Putin extends Bot{
 
 
                 double change = rnd.nextDouble();
-                if(change< 0.9)
-                {
-                    velocityX += change - 0.45;
-                }
+                if(change< 0.9) velocityX += change - 0.45;
 
                 change = rnd.nextDouble();
-                if(change< 0.9)
-                {
-                    velocityY += change - 0.45;
-                }
+                if(change< 0.9) velocityY += change - 0.45;
 
-                engine.takeVelocityOfShot(velocityX, velocityY);
-                engine.executeShot();
-                Point2D finalDestination  = engine.finalDestination();
+                this.engine.takeVelocityOfShot(velocityX, velocityY);
+                this.engine.executeShot();
+                Point2D finalDestination = this.engine.finalDestination();
 
                 double distance = finalDestination.distance(this.engine.getTerrainState().getGoal());
                 Shot p = new Shot(velocityX, velocityY, distance);

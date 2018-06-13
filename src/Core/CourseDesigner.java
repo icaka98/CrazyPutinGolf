@@ -16,8 +16,10 @@ import java.util.Optional;
  * @author Hristo Minkov
  */
 public class CourseDesigner {
-    //TODO instead of typing the numbers we can make sliders
-    //TODO It would be good if we can update the course characteristics without recompiling
+    private static Dialog<Pair<String, Course>> dialog;
+    private static ButtonType submitButton;
+    //TODO: instead of typing the numbers we can make sliders
+
     /**
      * A function that creates the dialog and displays it so that the user can enter
      * information about the desired course. Then the information is sent ot a
@@ -25,14 +27,46 @@ public class CourseDesigner {
      * @see FileWriter
      */
     public static void run(){
-        Dialog<Pair<String, Course>> dialog = new Dialog<>();
+        createDialog();
+        addSubmitButton();
+        addComponents();
+
+        processResult();
+    }
+
+    /**
+     * Processing the result after clicking the submit button.
+     */
+    private static void processResult() {
+        Optional<Pair<String, Course>> result = dialog.showAndWait();
+
+        result.ifPresent( res -> {
+            FileWriter.writeToFile(res.getValue(), res.getKey());
+        });
+    }
+
+    /**
+     * Adding the submit button to the dialog.
+     */
+    private static void addSubmitButton() {
+        submitButton = new ButtonType("Create", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(submitButton, ButtonType.CANCEL);
+    }
+
+    /**
+     * Create the dialog with initial information.
+     */
+    private static void createDialog(){
+        dialog = new Dialog<>();
 
         dialog.setTitle("Course Designer");
         dialog.setHeaderText("Please enter information to create a new course!");
+    }
 
-        ButtonType loginButtonType = new ButtonType("Create", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
-
+    /**
+     * Adding the needed components to the dialog.
+     */
+    private static void addComponents(){
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
@@ -85,23 +119,17 @@ public class CourseDesigner {
         Platform.runLater(gField::requestFocus);
 
         dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == loginButtonType) {
+            if (dialogButton == submitButton) {
                 return new Pair<>(functionField.getText(),
                         new Course(Double.parseDouble(gField.getText()),
-                            Double.parseDouble(muField.getText()),
-                            Double.parseDouble(vmaxField.getText()),
-                            createPoint(startField.getText()),
-                            createPoint(goalField.getText()),
-                            Double.parseDouble(tolerance.getText()),
-                            null, null));
+                                Double.parseDouble(muField.getText()),
+                                Double.parseDouble(vmaxField.getText()),
+                                createPoint(startField.getText()),
+                                createPoint(goalField.getText()),
+                                Double.parseDouble(tolerance.getText())
+                        ));
             }
             return null;
-        });
-
-        Optional<Pair<String, Course>> result = dialog.showAndWait();
-
-        result.ifPresent( res -> {
-            FileWriter.writeToFile(res.getValue(), res.getKey());
         });
     }
 

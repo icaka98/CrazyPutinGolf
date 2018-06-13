@@ -4,23 +4,14 @@ import Models.Course;
 import javafx.geometry.Point2D;
 import java.io.*;
 import java.lang.Double;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * @author Silvia Fallone
  * A class that reads the course from a file
  */
 public class CourseReader {
-    private Double g;
-    private Double mu;
-    private Double vmax;
-
-    private Double startX;
-    private Double startY;
-    private Double goalX;
-    private Double goalY;
-    private Double tolerance;
+    private Double g, mu, vmax, tolerance;
+    private Double startX, startY, goalX, goalY;
     private String equation;
 
     private FileReader fr;
@@ -31,7 +22,7 @@ public class CourseReader {
      * @param file the file to read the text from
      */
     public CourseReader(File file) {
-        setupReader(file);
+        this.setupReader(file);
     }
 
     /**
@@ -39,9 +30,14 @@ public class CourseReader {
      * @return the course with the current terrain features
      */
     public Course getCourse(){
-        return new Course(g, mu, vmax, new Point2D(startX, startY),
-                new Point2D(goalX, goalY), tolerance,
-                new ArrayList<>(Arrays.asList(0.0, 0.1, 0.03)), new ArrayList<>(Arrays.asList(0.1, 0.2)));
+        return new Course(
+                this.g,
+                this.mu,
+                this.vmax,
+                new Point2D(this.startX, this.startY),
+                new Point2D(this.goalX, this.goalY),
+                this.tolerance
+        );
     }
 
     /**
@@ -54,15 +50,15 @@ public class CourseReader {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        this.br = new BufferedReader(fr);
 
+        this.br = new BufferedReader(fr);
         this.readCourse();
     }
 
     /**
      * Stores the values and the equation in the given file as variables
      */
-    public void readCourse() {
+    private void readCourse() {
         try {
             this.g = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
             this.mu = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
@@ -72,9 +68,11 @@ public class CourseReader {
             this.goalX = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
             this.goalY = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
             this.tolerance = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
+
             this.equation = br.readLine().replaceAll("z = ", "");
-            fr.close();
-            br.close();
+
+            this.fr.close();
+            this.br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -85,6 +83,14 @@ public class CourseReader {
      * @return the equation that shapes the course field
      */
     public String getEquation() {
-        return equation;
+        return this.equation;
+    }
+
+    /**
+     * Get the equation that shapes the course field in a compact form
+     * @return the equation that shapes the course field
+     */
+    public String getCompactEquation(){
+        return this.equation.replaceAll("\\s+", "");
     }
 }

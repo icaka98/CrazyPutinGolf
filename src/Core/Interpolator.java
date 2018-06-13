@@ -35,7 +35,7 @@ public class Interpolator {
 
     }
 
-    public static void multiply (double[][] A, double[][] B, double[][] C) {
+    private static void multiply(double[][] A, double[][] B, double[][] C) {
         int i,j,k;
         for (i=0;i<4;i++) {
             for (j=0;j<4;j++) {
@@ -46,7 +46,7 @@ public class Interpolator {
         }
     }
 
-    public static void fillX (MatrixXL mx, double[][] function, int i, int j){
+    private static void fillX(MatrixXL mx, double[][] function, int i, int j){
         if (i==0) {
             mx.set(2, 0, (function[i + 1][j] - function[i][j]));
             mx.set(2, 1, (function[i + 2][j] - function[i][j]));
@@ -67,7 +67,7 @@ public class Interpolator {
         }
     }
 
-    public static void fillY (MatrixXL mx, double[][] function, int i, int j){
+    private static void fillY(MatrixXL mx, double[][] function, int i, int j){
         if (j==0) {
             mx.set(0, 2, (function[i][j+1] - function[i][j]));
             mx.set(0, 3, (function[i+1][j+1] - function[i+1][j]));
@@ -88,7 +88,7 @@ public class Interpolator {
         }
     }
 
-    public static void fillXY (MatrixXL mx, double[][] function, int i, int j) {
+    private static void fillXY(MatrixXL mx, double[][] function, int i, int j) {
         if (i==0) {
             if(j==0) {
                 mx.set(2, 2, ((function[i+1][j+1] - function[i+1][j])-(function[i][j+1] - function[i][j])));
@@ -152,7 +152,7 @@ public class Interpolator {
         }
 }
 
-    public static void setCoefficient(double[][] coefficient, MatrixXL ret) {
+    private static void setCoefficient(double[][] coefficient, MatrixXL ret) {
         int i,j;
         for (i=0;i<4;i++) {
             for (j=0;j<4;j++) {
@@ -161,7 +161,7 @@ public class Interpolator {
         }
     }
 
-    public static void zeros(double[][] mx) {
+    private static void zeros(double[][] mx) {
         int n=mx.length;
         int m=mx[0].length;
         for (int i=0;i<n;i++) {
@@ -170,7 +170,6 @@ public class Interpolator {
             }
         }
     }
-
 
     public static MatrixXL[][] getCoefficients() {
         return coefficientMatrixXL;
