@@ -162,8 +162,10 @@ public class Main3D extends Application {
 
         this.amplification = (float) (-200.0f / this.maxHeight);
 
-        for (double x = -2.5; x <= 2.5; x+=1) {
-            for (double y = -2.5; y <= 2.5; y+=1) {
+        int size = 100;
+
+        for (double x = -2.5; x <= 2.5; x+=4.9999/((float)(size-1))) {
+            for (double y = -2.5; y <= 2.5; y+=4.9999/((float)(size-1))) {
                 double z = (solve(x, y) * this.amplification);
                 mesh.getPoints().addAll(
                         (int)(x * Constants.SCALAR),
@@ -181,7 +183,7 @@ public class Main3D extends Application {
         this.arrow = new Cylinder();
 
         // texture
-        int size = 6;
+
         for (float x = 0; x < size - 1; x++) {
             for (float y = 0; y < size - 1; y++) {
                 float x0 = x / (float) size;
@@ -206,18 +208,9 @@ public class Main3D extends Application {
                 int p2 = (x + 1) * size + z;
                 int p3 = (x + 1) * size + z + 1;
 
-                int offset = (x * (size - 1) + z ) * 4;
+                mesh.getFaces().addAll(p2, 0, p1, 0, p0, 0);
+                mesh.getFaces().addAll(p2, 0, p3, 0, p1, 0);
 
-                int f0 = offset;
-                int f1 = offset + 1;
-                int f2 = offset + 2;
-                int f3 = offset + 3;
-                mesh.getFaces().addAll(p2, f2, p1, f1, p0, f0);
-                mesh.getFaces().addAll(p2, f2, p3, f3, p1, f1);
-                if(p0<100){
-                    System.out.print(p2 + "," + f3 + ","+ p0 + ","+ f2 + ","+ p1 + "," + f0 + ",    ");
-                    System.out.print(p2 + "," + f3 + ","+ p1 + ","+ f0 + ","+ p3 + "," + f1 + ",    ");
-                }
             }
         }
 
