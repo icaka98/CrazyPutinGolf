@@ -1,3 +1,7 @@
+# Report
+The word document can be updated through this Google docs link:
+https://goo.gl/J833Ag
+
 # Presentation
 The powerpoint presentation can be updated through this Google Slides link: 
 https://goo.gl/KgafVq
