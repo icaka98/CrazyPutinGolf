@@ -33,7 +33,6 @@ public class Main3D extends Application {
     private final Rotate rotateY = new Rotate(-145, Rotate.Y_AXIS);
     private double maxHeight, minHeight, amplification;
     private Sphere ball;
-    private Cylinder arrow;
     private double curX, curY, curZ;
     private Group cube;
     private List<Point3D> moves;
@@ -41,26 +40,7 @@ public class Main3D extends Application {
     private Function functionEvaluator;
 
     private double solve(double x, double y){
-        return functionEvaluator.solve(x, y);//Math.pow(x, 4) - Math.pow(y, 4);
-    }
-
-    private Cylinder createConnection(Point3D origin, Point3D target) {
-        Point3D yAxis = new Point3D(0, 1, 0);
-        Point3D diff = target.subtract(origin);
-        double height = diff.magnitude();
-
-        Point3D mid = target.midpoint(origin);
-        Translate moveToMidpoint = new Translate(mid.getX(), mid.getY(), mid.getZ());
-
-        Point3D axisOfRotation = diff.crossProduct(yAxis);
-        double angle = Math.acos(diff.normalize().dotProduct(yAxis));
-        Rotate rotateAroundCenter = new Rotate(-Math.toDegrees(angle), axisOfRotation);
-
-        Cylinder line = new Cylinder(1, height);
-
-        line.getTransforms().addAll(moveToMidpoint, rotateAroundCenter);
-
-        return line;
+        return functionEvaluator.solve(x, y);
     }
 
     private void checkFunctionBounds(){
@@ -77,18 +57,17 @@ public class Main3D extends Application {
 
         System.out.println(move.getX() + "  " + move.getZ());
 
-        TranslateTransition tt = new TranslateTransition(Duration.millis(100), ball);
+        TranslateTransition tt = new TranslateTransition(Duration.millis(100), this.ball);
         tt.setFromX(ballPos.getX());
         tt.setFromY(ballPos.getY());
         tt.setFromZ(ballPos.getZ());
         tt.setToX(move.getX() * Constants.SCALAR);
         tt.setToY(move.getY() * Constants.SCALAR);
-        tt.setToZ(move.getZ() * Constants.SCALAR);
-        tt.setCycleCount(1);
+        tt.setToZ(move.getZ() * Constants.SCALAR - 20);
 
         ballPos = new Point3D(move.getX() * Constants.SCALAR,
                 move.getY() * Constants.SCALAR,
-                move.getZ() * Constants.SCALAR);
+                move.getZ() * Constants.SCALAR - 20);
 
         return new Pair<>(tt, ballPos);
     }
@@ -109,13 +88,12 @@ public class Main3D extends Application {
         }
 
         Point3D finalBallPos = ballPos;
-        System.out.println(finalBallPos);
         sequentialTransition.setOnFinished(e -> {
             this.moves.clear();
 
-            this.ball.setTranslateX(finalBallPos.getX());
+            /*this.ball.setTranslateX(finalBallPos.getX());
             this.ball.setTranslateY(finalBallPos.getY());
-            this.ball.setTranslateZ(finalBallPos.getZ());
+            this.ball.setTranslateZ(finalBallPos.getZ());*/
         });
 
         sequentialTransition.play();
@@ -135,7 +113,8 @@ public class Main3D extends Application {
         this.physicsEngine.takeVelocityOfShot(aimX, aimY);
         this.physicsEngine.executeShot();
 
-        return this.physicsEngine.getCoordinatesOfPath().subList(0, this.physicsEngine.getCoordinatesOfPath().size()-1).stream()
+        return this.physicsEngine.getCoordinatesOfPath().subList(0,
+                this.physicsEngine.getCoordinatesOfPath().size()-1).stream()
                 .map(m -> new Point3D(m.getX(),
                         this.solve(m.getX(), m.getY()) * amplification,
                         m.getY()))
@@ -182,8 +161,6 @@ public class Main3D extends Application {
         this.ball.setTranslateX(200);
         this.ball.setTranslateY(this.solve(200, -200) * this.amplification - this.ball.getRadius());
 
-        this.arrow = new Cylinder();
-
         // texture
 
         for (float x = 0; x < size - 1; x++) {
@@ -227,63 +204,35 @@ public class Main3D extends Application {
         meshView.setMaterial(fieldMaterial);
         meshView.setCullFace(CullFace.NONE);
         meshView.setDrawMode(DrawMode.FILL);
-        //meshView.setDepthTest(DepthTest.ENABLE);
 
         meshView.setOnMouseClicked(e -> {
-            this.cube.getChildren().remove(this.arrow);
-
             PickResult pr = e.getPickResult();
 
             this.curX = pr.getIntersectedPoint().getX();
-            this.curY = this.solve(this.curX, this.curZ) * amplification;
+            this.curY = this.solve(this.curX, this.curZ) * this.amplification;
             this.curZ = pr.getIntersectedPoint().getZ();
 
-            this.arrow = this.createConnection(
-                    new Point3D(
-                            this.ball.getTranslateX(),
-                            this.ball.getTranslateY(),
-                            this.ball.getTranslateZ()
-                    ), new Point3D(
-                            this.curX,
-                            this.curY,
-                            this.curZ));
-
-            //this.cube.getChildren().add(this.arrow);
-
             List<Point3D> moves = this.prepareEngine(this.curX, this.curZ);
-            System.out.println(moves.size());
 
             this.executeTransitions(moves);
         });
 
-        cube.getChildren().addAll(meshView);
+        this.cube.getChildren().addAll(meshView);
 
-        Scene scene = new Scene(cube, 800, 600, true, SceneAntialiasing.BALANCED);
+        Scene scene = new Scene(this.cube, 800, 600, true, SceneAntialiasing.BALANCED);
         scene.setFill(Color.GREY);
         scene.setCamera(new PerspectiveCamera());
 
-        scene.setOnMousePressed(me -> {
-        });
-
         scene.setOnKeyPressed(t -> {
             switch (t.getCode()){
-                case LEFT: rotateY.setAngle(rotateY.getAngle() - 10); break;
-                case RIGHT: rotateY.setAngle(rotateY.getAngle() + 10); break;
-
-
-                case W: this.moves.add(new Point3D(this.curX, this.curY, this.curZ)); break;
-                case ENTER: this.executeTransitions(this.moves); break;
+                case LEFT: this.rotateY.setAngle(this.rotateY.getAngle() - 10); break;
+                case RIGHT: this.rotateY.setAngle(this.rotateY.getAngle() + 10); break;
             }
         });
 
-        this.ball.setOnMouseDragged(e -> {
+        this.cube.getChildren().add(this.ball);
 
-        });
-
-        cube.getChildren().add(ball);
-        cube.getChildren().add(this.arrow);
-
-        makeZoomable(cube);
+        makeZoomable(this.cube);
 
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
