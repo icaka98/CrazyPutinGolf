@@ -75,7 +75,7 @@ public class Main extends Application {
         this.tolerance = course.getToleranceRadius() * scalar * 10;
 
         this.physicsEngine = new PhysicsEngine();
-        this.bot = new Randy(this.physicsEngine);
+        this.bot = new Putin(this.physicsEngine);
     }
 
     /**
