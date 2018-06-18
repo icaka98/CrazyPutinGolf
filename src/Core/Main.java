@@ -27,6 +27,8 @@ import java.util.List;
  * @author Hristo Minkov
  */
 public class Main extends Application {
+    private static final String COURSE_CODE = "1";
+
     private double startX, startY, finishX, finishY, tolerance, maxHeight, minHeight;
     private int steps, precomputedStep;
     private boolean precomputedMode, animationRunning;
@@ -58,7 +60,7 @@ public class Main extends Application {
         this.precomputedMode = false;
         this.animationRunning = false;
 
-        this.course = new Course("1");
+        this.course = new Course(COURSE_CODE);
         this.mainPane = new Pane();
         this.functionEvaluator = new Function(this.course.getEquation());
         this.precomputedModule = new PrecomputedModule();

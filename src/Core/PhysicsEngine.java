@@ -15,6 +15,8 @@ import java.io.File;
  * @author Mathieu Coenegracht
  */
 public class PhysicsEngine {
+    private static final String COURSE_CODE = "1";
+
     private double g, mu, h;
     private double velocityX, velocityY;
     private double currentX, currentY;
@@ -205,7 +207,7 @@ public class PhysicsEngine {
      * Sets up the course variables by reading them from a file
      */
     private void readCourse(){
-        this.terrainState = new Course("1");
+        this.terrainState = new Course(COURSE_CODE);
     }
 
     /**
