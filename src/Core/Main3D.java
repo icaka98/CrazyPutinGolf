@@ -1,25 +1,21 @@
 package Core;
 
+import Models.Course;
 import Models.Function;
 import Utils.Constants;
-import Utils.CourseReader;
 import javafx.animation.*;
 import javafx.application.Application;
-import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
-import javafx.scene.DepthTest;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.input.PickResult;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
 import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
@@ -39,6 +35,7 @@ public class Main3D extends Application {
     private List<Point3D> moves;
     private PhysicsEngine physicsEngine;
     private Function functionEvaluator;
+    private Course course;
 
     private double solve(double x, double y){
         return functionEvaluator.solve(x, y);
@@ -127,8 +124,8 @@ public class Main3D extends Application {
         this.cube = new Group();
         this.physicsEngine = new PhysicsEngine();
 
-        CourseReader courseReader = new CourseReader(new File(Constants.DEFAULT_COURSE_FILE));
-        this.functionEvaluator = new Function(courseReader.getEquation());
+        this.course = new Course("1");
+        this.functionEvaluator = new Function(this.course.getEquation());
 
         this.cube.getTransforms().addAll(this.rotateY);
         this.cube.getTransforms().addAll(this.rotateX);

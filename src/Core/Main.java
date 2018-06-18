@@ -2,7 +2,6 @@ package Core;
 
 import Models.*;
 import Utils.Constants;
-import Utils.CourseReader;
 import Utils.Shot;
 import javafx.animation.*;
 import javafx.application.Application;
@@ -22,7 +21,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import javax.swing.*;
-import java.io.File;
 import java.util.List;
 
 /**
@@ -45,7 +43,7 @@ public class Main extends Application {
 
     private Stage mainStage;
     private PhysicsEngine physicsEngine;
-    private CourseReader courseReader;
+    private Course course;
     private Function functionEvaluator;
     private PrecomputedModule precomputedModule;
 
@@ -60,19 +58,17 @@ public class Main extends Application {
         this.precomputedMode = false;
         this.animationRunning = false;
 
-        this.courseReader = new CourseReader(new File(Constants.DEFAULT_COURSE_FILE));
+        this.course = new Course("1");
         this.mainPane = new Pane();
-        this.functionEvaluator = new Function(this.courseReader.getEquation());
+        this.functionEvaluator = new Function(this.course.getEquation());
         this.precomputedModule = new PrecomputedModule();
 
-        Course course = this.courseReader.getCourse();
+        this.startX = this.course.getStart().getX() * scalar;
+        this.startY = this.course.getStart().getY() * scalar;
 
-        this.startX = course.getStart().getX() * scalar;
-        this.startY = course.getStart().getY() * scalar;
-
-        this.finishX = course.getGoal().getX() * scalar;
-        this.finishY = course.getGoal().getY() * scalar;
-        this.tolerance = course.getToleranceRadius() * scalar * 10;
+        this.finishX = this.course.getGoal().getX() * scalar;
+        this.finishY = this.course.getGoal().getY() * scalar;
+        this.tolerance = this.course.getToleranceRadius() * scalar * 10;
 
         this.physicsEngine = new PhysicsEngine();
         this.bot = new Putin(this.physicsEngine);
@@ -301,7 +297,7 @@ public class Main extends Application {
     }
 
     private String getFunctionInfo(){
-        return "Function: " + this.courseReader.getCompactEquation();
+        return "Function: " + this.course.getCompactEquation();
     }
 
     /**

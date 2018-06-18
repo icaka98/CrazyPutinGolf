@@ -1,10 +1,8 @@
 package Core;
 
 import Models.Course;
-import Models.Putin;
 import Utils.Constants;
-        import Utils.CourseReader;
-        import Models.Function;
+import Models.Function;
         import javafx.geometry.Point2D;
 
 import java.awt.geom.Line2D;
@@ -22,8 +20,6 @@ public class PhysicsEngine {
     private double currentX, currentY;
 
     private Course terrainState;
-
-    private CourseReader courseReader;
     private Function f;
 
     private ArrayList<Point2D> coordinatesOfPath;
@@ -35,7 +31,7 @@ public class PhysicsEngine {
         this.readCourse();
 
         this.coordinatesOfPath = new ArrayList<>();
-        this.f = new Function(this.courseReader.getEquation());
+        this.f = new Function(this.terrainState.getEquation());
 
         this.currentY = this.getTerrainState().getStart().getY();
         this.currentX = this.getTerrainState().getStart().getX();
@@ -209,10 +205,7 @@ public class PhysicsEngine {
      * Sets up the course variables by reading them from a file
      */
     private void readCourse(){
-        File file = new File(Constants.DEFAULT_COURSE_FILE);
-        this.courseReader = new CourseReader(file);
-
-        this.terrainState = this.courseReader.getCourse();
+        this.terrainState = new Course("1");
     }
 
     /**

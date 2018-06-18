@@ -1,52 +1,82 @@
 package Models;
 
+import Utils.Constants;
 import javafx.geometry.Point2D;
 
-import java.util.ArrayList;
+import java.io.*;
 
 /**
  * @author Zhecho Mitev
  * Class Course contains all information about the terrain and the ball of the game
  */
 public class Course {
-    private double gravity, frictionCoef;
-    private double maxVelocity, toleranceRadius;
-
+    private double g, mu, vmax, tolerance;
     private Point2D start, goal;
+    private String equation;
 
-    /**
-     *
-     * @param gravity gravitational power of course in m/s^-2
-     * @param frictionCoef coefficient which determines the friction of the ball
-     * @param maxVelocity the maximum power of a shot
-     * @param start starting point of the ball
-     * @param goal the center of the area which the ball shall reach
-     * @param toleranceRadius the radius of the area the ball shall reach
-     */
-    public Course(double gravity, double frictionCoef, double maxVelocity,
-                  Point2D start, Point2D goal, double toleranceRadius) {
-        this.gravity = gravity;
-        this.frictionCoef = frictionCoef;
-        this.maxVelocity = maxVelocity;
+    private FileReader fr;
+    private BufferedReader br;
+    private Course instance;
+
+    public Course(double g, double mu, double vmax, Point2D start,
+                  Point2D goal, double tolerance){
+        this.g = g;
+        this.mu = mu;
+        this.vmax = vmax;
         this.start = start;
         this.goal = goal;
-        this.toleranceRadius = toleranceRadius;
+        this.tolerance = tolerance;
+    }
+
+    public Course(String code) {
+        this.setupReader(new File(Constants.DEFAULT_COURSE_FILE));
+    }
+
+    private void setupReader(File file) {
+        try {
+            this.fr = new FileReader(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        this.br = new BufferedReader(fr);
+        this.readCourse();
+    }
+
+    private void readCourse() {
+        try {
+            this.g = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
+            this.mu = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
+            this.vmax = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
+            this.start = new Point2D(Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, "")),
+                    Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, "")));
+            this.goal = new Point2D(Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, "")),
+                    Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, "")));
+            this.tolerance = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
+
+            this.equation = this.br.readLine().replaceAll("z = ", "");
+
+            this.fr.close();
+            this.br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public double getGravity() {
-        return this.gravity;
+        return this.g;
     }
 
     public double getToleranceRadius() {
-        return this.toleranceRadius;
+        return this.tolerance;
     }
 
     public double getFrictionCoef() {
-        return this.frictionCoef;
+        return this.mu;
     }
 
     public double getMaxVelocity() {
-        return this.maxVelocity;
+        return this.vmax;
     }
 
     public Point2D getStart() {
@@ -55,5 +85,21 @@ public class Course {
 
     public Point2D getGoal() {
         return this.goal;
+    }
+
+    /**
+     * Get the equation that shapes the course field
+     * @return the equation that shapes the course field
+     */
+    public String getEquation() {
+        return this.equation;
+    }
+
+    /**
+     * Get the equation that shapes the course field in a compact form
+     * @return the equation that shapes the course field
+     */
+    public String getCompactEquation(){
+        return this.equation.replaceAll("\\s+", "");
     }
 }
