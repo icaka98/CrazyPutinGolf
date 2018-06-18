@@ -1,0 +1,9 @@
+g = 9.81;
+mu = 0.5;
+vmax = 3;
+startX = 0.0;
+startY = 0.0;
+goalX = 0.1;
+goalY = 2.0;
+tolerance = 0.01;
+z = ( ( x ^ 3 ) * ( y ^ 3 ) )

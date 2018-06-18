@@ -30,7 +30,7 @@ public class Constants {
 
     public static final double WALL_THICKNESS = 8.0;
 
-    public static final String DEFAULT_COURSE_FILE = "src/Assets/save_course.txt";
+    public static final String DEFAULT_COURSE_DIR = "src/Assets/";
 
     public static final String DEFAULT_PRECOMPILED_FILE = "src/Assets/precomputed_velocity.txt";
 
