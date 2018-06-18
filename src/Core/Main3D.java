@@ -124,7 +124,7 @@ public class Main3D extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.cube = new Group();
-        this.physicsEngine = new PhysicsEngine();
+        this.physicsEngine = new PhysicsEngine(COURSE_CODE);
 
         this.course = new Course(COURSE_CODE);
         this.functionEvaluator = new Function(this.course.getEquation());

@@ -72,7 +72,7 @@ public class Main extends Application {
         this.finishY = this.course.getGoal().getY() * scalar;
         this.tolerance = this.course.getToleranceRadius() * scalar * 10;
 
-        this.physicsEngine = new PhysicsEngine();
+        this.physicsEngine = new PhysicsEngine(COURSE_CODE);
         this.bot = new Putin(this.physicsEngine);
     }
 
