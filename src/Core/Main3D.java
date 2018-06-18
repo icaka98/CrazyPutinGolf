@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 
 public class Main3D extends Application {
     private final Rotate rotateY = new Rotate(-145, Rotate.Y_AXIS);
+    private final Rotate rotateX = new Rotate(0, Rotate.X_AXIS);
     private double maxHeight, minHeight, amplification;
     private Sphere ball;
     private double curX, curY, curZ;
@@ -129,17 +130,22 @@ public class Main3D extends Application {
         CourseReader courseReader = new CourseReader(new File(Constants.DEFAULT_COURSE_FILE));
         this.functionEvaluator = new Function(courseReader.getEquation());
 
-        this.cube.getTransforms().addAll(rotateY);
+        this.cube.getTransforms().addAll(this.rotateY);
+        this.cube.getTransforms().addAll(this.rotateX);
 
         this.moves = new ArrayList<>();
 
         TriangleMesh mesh = new TriangleMesh();
+        TriangleMesh water = new TriangleMesh();
 
         this.checkFunctionBounds();
 
         this.maxHeight = this.maxHeight * Constants.SCALAR;
 
         this.amplification = (float) -1;//(-250.0f / this.maxHeight);
+
+        Box obs = new Box(30, 30, 30);
+        this.cube.getChildren().addAll(obs);
 
         int size = 100;
 
@@ -189,12 +195,11 @@ public class Main3D extends Application {
 
                 mesh.getFaces().addAll(p2, 0, p1, 0, p0, 0);
                 mesh.getFaces().addAll(p2, 0, p3, 0, p1, 0);
-
             }
         }
 
-        cube.setTranslateY(400);
-        cube.setTranslateX(400);
+        this.cube.setTranslateY(400);
+        this.cube.setTranslateX(400);
 
         PhongMaterial fieldMaterial = new PhongMaterial();
         fieldMaterial.setSpecularColor(Color.LIGHTGREEN);
@@ -227,6 +232,9 @@ public class Main3D extends Application {
             switch (t.getCode()){
                 case LEFT: this.rotateY.setAngle(this.rotateY.getAngle() - 10); break;
                 case RIGHT: this.rotateY.setAngle(this.rotateY.getAngle() + 10); break;
+
+                case UP: this.rotateX.setAngle(this.rotateX.getAngle() + 10); break;
+                case DOWN: this.rotateX.setAngle(this.rotateX.getAngle() - 10); break;
             }
         });
 
