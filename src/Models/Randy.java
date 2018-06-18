@@ -17,13 +17,12 @@ public class Randy extends Bot {
         this.initialX = this.engine.getCurrentX();
         this.initialY = this.engine.getCurrentY();
 
-        double maxVelocity = engine.getTerrainState().getMaxVelocity();
         Random rnd = new Random();
         double distance = 1;
         Shot current = null;
-        int br = 0;
+        int executedShots = 0;
 
-        while (distance > engine.getTerrainState().getToleranceRadius() * 5) {
+        while (distance > engine.getTerrainState().getToleranceRadius() * 5 && executedShots < 50000) {
             this.engine.setCurrentX(this.initialX);
             this.engine.setCurrentY(this.initialY);
 
@@ -31,7 +30,7 @@ public class Randy extends Bot {
             double yDirection = this.engine.getTerrainState().getGoal().getY();
 
             double velocityX = (rnd.nextDouble() - 0.5)*2 + xDirection;
-            double velocityY = (rnd.nextDouble() - 0.5)*2 + yDirection;//* maxVelocity * 2 - maxVelocity;
+            double velocityY = (rnd.nextDouble() - 0.5)*2 + yDirection;
 
             this.engine.takeVelocityOfShot(velocityX, velocityY);
             this.engine.executeShot();
@@ -39,10 +38,9 @@ public class Randy extends Bot {
 
             distance = finalDestination.distance(this.engine.getTerrainState().getGoal());
             current = new Shot(velocityX, velocityY, distance);
-            br++;
+            executedShots++;
         }
 
-        System.out.println(br);
         return current;
     }
 }
