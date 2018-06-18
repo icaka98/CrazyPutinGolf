@@ -12,6 +12,8 @@ import java.util.Random;
 public class Putin extends Bot{
     private ArrayList<Shot> population;
 
+    private final double mutationRate = 0.8;
+
     public Putin(PhysicsEngine physicsEngine) {
         super(physicsEngine);
         this.population = new ArrayList<>();
@@ -66,24 +68,24 @@ public class Putin extends Bot{
         ArrayList<Shot> newIndividuals = new ArrayList<>();
 
         Random rnd  = new Random();
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 8; i++) {
             Shot current = this.population.get(i);
-            for (int j = 0; j < 7; j++) {
+            for (int j = 0; j < 8; j++) {
                 Shot other = this.population.get(j);
 
                 this.engine.setCurrentX(this.initialX);
                 this.engine.setCurrentY(this.initialY);
 
-
                 double velocityX = (current.getVelocityX() + other.getVelocityX())/2;
                 double velocityY = (current.getVelocityY() + other.getVelocityY())/2;
 
-
                 double change = rnd.nextDouble();
-                if(change< 0.9) velocityX += change - 0.45;
+                if(change< this.mutationRate)
+                    velocityX += (change - 0.5)*this.engine.getTerrainState().getMaxVelocity()*this.engine.getTerrainState().getToleranceRadius()*10;
 
                 change = rnd.nextDouble();
-                if(change< 0.9) velocityY += change - 0.45;
+                if(change< this.mutationRate)
+                    velocityY += (change - 0.5)*this.engine.getTerrainState().getMaxVelocity()*this.engine.getTerrainState().getToleranceRadius()*10;
 
                 this.engine.takeVelocityOfShot(velocityX, velocityY);
                 this.engine.executeShot();
