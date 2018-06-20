@@ -7,16 +7,23 @@ import java.awt.geom.Line2D;
 public class Grid {
 
     private int width, height;
-    private HashSet<Point> obstacles;
+    private HashSet<Point> obstacles = new HashSet<>();
     private ArrayList<Line2D> walls;
 
     private static Point[] dirs = {new Point(-1,1),new Point(0,1), new Point(1,1), new Point(-1,0),
                                    new Point(1,0), new Point(-1,-1), new Point(0,-1), new Point(1,-1)};
 
-    public Grid(int width, int height, ArrayList<Line2D> walls){
+    public Grid(int width, int height,int[] obs){
         this.width = width;
         this.height = height;
-        this.walls = walls;
+        //this.walls = walls;
+
+        for(int i = obs[0]; i < obs[1]; i++){
+
+            for(int j = obs[2]; j < obs[3]; j++) {
+                obstacles.add(new Point(i, j));
+            }
+        }
 
     }
 
@@ -26,11 +33,11 @@ public class Grid {
 
     private boolean passable(Point id){
 
-        for(Line2D w: walls){
+        /*for(Line2D w: walls){
             if(w.contains(id.x,id.y)){
                 return false;
             }
-        }
+        }*/
         return !obstacles.contains(id);
     }
 
