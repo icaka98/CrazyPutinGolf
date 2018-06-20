@@ -21,6 +21,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,6 +53,8 @@ public class Main extends Application {
 
     private Bot bot;
 
+    private ArrayList<Point> path;
+
     /**
      * Initializes all the variable fields of the class.
      */
@@ -74,6 +78,12 @@ public class Main extends Application {
 
         this.physicsEngine = new PhysicsEngine(COURSE_CODE);
         this.bot = new Putin(this.physicsEngine);
+
+        Grid gr = new Grid(Constants.FIELD_WIDTH, Constants.FIELD_HEIGHT, Constants.obstacle1);
+        Point s = new Point(250, 260);
+        Point g = new Point(250, 400);
+
+        path = AStar.search(gr, s, g);
     }
 
     /**
@@ -150,6 +160,8 @@ public class Main extends Application {
                 if(height < 0.0)
                     point.setFill(
                             Color.rgb(0,0, blueRatio));
+
+
                 else{
                     if(Constants.FIELD_WIDTH / 2 - x < Constants.WALL_THICKNESS
                             || x < -Constants.FIELD_WIDTH / 2 + Constants.WALL_THICKNESS
@@ -160,6 +172,7 @@ public class Main extends Application {
 
                             Color.rgb(0,greenRatio,0));
                 }
+
 
                 this.mainPane.getChildren().add(point);
             }
