@@ -284,7 +284,6 @@ public class Main extends Application {
     private void restart(){
         this.mainStage.close();
         start(this.mainStage);
-        this.initVars();
     }
 
     private String getBallInfo(){
@@ -311,7 +310,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.mainStage = primaryStage;
-        primaryStage.setTitle(Constants.STAGE_TITLE);
+        this.mainStage.setTitle(Constants.STAGE_TITLE);
 
         this.initVars();
 
@@ -438,8 +437,8 @@ public class Main extends Application {
                 Constants.SCENE_WIDTH,
                 Constants.SCENE_HEIGHT);
 
-        primaryStage.setScene(mainScene);
-        primaryStage.show();
+        this.mainStage.setScene(mainScene);
+        this.mainStage.show();
     }
 
     /**
