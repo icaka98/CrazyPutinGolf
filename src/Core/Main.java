@@ -21,12 +21,16 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Hristo Minkov
  */
 public class Main extends Application {
+    private static final String COURSE_CODE = "1";
+
     private double startX, startY, finishX, finishY, tolerance, maxHeight, minHeight;
     private int steps, precomputedStep;
     private boolean precomputedMode, animationRunning;
@@ -49,6 +53,8 @@ public class Main extends Application {
 
     private Bot bot;
 
+    private ArrayList<Point> path;
+
     /**
      * Initializes all the variable fields of the class.
      */
@@ -58,7 +64,7 @@ public class Main extends Application {
         this.precomputedMode = false;
         this.animationRunning = false;
 
-        this.course = new Course("1");
+        this.course = new Course(COURSE_CODE);
         this.mainPane = new Pane();
         this.functionEvaluator = new Function(this.course.getEquation());
         this.precomputedModule = new PrecomputedModule();
@@ -70,8 +76,14 @@ public class Main extends Application {
         this.finishY = this.course.getGoal().getY() * scalar;
         this.tolerance = this.course.getToleranceRadius() * scalar * 10;
 
-        this.physicsEngine = new PhysicsEngine();
+        this.physicsEngine = new PhysicsEngine(COURSE_CODE);
         this.bot = new Putin(this.physicsEngine);
+
+        Grid gr = new Grid(Constants.FIELD_WIDTH, Constants.FIELD_HEIGHT, Constants.obstacle1);
+        Point s = new Point(250, 260);
+        Point g = new Point(250, 400);
+
+        path = AStar.search(gr, s, g);
     }
 
     /**
@@ -148,6 +160,8 @@ public class Main extends Application {
                 if(height < 0.0)
                     point.setFill(
                             Color.rgb(0,0, blueRatio));
+
+
                 else{
                     if(Constants.FIELD_WIDTH / 2 - x < Constants.WALL_THICKNESS
                             || x < -Constants.FIELD_WIDTH / 2 + Constants.WALL_THICKNESS
@@ -158,6 +172,7 @@ public class Main extends Application {
 
                             Color.rgb(0,greenRatio,0));
                 }
+
 
                 this.mainPane.getChildren().add(point);
             }
@@ -282,7 +297,6 @@ public class Main extends Application {
     private void restart(){
         this.mainStage.close();
         start(this.mainStage);
-        this.initVars();
     }
 
     private String getBallInfo(){
@@ -309,7 +323,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.mainStage = primaryStage;
-        primaryStage.setTitle(Constants.STAGE_TITLE);
+        this.mainStage.setTitle(Constants.STAGE_TITLE);
 
         this.initVars();
 
@@ -436,8 +450,8 @@ public class Main extends Application {
                 Constants.SCENE_WIDTH,
                 Constants.SCENE_HEIGHT);
 
-        primaryStage.setScene(mainScene);
-        primaryStage.show();
+        this.mainStage.setScene(mainScene);
+        this.mainStage.show();
     }
 
     /**

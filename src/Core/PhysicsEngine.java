@@ -27,8 +27,8 @@ public class PhysicsEngine {
     //private double accelerationX;
     //private double accelerationY;
 
-    public PhysicsEngine() {
-        this.readCourse();
+    public PhysicsEngine(String courseCode) {
+        this.readCourse(courseCode);
 
         this.coordinatesOfPath = new ArrayList<>();
         this.f = new Function(this.terrainState.getEquation());
@@ -204,8 +204,8 @@ public class PhysicsEngine {
     /**
      * Sets up the course variables by reading them from a file
      */
-    private void readCourse(){
-        this.terrainState = new Course("1");
+    private void readCourse(String courseCode){
+        this.terrainState = new Course(courseCode);
     }
 
     /**

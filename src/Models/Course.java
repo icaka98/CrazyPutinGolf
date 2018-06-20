@@ -29,7 +29,7 @@ public class Course {
     }
 
     public Course(String code) {
-        this.setupReader(new File(Constants.DEFAULT_COURSE_FILE));
+        this.setupReader(new File(Constants.DEFAULT_COURSE_DIR + "course" + code + ".txt"));
     }
 
     private void setupReader(File file) {

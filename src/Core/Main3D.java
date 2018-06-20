@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Main3D extends Application {
+    private static final String COURSE_CODE = "1";
+
     private final Rotate rotateY = new Rotate(-145, Rotate.Y_AXIS);
     private final Rotate rotateX = new Rotate(0, Rotate.X_AXIS);
     private double maxHeight, minHeight, amplification;
@@ -122,9 +124,9 @@ public class Main3D extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.cube = new Group();
-        this.physicsEngine = new PhysicsEngine();
+        this.physicsEngine = new PhysicsEngine(COURSE_CODE);
 
-        this.course = new Course("1");
+        this.course = new Course(COURSE_CODE);
         this.functionEvaluator = new Function(this.course.getEquation());
 
         this.cube.getTransforms().addAll(this.rotateY);
