@@ -12,7 +12,7 @@ import java.util.Random;
 public class Putin extends Bot{
     private ArrayList<Shot> population;
 
-    private final double mutationRate = 0.8;
+    private final double mutationRate = 0.4;
 
     public Putin(PhysicsEngine physicsEngine) {
         super(physicsEngine);
@@ -47,9 +47,9 @@ public class Putin extends Bot{
 
         Collections.sort(this.population);
 
-        for (Shot p: this.population) {
+        /*for (Shot p: this.population) {
             System.out.println("distance: " + p.getDistanceToGoal() + " X: " + p.getVelocityX() + " Y: " + p.getVelocityY());
-        }
+        }*/
 
         long startTime = System.nanoTime();
         long currentTime = System.nanoTime();
@@ -80,12 +80,12 @@ public class Putin extends Bot{
                 double velocityY = (current.getVelocityY() + other.getVelocityY())/2;
 
                 double change = rnd.nextDouble();
-                if(change< this.mutationRate)
-                    velocityX += (change - 0.5)*this.engine.getTerrainState().getMaxVelocity()*this.engine.getTerrainState().getToleranceRadius()*10;
+                if(change< this.mutationRate*2)
+                    velocityX += (change - 0.5)*this.engine.getTerrainState().getMaxVelocity()*this.engine.getTerrainState().getToleranceRadius()*30;
 
                 change = rnd.nextDouble();
-                if(change< this.mutationRate)
-                    velocityY += (change - 0.5)*this.engine.getTerrainState().getMaxVelocity()*this.engine.getTerrainState().getToleranceRadius()*10;
+                if(change< this.mutationRate*2)
+                    velocityY += (change - 0.5)*this.engine.getTerrainState().getMaxVelocity()*this.engine.getTerrainState().getToleranceRadius()*30;
 
                 this.engine.takeVelocityOfShot(velocityX, velocityY);
                 this.engine.executeShot();
