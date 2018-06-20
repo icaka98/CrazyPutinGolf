@@ -1,6 +1,10 @@
 package Utils;
 
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Constants used in the application.
@@ -12,13 +16,13 @@ public class Constants {
 
     public static final String NON_NUMBERS = "[^\\d.-]";
 
-    public static final int FIELD_WIDTH = 500;
-
-    public static final int FIELD_HEIGHT = 500;
-
     public static final int SCENE_WIDTH = 750;
 
     public static final int SCENE_HEIGHT = 500;
+
+    public static final int FIELD_WIDTH = 500;
+
+    public static final int FIELD_HEIGHT = 500;
 
     public static final double TIMESTEP_h = 0.02;
 
@@ -36,7 +40,7 @@ public class Constants {
 
     public static final String DEFAULT_SAVE_FILE = "src/Assets/save_course.txt";
 
-    public static final double STOP_SPEED = 0.1;
+    public static final double STOP_SPEED = 0.02;
 
     public static final Line2D DOWN_MID_LINE = new Line2D.Double(
             -100 , 85
@@ -54,10 +58,19 @@ public class Constants {
             100 , 85
             ,100 ,103 );
 
-    public static final Line2D UP_WALL = new Line2D.Double(-Constants.FIELD_WIDTH / 2 , Constants.FIELD_HEIGHT / 2 - (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), Constants.FIELD_WIDTH / 2, Constants.FIELD_HEIGHT / 2 - (Constants.BALL_RADIUS + Constants.WALL_THICKNESS));
-    public static final Line2D BOTTOM_WALL = new Line2D.Double(-Constants.FIELD_WIDTH / 2, -Constants.FIELD_HEIGHT / 2 + (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), Constants.FIELD_WIDTH / 2, -Constants.FIELD_HEIGHT / 2 + (Constants.BALL_RADIUS + Constants.WALL_THICKNESS));
-    public static final Line2D RIGHT_WALL = new Line2D.Double(Constants.FIELD_WIDTH / 2 - (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), -Constants.FIELD_HEIGHT / 2, Constants.FIELD_WIDTH / 2 -(Constants.BALL_RADIUS + Constants.WALL_THICKNESS), Constants.FIELD_HEIGHT / 2);
-    public static final Line2D LEFT_WALL = new Line2D.Double(-Constants.FIELD_WIDTH / 2 + (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), -Constants.FIELD_HEIGHT / 2, -Constants.FIELD_WIDTH / 2 + (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), Constants.FIELD_HEIGHT / 2);
+    public static final Rectangle MID_OBSTACLE = new Rectangle(-100, 85, 200, 8);
+
+
+
+    public static final Line2D UP_WALL = new Line2D.Double(-Constants.SCENE_WIDTH / 2 , Constants.SCENE_HEIGHT / 2 - (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), Constants.SCENE_WIDTH / 2, Constants.SCENE_HEIGHT / 2 - (Constants.BALL_RADIUS + Constants.WALL_THICKNESS));
+    public static final Line2D BOTTOM_WALL = new Line2D.Double(-Constants.SCENE_WIDTH / 2, -Constants.SCENE_HEIGHT / 2 + (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), Constants.SCENE_WIDTH / 2, -Constants.SCENE_HEIGHT / 2 + (Constants.BALL_RADIUS + Constants.WALL_THICKNESS));
+    public static final Line2D RIGHT_WALL = new Line2D.Double(Constants.SCENE_WIDTH / 2 - (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), -Constants.SCENE_HEIGHT / 2, Constants.SCENE_WIDTH / 2 -(Constants.BALL_RADIUS + Constants.WALL_THICKNESS), Constants.SCENE_HEIGHT / 2);
+    public static final Line2D LEFT_WALL = new Line2D.Double(-Constants.SCENE_WIDTH / 2 + (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), -Constants.SCENE_HEIGHT / 2, -Constants.SCENE_WIDTH / 2 + (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), Constants.SCENE_HEIGHT / 2);
+
+    public static final Line2D[] WALLS = {UP_WALL, BOTTOM_WALL, RIGHT_WALL, LEFT_WALL};
+
+
+
 
     public static final int VELOCITY_SCALAR = 2;
 }
