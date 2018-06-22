@@ -19,19 +19,6 @@ public class Function{
     private Map<String,Double> vars = new HashMap<>();
     private Node z;
 
-    double minHeight = 0;
-    double maxHeight = 0;
-    double[][] points = {
-            {0, 0, -1},
-            {0, 0, -1},
-            {0, 0, 0},
-            {0, 0, 0},
-            {0, 0, 0}
-    };
-    double[] pointsX1 = {0,1,2,3,4};
-    double[] pointsX2 = {0,1,2};
-
-
     /**
      * Constructor that creates an object of the function class and calls the method that generates the expression tree
      * @param s function string
@@ -121,40 +108,42 @@ public class Function{
      * @return output value of the function dependent on the two input values
      */
     public double solve(double x, double y){ //solve equation for x and y values
-        /*int a,b;
-        double z =0;
-        MatrixXL[][] courseCoeff;
-        MatrixXL cellCoeff;
+        
+        return splineSolver(x,y);
+
+        //vars.put("x", x);
+        //vars.put("y", y);
+
+        //System.out.println(vars.containsKey("pi"));
+        //return eval(z);
+    }
+    
+    private double splineSolver(double x, double y) {
+        int a,b;
+        double z = 0;
+        MatrixXL[][] courseCoefficients;
+        MatrixXL squareCoefficients;
+        
         a = (int) (x + 2.5);
         b = (int) (y + 2.5);
         if(a>4) { a = 4; }
-        if(b>4) { b = 4; }
+        if(b>4) { b = 4 ; }
         if(a<0) { a = 0; }
         if(b<0) { b = 0; }
-        double aModule = (((x*4)+10) % 4) / 10;
-        double bModule = (((y*4)+10) % 4) / 10;
+        double aModule = (((x*4)+10) % 4) / 4;
+        double bModule = (((y*4)+10) % 4) / 4;
 
         Interpolator.designCourse(a,b);
-        courseCoeff = Interpolator.getCoefficients();
-        cellCoeff = courseCoeff[a][b];
+        courseCoefficients = Interpolator.getCoefficients();
+        squareCoefficients = courseCoefficients[a][b];
 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                z = z + (cellCoeff.getCoefficient(i,j)*Math.pow(aModule,i)*Math.pow(bModule,j));
+                z = z + (squareCoefficients.getCoefficient(i,j)*Math.pow(aModule,i)*Math.pow(bModule,j));
             }
         }
-        if (z>maxHeight) { maxHeight = z; }
-        if (z<minHeight) { minHeight = z; }
-        return z;*/
 
-        vars.put("x", x);
-        vars.put("y", y);
-
-        //System.out.println(vars.containsKey("pi"));
-        return eval(z);
-
-       //BicubicInterpolation bicubicInterpolation = new BicubicInterpolation(pointsX1,pointsX2,points);
-       //return bicubicInterpolation.interpolate(x,y);
+        return z;
     }
 
     /**
