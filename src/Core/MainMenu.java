@@ -29,7 +29,11 @@ public class MainMenu extends Pane {
 
     private static final String COURSE_CODE = "1";
 
-    public MainMenu(){
+    private Controller controller;
+
+    public MainMenu(Controller controller){
+
+        this.controller = controller;
         this.init();
     }
 
@@ -71,7 +75,7 @@ public class MainMenu extends Pane {
 
         this.graphics.setOnMouseClicked(e ->{
             try {
-                MainStart.start3D();
+                Controller.start3D();
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -83,7 +87,7 @@ public class MainMenu extends Pane {
 
         this.start.setOnMouseClicked(e -> {
             try {
-                MainStart.startGame();
+                Controller.startGame();
             } catch (Exception e1) {
                 e1.printStackTrace();
             }

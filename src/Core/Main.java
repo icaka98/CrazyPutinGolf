@@ -29,11 +29,7 @@ import java.util.List;
  * @author Hristo Minkov
  */
 public class Main extends Application {
-    private static final String COURSE_CODE = "1";
 
-    private double startX, startY, finishX, finishY, tolerance, maxHeight, minHeight;
-    private int steps, precomputedStep;
-    private boolean precomputedMode, animationRunning;
     private static double scalar = Constants.SCALAR;
 
     private Line aiming;
@@ -46,54 +42,35 @@ public class Main extends Application {
     private VBox infoBox;
 
     private Stage mainStage;
-    private PhysicsEngine physicsEngine;
-    private Course course;
-    private Function functionEvaluator;
-    private PrecomputedModule precomputedModule;
 
-    private Bot bot;
+    private Controller controller;
 
-    private ArrayList<Point> path;
+
+    public Main(Controller controller) {
+        this.controller = controller;
+    }
 
     /**
      * Initializes all the variable fields of the class.
      */
-    private void initVars() {
-        this.steps = 0;
-        this.precomputedStep = 0;
-        this.precomputedMode = false;
-        this.animationRunning = false;
+   private void initVars() {
 
-        this.course = new Course(COURSE_CODE);
         this.mainPane = new Pane();
-        this.functionEvaluator = new Function(this.course.getEquation());
-        this.precomputedModule = new PrecomputedModule();
 
-        this.startX = this.course.getStart().getX() * scalar;
-        this.startY = this.course.getStart().getY() * scalar;
+    }
 
-        this.finishX = this.course.getGoal().getX() * scalar;
-        this.finishY = this.course.getGoal().getY() * scalar;
-        this.tolerance = this.course.getToleranceRadius() * scalar * 10;
-
-        this.physicsEngine = new PhysicsEngine(COURSE_CODE);
-        this.bot = new Putin(this.physicsEngine);
-
-        Grid gr = new Grid(Constants.FIELD_WIDTH, Constants.FIELD_HEIGHT, Constants.obstacle1);
-        Point s = new Point(250, 260);
-        Point g = new Point(250, 400);
-
-        path = AStar.search(gr, s, g);
+    public Pane getMainPane() {
+        return mainPane;
     }
 
     /**
      * Initializes all the graphic components of the class.
      */
     private void initComponents(){
-        this.hole = ComponentFactory.getHole(this.finishX, this.finishY, this.tolerance);
+        this.hole = ComponentFactory.getHole(this.controller.getFinishX(), this.controller.getFinishY(), this.controller.getTolerance());
         this.aiming = ComponentFactory.getAiming();
         this.stopLine = ComponentFactory.getStopWall();
-        this.ball = ComponentFactory.getBall(this.startX, this.startY);
+        this.ball = ComponentFactory.getBall(this.controller.getStartX(), this.controller.getStartY());
 
         this.next = ComponentFactory.getButton("Next", 100, 30, 575, 315);
         this.next.setVisible(false);
@@ -135,60 +112,9 @@ public class Main extends Application {
 
     /**
      * Draws the concrete course using points with particular colors.
-     * @param maxHeight the maximum height of the course function
-     * @param minHeight the minimum height of the course function
      */
-    private void drawField(double maxHeight, double minHeight){
-        for(double x = -Constants.FIELD_WIDTH / 2; x < Constants.FIELD_WIDTH / 2; x += 3.5){
-            for(double y = -Constants.FIELD_HEIGHT / 2; y < Constants.FIELD_HEIGHT / 2; y += 3.5){
-
-                double height = this.functionEvaluator.solve(x / scalar, y / scalar);
-
-                Circle point = new Circle(x + Constants.FIELD_WIDTH / 2,
-                        y + Constants.FIELD_HEIGHT / 2, 3, Color.GREEN);
-                //System.out.println("Height: " + height);
-                //System.out.println("MinHeight " + minHeight);
-                //System.out.println("MaxHeight " + maxHeight);
-                //int blueRatio = (int) (255*(1.0 - height/Function.minHeight));
-                int blueRatio = (int) (255*(1.0 + height/minHeight));
-                if (blueRatio < 0)  blueRatio = 0;
-                if (blueRatio > 255)  blueRatio = 255;
-                //int greenRatio = 105 + (int)(130.0*(height/Function.maxHeight));
-                int greenRatio = 105 + (int)(130.0*(height/(maxHeight*2)));
-                if (greenRatio < 0)  greenRatio = 0;
-                if (greenRatio > 255)  greenRatio = 255;
-                if(height < 0.0)
-                    point.setFill(
-                            Color.rgb(0,0, blueRatio));
-
-
-                else{
-                    if(Constants.FIELD_WIDTH / 2 - x < Constants.WALL_THICKNESS
-                            || x < -Constants.FIELD_WIDTH / 2 + Constants.WALL_THICKNESS
-                            || y < -Constants.FIELD_HEIGHT / 2 + Constants.WALL_THICKNESS
-                            || Constants.FIELD_HEIGHT / 2 - y < Constants.WALL_THICKNESS){
-                        point.setFill(Color.valueOf("#ECD540"));
-                    }else point.setFill(
-
-                            Color.rgb(0,greenRatio,0));
-                }
-
-
-                this.mainPane.getChildren().add(point);
-            }
-        }
-
-        for(double x = -Constants.FIELD_WIDTH / 2; x < Constants.FIELD_WIDTH / 2; x += 3.5){
-            for(double y = -Constants.FIELD_HEIGHT / 2; y < Constants.FIELD_HEIGHT / 2; y += 3.5){
-
-                double height = this.functionEvaluator.solve(x / scalar, y / scalar);
-
-                if(x + Constants.FIELD_WIDTH / 2 - 10 <= 4.5){
-                    Circle fence = new Circle(x, y, 3, Color.BLACK);
-                    this.mainPane.getChildren().add(fence);
-                }
-            }
-        }
+    private void drawField(){
+        this.controller.draw2D();
     }
 
     /**
@@ -235,7 +161,8 @@ public class Main extends Application {
             sequentialTransition.getChildren().add(this.createNextTransition(moves, i));
 
         sequentialTransition.setOnFinished( e -> {
-            this.animationRunning = false;
+            controller.setAnimationRunning(false);
+
             this.changeMode.setDisable(false);
             this.enableBot.setDisable(false);
             this.next.setDisable(false);
@@ -249,49 +176,23 @@ public class Main extends Application {
                 alert.setTitle("Congratulations");
                 alert.setHeaderText(null);
 
-                if(this.steps == 0) alert.setContentText("The bot scored hole-in-one!");
-                else alert.setContentText("You scored in " + this.steps + " steps.");
+                if(controller.getSteps() == 0) alert.setContentText("The bot scored hole-in-one!");
+                else alert.setContentText("You scored in " + controller.getSteps() + " steps.");
 
                 alert.show();
             }
         });
 
-        this.animationRunning = true;
+        controller.setAnimationRunning(true);
+
         this.changeMode.setDisable(true);
         this.enableBot.setDisable(true);
         this.next.setDisable(true);
         sequentialTransition.play();
     }
 
-    /**
-     * Executing a shot in the Physics engine
-     * @param aimX the X coordinate of the selected velocity
-     * @param aimY the Y coordinate of the selected velocity
-     * @return collection of all moves that have to be processed
-     * @see PhysicsEngine
-     */
-    private List<Point2D> prepareEngine( double aimX, double aimY){
-
-        double cenX = (this.ball.getCenterX() - Constants.FIELD_WIDTH / 2) / scalar;
-        double cenY = (this.ball.getCenterY() - Constants.FIELD_HEIGHT / 2) / scalar;
-
-        this.physicsEngine.setCurrentX(cenX);
-        this.physicsEngine.setCurrentY(cenY);
-
-        this.physicsEngine.takeVelocityOfShot(aimX, aimY);
-        this.physicsEngine.executeShot();
-
-        return this.physicsEngine.getCoordinatesOfPath();
-    }
-
-    private void calculateMinMax(){
-        for(double x = -Constants.FIELD_WIDTH / 2; x < Constants.FIELD_WIDTH / 2; x += 3.5){
-            for(double y = -Constants.FIELD_HEIGHT / 2; y < Constants.FIELD_HEIGHT / 2; y += 3.5){
-                double height = this.functionEvaluator.solve(x / scalar, y / scalar);
-                this.maxHeight = Math.max(this.maxHeight, height);
-                this.minHeight = Math.min(this.minHeight, height);
-            }
-        }
+    public Circle getBall() {
+        return ball;
     }
 
     private void restart(){
@@ -312,7 +213,7 @@ public class Main extends Application {
     }
 
     private String getFunctionInfo(){
-        return "Function: " + this.course.getCompactEquation();
+        return "Function: " + controller.getCourse().getCompactEquation();
     }
 
     /**
@@ -323,16 +224,16 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.mainStage = primaryStage;
-        this.mainStage.setTitle(Constants.STAGE_TITLE);
+        primaryStage.setTitle(Constants.STAGE_TITLE);
 
         this.initVars();
 
-        this.maxHeight = Double.MIN_VALUE;
-        this.minHeight = Double.MAX_VALUE;
+        controller.setMaxHeight(Double.MIN_VALUE) ;
+        controller.setMinHeight(Double.MAX_VALUE);
 
-        this.calculateMinMax();
+        controller.calculateMinMax();
 
-        this.drawField(this.maxHeight, this.minHeight);
+        this.drawField();
         this.initComponents();
 
         this.restartBtn.setOnAction(e -> {
@@ -354,8 +255,8 @@ public class Main extends Application {
         timeline.play();
 
         this.ball.setOnMouseDragged(event -> {
-            if(this.precomputedMode) return;
-            if(this.animationRunning) return;
+            if(controller.isPrecomputedMode()) return;
+            if(controller.isAnimationRunning()) return;
 
             double mouseX = event.getSceneX();
             double mouseY = event.getSceneY();
@@ -371,15 +272,15 @@ public class Main extends Application {
         });
 
         this.ball.setOnMouseReleased(event -> {
-            if(this.precomputedMode) return;
-            if(this.animationRunning) return;
+            if(controller.isPrecomputedMode()) return;
+            if(controller.isAnimationRunning()) return;
 
-            this.steps++;
+            controller.increaseStepBy1();
 
             double aimX = (aiming.getEndX() - Constants.FIELD_WIDTH / 2) / scalar;
             double aimY = (aiming.getEndY() - Constants.FIELD_HEIGHT / 2) / scalar;
 
-            List<Point2D> moves = this.prepareEngine(aimX, aimY);
+            List<Point2D> moves = controller.prepare2DEngine(aimX, aimY);
             System.out.println("LEN: " + moves.size());
 
             aiming.setEndY(0);
@@ -392,35 +293,37 @@ public class Main extends Application {
         });
 
         this.next.setOnAction(e -> {
-            if(this.animationRunning) return;
+            if(controller.isAnimationRunning())
+                return;
 
-            if(!this.precomputedMode
-                    || this.precomputedStep >= this.precomputedModule.getVelocities().size()) return;
+            if(!controller.isPrecomputedMode() ||
+                    controller.getPrecomputedStep() >= controller.getPrecomputedModule().getVelocities().size())
+                return;
 
-            Point2D nextMove = this.precomputedModule.getVelocities().get(this.precomputedStep++);
-            this.steps++;
+
+            Point2D nextMove =  controller.getNextMove();
 
             System.out.printf("%f %f\n", nextMove.getX(), nextMove.getY());
 
-            List<Point2D> moves = this.prepareEngine(nextMove.getX(), nextMove.getY());
+            List<Point2D> moves = controller.prepare2DEngine(nextMove.getX(), nextMove.getY());
             System.out.println("LEN: " + moves.size());
 
             this.executeTransitions(moves);
+
+            controller.increaseStepBy1();
         });
 
         this.changeMode.setOnAction(e -> {
-            this.precomputedMode = !this.precomputedMode;
-            this.next.setVisible(this.precomputedMode);
-            this.modeState.setText(this.precomputedMode ? "Precomputed mode" : "Player mode");
+            controller.changeMode();
+            this.next.setVisible(controller.isPrecomputedMode());
+            this.modeState.setText(controller.isPrecomputedMode() ? "Precomputed mode" : "Player mode");
         });
 
         this.enableBot.setOnAction(e -> {
-            long start = System.nanoTime();
-            Shot p = this.bot.go();
-            System.out.println((System.nanoTime()- start)/ 1000000);
 
-            double aimX = p.getVelocityX();
-            double aimY = p.getVelocityY();
+            Shot shot = controller.getBotShot();
+            double aimX = shot.getVelocityX();
+            double aimY = shot.getVelocityY();
 
 
             this.aiming.setEndX((aimX * scalar + Constants.FIELD_WIDTH / 2));
@@ -429,7 +332,7 @@ public class Main extends Application {
             this.aiming.setStartY(this.ball.getCenterY());
             this.aiming.setStrokeWidth(6.9f);
 
-            List<Point2D> moves = this.prepareEngine(aimX, aimY);
+            List<Point2D> moves = controller.prepare2DEngine(aimX, aimY);
             System.out.println("LEN: " + moves.size());
 
             Timer timer = new Timer(666, arg0 -> {
@@ -441,7 +344,7 @@ public class Main extends Application {
         });
 
         this.courseDesigner.setOnAction(e -> {
-            if(this.animationRunning) return;
+            if(controller.isAnimationRunning()) return;
 
             CourseDesigner.run();
         });
@@ -450,8 +353,8 @@ public class Main extends Application {
                 Constants.SCENE_WIDTH,
                 Constants.SCENE_HEIGHT);
 
-        this.mainStage.setScene(mainScene);
-        this.mainStage.show();
+        primaryStage.setScene(mainScene);
+        primaryStage.show();
     }
 
     /**
@@ -459,6 +362,7 @@ public class Main extends Application {
      * @param args arguments may pass to the application when starting
      */
     public static void main(String[] args) {
+
         launch(args);
     }
 }

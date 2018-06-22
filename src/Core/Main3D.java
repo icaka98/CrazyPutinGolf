@@ -26,30 +26,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Main3D extends Application {
-    private static final String COURSE_CODE = "1";
-
     private final Rotate rotateY = new Rotate(-145, Rotate.Y_AXIS);
     private final Rotate rotateX = new Rotate(0, Rotate.X_AXIS);
-    private double maxHeight, minHeight, amplification;
     private Sphere ball;
-    private double curX, curY, curZ;
+    //private double curX, curY, curZ;
     private Group cube;
     private List<Point3D> moves;
-    private PhysicsEngine physicsEngine;
-    private Function functionEvaluator;
-    private Course course;
 
-    private double solve(double x, double y){
-        return functionEvaluator.solve(x, y);
+
+    private Controller controller;
+
+    public Main3D(Controller controller) {
+        this.controller = controller;
     }
 
-    private void checkFunctionBounds(){
-        for (double x = -2.50; x < 2.50; x+=0.01) {
-            for (double y = -2.50; y < 2.50; y+=0.01) {
-                this.maxHeight = Math.max(solve(x, y), this.maxHeight);
-                this.minHeight = Math.min(solve(x, y), this.minHeight);
-            }
-        }
+    public Sphere getBall() {
+        return ball;
     }
 
     private Pair<TranslateTransition, Point3D> createNextTransition(List<Point3D> moves, int idx, Point3D ballPos){
@@ -99,35 +91,9 @@ public class Main3D extends Application {
         sequentialTransition.play();
     }
 
-    private List<Point3D> prepareEngine( double aimX, double aimY){
-
-        double cenX = (this.ball.getTranslateX()) / Constants.SCALAR;
-        double cenY = (this.ball.getTranslateZ()) / Constants.SCALAR;
-
-        aimX /= Constants.SCALAR;
-        aimY /= Constants.SCALAR;
-
-        this.physicsEngine.setCurrentX(cenX);
-        this.physicsEngine.setCurrentY(cenY);
-
-        this.physicsEngine.takeVelocityOfShot(aimX, aimY);
-        this.physicsEngine.executeShot();
-
-        return this.physicsEngine.getCoordinatesOfPath().subList(0,
-                this.physicsEngine.getCoordinatesOfPath().size()-1).stream()
-                .map(m -> new Point3D(m.getX(),
-                        this.solve(m.getX(), m.getY()) * amplification,
-                        m.getY()))
-                .collect(Collectors.toList());
-    }
-
     @Override
     public void start(Stage primaryStage) {
         this.cube = new Group();
-        this.physicsEngine = new PhysicsEngine(COURSE_CODE);
-
-        this.course = new Course(COURSE_CODE);
-        this.functionEvaluator = new Function(this.course.getEquation());
 
         this.cube.getTransforms().addAll(this.rotateY);
         this.cube.getTransforms().addAll(this.rotateX);
@@ -137,20 +103,23 @@ public class Main3D extends Application {
         TriangleMesh mesh = new TriangleMesh();
         TriangleMesh water = new TriangleMesh();
 
-        this.checkFunctionBounds();
+        this.controller.checkFunctionBounds();
 
-        this.maxHeight = this.maxHeight * Constants.SCALAR;
-
-        this.amplification = (float) -1;//(-250.0f / this.maxHeight);
+        this.controller.init3DVars();
 
         Box obs = new Box(30, 30, 30);
         this.cube.getChildren().addAll(obs);
 
+        this.ball = new Sphere();
+        this.ball.setRadius(6);
+        this.ball.setTranslateZ(200);
+        this.ball.setTranslateX(200);
+        this.ball.setTranslateY(this.controller.solve(200, -200) * this.controller.getAmplification() - this.ball.getRadius());
         int size = 100;
 
         for (double x = -2.5; x <= 2.5; x+=4.9999/((float)(size-1))) {
             for (double y = -2.5; y <= 2.5; y+=4.9999/((float)(size-1))) {
-                double z = (solve(x, y) * this.amplification);
+                double z = (this.controller.solve(x, y) * this.controller.getAmplification());
                 if(z < -2.5) z = -2.5;
                 if(z > 2.5) z = 2.5;
                 mesh.getPoints().addAll(
@@ -160,14 +129,7 @@ public class Main3D extends Application {
             }
         }
 
-        this.ball = new Sphere();
-        this.ball.setRadius(6);
-        this.ball.setTranslateZ(200);
-        this.ball.setTranslateX(200);
-        this.ball.setTranslateY(this.solve(200, -200) * this.amplification - this.ball.getRadius());
-
         // texture
-
         for (float x = 0; x < size - 1; x++) {
             for (float y = 0; y < size - 1; y++) {
                 float x0 = x / (float) size;
@@ -212,11 +174,11 @@ public class Main3D extends Application {
         meshView.setOnMouseClicked(e -> {
             PickResult pr = e.getPickResult();
 
-            this.curX = pr.getIntersectedPoint().getX();
+            /*this.curX = ;
             this.curY = this.solve(this.curX, this.curZ) * this.amplification;
-            this.curZ = pr.getIntersectedPoint().getZ();
-
-            List<Point3D> moves = this.prepareEngine(this.curX, this.curZ);
+            this.curZ = ;
+*/
+            List<Point3D> moves = this.controller.prepare3DEngine(pr.getIntersectedPoint().getX(), pr.getIntersectedPoint().getZ());
 
             this.executeTransitions(moves);
         });
