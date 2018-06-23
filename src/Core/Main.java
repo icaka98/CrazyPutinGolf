@@ -198,6 +198,8 @@ public class Main extends Application {
     private void restart(){
         this.mainStage.close();
         start(this.mainStage);
+        this.controller.initKeyVars();
+        this.controller.init2DVars();
     }
 
     private String getBallInfo(){
@@ -321,7 +323,9 @@ public class Main extends Application {
 
         this.enableBot.setOnAction(e -> {
 
+            long start = System.nanoTime();
             Shot shot = controller.getBotShot();
+            System.out.println((System.nanoTime() - start) / 1000000);
             double aimX = shot.getVelocityX();
             double aimY = shot.getVelocityY();
 

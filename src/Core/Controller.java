@@ -16,7 +16,11 @@ public class Controller {
     private static final String COURSE_CODE = "1";
 
     public Controller() {
-        initVars();
+        createScreens();
+
+        initKeyVars();
+        init3DVars();
+        init2DVars();
     }
     private double amplification;
 
@@ -36,13 +40,21 @@ public class Controller {
     private static Main twoDimensionalScreen;
     private static Main3D threeDimensional;
 
+    public void initKeyVars() {
+
+        this.physicsEngine = new PhysicsEngine(COURSE_CODE);
+        this.bot = new Putin(this.physicsEngine);
+    }
+
+    public void createScreens() {
+        twoDimensionalScreen = new Main(this);
+        threeDimensional = new Main3D(this);
+    }
 
     /**
      * Initializes all the variable fields of the class.
      */
-    private void initVars() {
-        twoDimensionalScreen = new Main(this);
-        threeDimensional = new Main3D(this);
+    public void init2DVars() {
 
         this.steps = 0;
         this.precomputedStep = 0;
@@ -61,8 +73,6 @@ public class Controller {
         this.finishY = this.course.getGoal().getY() * scalar;
         this.tolerance = this.course.getToleranceRadius() * scalar * 10;
 
-        this.physicsEngine = new PhysicsEngine(COURSE_CODE);
-        this.bot = new Putin(this.physicsEngine);
 
         /*Grid gr = new Grid(Constants.FIELD_WIDTH, Constants.FIELD_HEIGHT, Constants.obstacle1);
         Point s = new Point(250, 260);
@@ -188,7 +198,6 @@ public class Controller {
         }
     }
     public Shot getBotShot() {
-
         return this.bot.go();
     }
 
