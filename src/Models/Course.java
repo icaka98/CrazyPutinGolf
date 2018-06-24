@@ -2,8 +2,13 @@ package Models;
 
 import Utils.Constants;
 import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.shape.Rectangle;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Zhecho Mitev
@@ -13,6 +18,8 @@ public class Course {
     private double g, mu, vmax, tolerance;
     private Point2D start, goal;
     private String equation;
+
+    private List<Rectangle> obstacles;
 
     private FileReader fr;
     private BufferedReader br;
@@ -26,6 +33,7 @@ public class Course {
         this.start = start;
         this.goal = goal;
         this.tolerance = tolerance;
+        this.obstacles = new ArrayList<>();
     }
 
     public Course(String code) {
@@ -55,6 +63,22 @@ public class Course {
             this.tolerance = Double.parseDouble(br.readLine().replaceAll(Constants.NON_NUMBERS, ""));
 
             this.equation = this.br.readLine().replaceAll("z = ", "");
+
+            this.obstacles = new ArrayList<>();
+
+            String obstacleInfo = this.br.readLine().split(" = ")[1];
+            obstacleInfo = obstacleInfo.substring(1, obstacleInfo.length() - 1);
+
+            String[] obstaclesStrings = Arrays.stream(obstacleInfo.split("\\),\\(")).toArray(String[]::new);
+
+            for (String obstr : obstaclesStrings){
+                double[] tokens = Arrays.stream(obstr.split(",")).mapToDouble(Double::parseDouble).toArray();
+                this.obstacles.add(new Rectangle(
+                        tokens[0]*Constants.SCALAR + 250.0,
+                        tokens[1]*Constants.SCALAR + 250.0,
+                        tokens[2]*Constants.SCALAR,
+                        tokens[3]*Constants.SCALAR));
+            }
 
             this.fr.close();
             this.br.close();
@@ -102,4 +126,6 @@ public class Course {
     public String getCompactEquation(){
         return this.equation.replaceAll("\\s+", "");
     }
+
+    public List<Rectangle> getObstacles(){ return this.obstacles; }
 }

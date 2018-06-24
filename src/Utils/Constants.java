@@ -58,7 +58,7 @@ public class Constants {
             100 , 85
             ,100 ,103 );
 
-    public static final int[] obstacle1 = {-100, 100, 85, 103};
+    //public static final int[] obstacle1 = {-100, 100, 85, 103};
 
 
 

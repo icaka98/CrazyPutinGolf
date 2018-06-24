@@ -109,13 +109,13 @@ public class Function{
      */
     public double solve(double x, double y){ //solve equation for x and y values
         
-        return splineSolver(x,y);
+        //return splineSolver(x,y);
 
-        //vars.put("x", x);
-        //vars.put("y", y);
+        vars.put("x", x);
+        vars.put("y", y);
 
-        //System.out.println(vars.containsKey("pi"));
-        //return eval(z);
+        System.out.println(vars.containsKey("pi"));
+        return eval(z);
     }
     
     private double splineSolver(double x, double y) {

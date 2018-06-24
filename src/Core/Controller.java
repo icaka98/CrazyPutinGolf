@@ -15,9 +15,6 @@ import java.util.stream.Collectors;
 public class Controller {
     private static final String COURSE_CODE = "1";
 
-    public Controller() {
-        initVars();
-    }
     private double amplification;
 
     private double startX, startY, finishX, finishY, tolerance, maxHeight, minHeight;
@@ -36,6 +33,9 @@ public class Controller {
     private static Main twoDimensionalScreen;
     private static Main3D threeDimensional;
 
+    public Controller() {
+        initVars();
+    }
 
     /**
      * Initializes all the variable fields of the class.
@@ -285,5 +285,9 @@ public class Controller {
 
     public static void startGame() throws Exception {
         twoDimensionalScreen.start(new Stage());
+    }
+
+    public void loadObstacles() {
+        this.course.getObstacles().forEach(Main::addObstacle);
     }
 }

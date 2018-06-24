@@ -3,11 +3,13 @@ package Core;
 import Models.Course;
 import Utils.Constants;
 import Models.Function;
-        import javafx.geometry.Point2D;
+import javafx.geometry.Point2D;
+import javafx.scene.shape.Rectangle;
 
 import java.awt.geom.Line2D;
 import java.io.File;
-        import java.util.ArrayList;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Zhecho Mitev
@@ -88,7 +90,28 @@ public class PhysicsEngine {
         Line2D path = new Line2D.Double(lastX*Constants.SCALAR, lastY*Constants.SCALAR,
                 currentX*Constants.SCALAR, currentY*Constants.SCALAR);//the line between the last and the current point
 
-        if(Constants.UP_MID_LINE.intersectsLine(path)
+        List<Rectangle> obstacles = this.terrainState.getObstacles();
+        Point2D currentPoint = new Point2D(currentX * Constants.SCALAR + 250, currentY * Constants.SCALAR + 250);
+        System.out.println(currentPoint);
+
+        double angle = angleBetween2Lines(path, new Line2D.Double(0, 0, 0, 1));
+        System.out.println(angle);
+
+        for(Rectangle obstacle : obstacles){
+            System.out.println(obstacle);
+            if(obstacle.contains(currentPoint)){
+                this.currentX = lastX;
+                this.currentY = lastY;
+                this.velocityX = lastVx;
+                this.velocityY = lastVy;
+
+                if(Math.abs(angle) > Math.PI / 2.0) this.velocityY *= -1;
+                else this.velocityX *= -1;
+                rk4();
+            }
+        }
+
+        /*if(Constants.UP_MID_LINE.intersectsLine(path)
                 || Constants.DOWN_MID_LINE.intersectsLine(path)){
             this.currentX = lastX;
             this.currentY = lastY;
@@ -109,7 +132,7 @@ public class PhysicsEngine {
 
             this.velocityX *= -1;
             rk4();
-        }
+        }*/
 
         if(path.intersectsLine(Constants.UP_WALL)
                 || path.intersectsLine(Constants.BOTTOM_WALL)){
@@ -143,6 +166,14 @@ public class PhysicsEngine {
         Point2D point2D = new Point2D(this.currentX, this.currentY);
         //System.out.println("Shot: " + point2D.getX() + " "  + point2D.getY());
         this.coordinatesOfPath.add(point2D);
+    }
+
+    public static double angleBetween2Lines(Line2D line1, Line2D line2) {
+        double angle1 = Math.atan2(line1.getY1() - line1.getY2(),
+                line1.getX1() - line1.getX2());
+        double angle2 = Math.atan2(line2.getY1() - line2.getY2(),
+                line2.getX1() - line2.getX2());
+        return angle1-angle2;
     }
 
     /**

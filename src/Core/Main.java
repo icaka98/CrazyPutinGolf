@@ -6,6 +6,7 @@ import Utils.Shot;
 import javafx.animation.*;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -15,13 +16,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class Main extends Application {
     private static double scalar = Constants.SCALAR;
 
     private Line aiming;
-    private Pane mainPane;
+    private static Pane mainPane;
     private Circle ball, hole;
     private Line stopLine;
 
@@ -45,7 +46,6 @@ public class Main extends Application {
 
     private Controller controller;
 
-
     public Main(Controller controller) {
         this.controller = controller;
     }
@@ -53,11 +53,7 @@ public class Main extends Application {
     /**
      * Initializes all the variable fields of the class.
      */
-   private void initVars() {
-
-        this.mainPane = new Pane();
-
-    }
+    private void initVars() { this.mainPane = new Pane(); }
 
     public Pane getMainPane() {
         return mainPane;
@@ -96,6 +92,10 @@ public class Main extends Application {
         this.attachAllComponents();
     }
 
+    public static void addObstacle(Rectangle obstacle){
+        mainPane.getChildren().add(obstacle);
+    }
+
     private void attachAllComponents() {
         this.mainPane.getChildren().add(this.aiming);
         this.mainPane.getChildren().add(this.ball);
@@ -104,7 +104,7 @@ public class Main extends Application {
         this.mainPane.getChildren().add(this.enableBot);
         this.mainPane.getChildren().add(this.next);
         this.mainPane.getChildren().add(this.courseDesigner);
-        this.mainPane.getChildren().add(this.stopLine);
+        //this.mainPane.getChildren().add(this.stopLine);
         this.mainPane.getChildren().add(this.restartBtn);
         this.mainPane.getChildren().add(this.titleLabel);
         this.mainPane.getChildren().add(this.infoBox);
@@ -234,6 +234,7 @@ public class Main extends Application {
         controller.calculateMinMax();
 
         this.drawField();
+        this.controller.loadObstacles();
         this.initComponents();
 
         this.restartBtn.setOnAction(e -> {
