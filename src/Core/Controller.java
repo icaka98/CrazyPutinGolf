@@ -34,15 +34,21 @@ public class Controller {
     private static Main3D threeDimensional;
 
     public Controller() {
-        initVars();
+        initKeyVars();
+        init2DVars();
+        init3DVars();
+    }
+
+    public void initKeyVars(){
+        twoDimensionalScreen = new Main(this);
+        threeDimensional = new Main3D(this);
+
     }
 
     /**
      * Initializes all the variable fields of the class.
      */
-    private void initVars() {
-        twoDimensionalScreen = new Main(this);
-        threeDimensional = new Main3D(this);
+    public void init2DVars() {
 
         this.steps = 0;
         this.precomputedStep = 0;
