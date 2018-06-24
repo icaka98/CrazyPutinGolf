@@ -40,7 +40,7 @@ public class Constants {
 
     public static final String DEFAULT_SAVE_FILE = "src/Assets/save_course.txt";
 
-    public static final double STOP_SPEED = 0.02;
+    public static final double STOP_SPEED = 0.03;
 
     public static final Line2D DOWN_MID_LINE = new Line2D.Double(
             -100 , 85
