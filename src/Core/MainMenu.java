@@ -24,10 +24,6 @@ import javafx.util.Duration;
 public class MainMenu extends Pane {
     private Button start, chooseCourse, exit, graphics;
     private Label titleLabel, currentCourseLabel;
-    private Course course;
-    private Function functionEvaluator;
-
-    private static final String COURSE_CODE = "1";
 
     private Controller controller;
 
@@ -38,9 +34,6 @@ public class MainMenu extends Pane {
     }
 
     private void init() {
-        this.course = new Course(COURSE_CODE);
-        this.functionEvaluator = new Function(this.course.getEquation());
-
         this.start = ComponentFactory.getButton("Play Golf!", 160, 40, 120, 270);
         this.chooseCourse = ComponentFactory.getButton("Choose course", 200, 40, 100, 320);
         this.exit = ComponentFactory.getButton("Exit game", 160, 40, 120, 450);
@@ -111,7 +104,7 @@ public class MainMenu extends Pane {
 
         for (double x = -2.5; x <= 2.5; x+=4.9999/((float)(size-1))) {
             for (double y = -2.5; y <= 2.5; y+=4.9999/((float)(size-1))) {
-                double z = (this.functionEvaluator.solve(x, y) * -1);
+                double z = (this.controller.solve(x, y) * -1);
                 if(z < -2.5) z = -2.5;
                 if(z > 2.5) z = 2.5;
                 mesh.getPoints().addAll(
