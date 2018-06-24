@@ -113,8 +113,7 @@ public class Function{
 
         vars.put("x", x);
         vars.put("y", y);
-
-        System.out.println(vars.containsKey("pi"));
+        
         return eval(z);
     }
     
