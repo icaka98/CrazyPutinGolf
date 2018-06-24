@@ -198,7 +198,6 @@ public class Main extends Application {
     private void restart(){
         this.mainStage.close();
         start(this.mainStage);
-        this.controller.initKeyVars();
         this.controller.init2DVars();
     }
 
