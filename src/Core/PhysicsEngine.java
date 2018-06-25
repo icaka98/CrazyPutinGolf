@@ -308,6 +308,8 @@ public class PhysicsEngine {
         //if there is a collision detected the ball returns to the initial state
         if(collisionDetected(this.currentX, this.currentY)){
             this.coordinatesOfPath.add(new Point2D(startX,  startY));
+            this.currentX = startX;
+            this.currentY = startY;
         }
     }
 
