@@ -68,7 +68,8 @@ public class Controller {
         this.tolerance = this.course.getToleranceRadius() * scalar * 10;
 
         this.physicsEngine = new PhysicsEngine(COURSE_CODE);
-        this.bot = new Putin(this.physicsEngine);
+        this.bot = new Alistair(this.physicsEngine, this);
+        //this.bot = new Putin(this.physicsEngine);
 
         /*Grid gr = new Grid(Constants.FIELD_WIDTH, Constants.FIELD_HEIGHT, Constants.obstacle1);
         Point s = new Point(250, 260);
