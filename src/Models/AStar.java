@@ -62,6 +62,7 @@ public class AStar {
     }
 
     private static double heuristic(Point a, Point b){
-        return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+        //return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+        return Math.sqrt(Math.pow(a.x-b.x,2)+Math.pow(a.y-b.y,2));
     }
 }
