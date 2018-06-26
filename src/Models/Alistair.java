@@ -5,12 +5,22 @@ import Core.PhysicsEngine;
 import Utils.Constants;
 import Utils.Shot;
 import javafx.geometry.Point2D;
+import javafx.scene.shape.Rectangle;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+import java.util.List;
+
+/***
+ * @author Mathieu Coenegracht
+ * @author Zhecho Mitev
+ * Bot that uses a combination of the pathfinding algorithm and the genetic algorithm
+ *
+ */
 
 public class Alistair extends Bot {
 
@@ -19,6 +29,7 @@ public class Alistair extends Bot {
     private ArrayList<Point> path;
     private ArrayList<Shot> population;
     private final double mutationRate = 0.4;
+    private List<Rectangle> obs;
 
     public Alistair(PhysicsEngine physicsEngine, Controller c){
         super(physicsEngine);
@@ -26,7 +37,7 @@ public class Alistair extends Bot {
         grid = new Grid(controller);
         int startx = (int)controller.getStartX()+Constants.FIELD_WIDTH/2;
         int starty = (int)controller.getStartY()+ Constants.FIELD_WIDTH/2;
-        System.out.println("\nstartx="+startx+"\nstarty="+starty);
+        //System.out.println("\nstartx="+startx+"\nstarty="+starty);
 
         Point start = new Point((int)controller.getStartX()+Constants.FIELD_WIDTH/2, (int)controller.getStartY()+ Constants.FIELD_HEIGHT/2);
         Point goal = new Point((int)controller.getFinishX()+Constants.FIELD_WIDTH/2, (int)controller.getFinishY()+Constants.FIELD_HEIGHT/2);
@@ -34,6 +45,7 @@ public class Alistair extends Bot {
         System.out.println("Goal = "+goal);
         path = AStar.search(grid, start, goal);
         Collections.reverse(path);
+        obs = c.getCourse().getObstacles();
 
     }
 
@@ -44,15 +56,23 @@ public class Alistair extends Bot {
         this.initialY = this.engine.getCurrentY();
         Point newGoal = new Point(path.get(path.size()-1));
         boolean blocked = false;
-        System.out.println("[initx = "+initialX+";inity = "+initialY+"]");
+
+        //System.out.println("[initx = "+initialX+";inity = "+initialY+"]");
 
         for(Point p : path) {
             Line2D l = new Line2D.Double(this.initialX*Constants.SCALAR, this.initialY*Constants.SCALAR, p.x-Constants.FIELD_WIDTH/2, p.y-Constants.FIELD_HEIGHT/2);
-            for (Line2D obstacle : Constants.LINES) {
+            /*for (Line2D obstacle : Constants.LINES) {
                 if (l.intersectsLine(obstacle)) {
                     blocked = true;
                 }
+            }*/
+            for(Rectangle o: obs){
+                Rectangle2D newRect = new Rectangle2D.Double((o.getX()-Constants.FIELD_WIDTH/2),(o.getY()-Constants.FIELD_HEIGHT/2),o.getWidth(),o.getHeight());
+                if(l.intersects(newRect)){
+                    blocked=true;
+                }
             }
+
             if (!blocked) {
                 newGoal= p;
                 break;
@@ -60,7 +80,7 @@ public class Alistair extends Bot {
             blocked = false;
         }
 
-        System.out.println("newGoal="+newGoal);
+        //System.out.println("newGoal="+newGoal);
 
 
         double xDirection = (newGoal.x-Constants.FIELD_WIDTH/2)/Constants.SCALAR;
@@ -80,7 +100,7 @@ public class Alistair extends Bot {
 
         double distance;
         Point2D goal = new Point2D(xDir, yDir);
-        System.out.println(goal);
+        //System.out.println(goal);
         Shot current = null;
         for (int i = 0; i < 250; i++) {
             this.engine.setCurrentX(this.initialX);
