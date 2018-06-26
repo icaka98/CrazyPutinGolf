@@ -92,21 +92,27 @@ public class PhysicsEngine {
 
         List<Rectangle> obstacles = this.terrainState.getObstacles();
         Point2D currentPoint = new Point2D(currentX * Constants.SCALAR + 250, currentY * Constants.SCALAR + 250);
-        System.out.println(currentPoint);
+        //System.out.println(currentPoint);
 
         double angle = angleBetween2Lines(path, new Line2D.Double(0, 0, 0, 1));
-        System.out.println(angle);
+        //System.out.println("Angle: " + angle);
 
         for(Rectangle obstacle : obstacles){
-            System.out.println(obstacle);
+            //System.out.println(obstacle);
             if(obstacle.contains(currentPoint)){
                 this.currentX = lastX;
                 this.currentY = lastY;
                 this.velocityX = lastVx;
                 this.velocityY = lastVy;
 
-                if(Math.abs(angle) > Math.PI / 2.0) this.velocityY *= -1;
-                else this.velocityX *= -1;
+                System.out.println("OSt: " + obstacle.getX() + " ---- " + this.currentX + "  ,  " + obstacle.getHeight());
+
+                if(this.currentX > (obstacle.getX() - 250.0) / Constants.SCALAR
+                        && this.currentX < (obstacle.getX() - 250.0) / Constants.SCALAR + obstacle.getWidth() / Constants.SCALAR)
+
+                    this.velocityY *= -1;
+                else
+                    this.velocityX *= -1;
                 rk4();
             }
         }
