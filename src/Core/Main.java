@@ -81,7 +81,7 @@ public class Main extends Application {
         this.positionLabel = ComponentFactory.getLabel(this.getBallInfo(), 510, 110);
         this.goalLabel = ComponentFactory.getLabel(this.getGoalInfo(), 510, 150);
 
-        this.titleLabel = ComponentFactory.getLabel("Puting Golf", 545, 10);
+        this.titleLabel = ComponentFactory.getLabel("Putting Golf", 545, 10);
         this.titleLabel.setTextFill(Color.GREEN);
         this.titleLabel.setEffect(ComponentFactory.getDropShadow());
         this.titleLabel.setFont(Font.font(null, FontWeight.BOLD, 32));
