@@ -105,7 +105,7 @@ public class PhysicsEngine {
                 this.velocityX = lastVx;
                 this.velocityY = lastVy;
 
-                System.out.println("OSt: " + obstacle.getX() + " ---- " + this.currentX + "  ,  " + obstacle.getHeight());
+                //System.out.println("OSt: " + obstacle.getX() + " ---- " + this.currentX + "  ,  " + obstacle.getHeight());
 
                 if(this.currentX > (obstacle.getX() - 250.0) / Constants.SCALAR
                         && this.currentX < (obstacle.getX() - 250.0) / Constants.SCALAR + obstacle.getWidth() / Constants.SCALAR)
@@ -303,7 +303,7 @@ public class PhysicsEngine {
         double startX = this.currentX;
         double startY = this.currentY;
         //calculateRelevantVelocity();
-        rk4();
+        //rk4();
 
         while ((Math.abs(velocityX) > Constants.STOP_SPEED
                 || Math.abs(velocityY) > Constants.STOP_SPEED)
