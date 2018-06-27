@@ -135,7 +135,7 @@ public class Function{
         double bModule = (((y*4)+10) % 4) / 4;
 
         Interpolator.designCourse(a,b);
-        courseCoefficients = Interpolator.getCoefficients();
+        courseCoefficients = Interpolator.getGrid();
         squareCoefficients = courseCoefficients[a][b];
 
         for (int i = 0; i < 4; i++) {
