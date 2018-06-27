@@ -46,15 +46,15 @@ public class Constants {
             -100 , 85
             ,100 ,85 );
 
-    public static final Line2D UP_MID_LINE = new Line2D.Double(
+    private static final Line2D UP_MID_LINE = new Line2D.Double(
             -100 , 103
             ,100 ,103 );
 
-    public static final Line2D LEFT_MID_LINE = new Line2D.Double(
+    private static final Line2D LEFT_MID_LINE = new Line2D.Double(
             -100 , 85
             ,-100 ,103 );
 
-    public static final Line2D RIGHT_MID_LINE = new Line2D.Double(
+    private static final Line2D RIGHT_MID_LINE = new Line2D.Double(
             100 , 85
             ,100 ,103 );
 
@@ -62,17 +62,15 @@ public class Constants {
 
     public static final int[] obstacle1 = {-100 + FIELD_WIDTH/2, 100 +FIELD_WIDTH/2, 85+FIELD_HEIGHT/2, 103+FIELD_HEIGHT/2};
 
-
-
     public static final Line2D UP_WALL = new Line2D.Double(-Constants.FIELD_WIDTH / 2 , Constants.FIELD_HEIGHT / 2 - (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), Constants.FIELD_WIDTH / 2, Constants.FIELD_HEIGHT / 2 - (Constants.BALL_RADIUS + Constants.WALL_THICKNESS));
+
     public static final Line2D BOTTOM_WALL = new Line2D.Double(-Constants.FIELD_WIDTH / 2, -Constants.FIELD_HEIGHT / 2 + (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), Constants.FIELD_WIDTH / 2, -Constants.FIELD_HEIGHT / 2 + (Constants.BALL_RADIUS + Constants.WALL_THICKNESS));
+
     public static final Line2D RIGHT_WALL = new Line2D.Double(Constants.FIELD_WIDTH / 2 - (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), -Constants.FIELD_HEIGHT / 2, Constants.FIELD_WIDTH / 2 -(Constants.BALL_RADIUS + Constants.WALL_THICKNESS), Constants.FIELD_HEIGHT / 2);
+    
     public static final Line2D LEFT_WALL = new Line2D.Double(-Constants.FIELD_WIDTH / 2 + (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), -Constants.FIELD_HEIGHT / 2, -Constants.FIELD_WIDTH / 2 + (Constants.BALL_RADIUS + Constants.WALL_THICKNESS), Constants.FIELD_HEIGHT / 2);
 
     public static final Line2D[] WALLS = {UP_WALL, BOTTOM_WALL, RIGHT_WALL, LEFT_WALL};
-
-
-
 
     public static final int VELOCITY_SCALAR = 2;
 }

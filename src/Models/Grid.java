@@ -37,7 +37,6 @@ public class Grid {
         }*/
         System.out.println(obs.size());
         for (Rectangle o : obs){
-            //System.out.println("HI");
             for(int i = (int) o.getX(); i < (int)o.getX() + o.getWidth(); i++){
                 for(int j = (int)o.getY(); j < (int)o.getY() +o.getHeight(); j++) {
                     obstacles.add(new Point(i, j));
