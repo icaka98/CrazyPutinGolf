@@ -3,6 +3,9 @@ package Models.Bots;
 import Core.Physics.PhysicsEngine;
 import Models.Shot;
 
+/**
+ * @author Zhecho Mitev
+ */
 public abstract class Bot {
     protected PhysicsEngine engine;
     protected double initialX, initialY;
@@ -11,5 +14,9 @@ public abstract class Bot {
         this.engine = physicsEngine;
     }
 
+    /**
+     * Abstract method for executing a shot. Different for every algorithm.
+     * @return the Shot to be preformed.
+     */
     public abstract Shot go();
 }

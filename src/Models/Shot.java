@@ -1,5 +1,8 @@
 package Models;
 
+/**
+ * @author Zhecho Mitev
+ */
 public class Shot implements Comparable {
     private double velocityX, velocityY;
     private double distanceToGoal;
