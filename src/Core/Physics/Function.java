@@ -1,7 +1,5 @@
 package Core.Physics;
 
-import Core.Physics.Interpolator;
-import Core.Physics.MatrixXL;
 import Models.Node;
 
 import java.util.Queue;
@@ -107,16 +105,20 @@ public class Function{
      * @param y y value for which the expression should be evaluated
      * @return output value of the function dependent on the two input values
      */
-    public double solve(double x, double y){ //solve equation for x and y values
-        
+    public double solve(double x, double y){
         //return splineSolver(x,y);
-
-        vars.put("x", x);
-        vars.put("y", y);
+        this.vars.put("x", x);
+        this.vars.put("y", y);
         
         return eval(z);
     }
-    
+
+    /**
+     * Spline solver for the course
+     * @param x x-coordinate to be solved
+     * @param y y-coordinate to be solved
+     * @return the height that is computed
+     */
     private double splineSolver(double x, double y) {
         int a,b;
         double z = 0;
@@ -192,10 +194,14 @@ public class Function{
         }
     }
 
-    /*public static void main(String[] args) {
+    /**
+     * Implemented for testing.
+     * @param args allows console argument parse
+     */
+    public static void main(String[] args) {
         String height = "( ( 0.1 * x ) + ( 0.03 * ( x ^ 2 ) ) + ( 0.2 * y ) )";
         Function f = new Function(height);
         System.out.println("\n" +f.solve(1.0, 2.0));
         System.out.println(f.solve(2.0, 3.0));
-    }*/
+    }
 }
