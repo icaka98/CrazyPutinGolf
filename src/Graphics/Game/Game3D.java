@@ -1,6 +1,7 @@
 package Graphics.Game;
 
 import Core.Controller;
+import Graphics.CustomPanes.MainMenuPane;
 import Utils.Constants;
 import javafx.animation.*;
 import javafx.application.Application;
@@ -22,14 +23,15 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Hristo Minkov
+ */
 public class Game3D extends Application {
     private final Rotate rotateY = new Rotate(-145, Rotate.Y_AXIS);
     private final Rotate rotateX = new Rotate(0, Rotate.X_AXIS);
     private Sphere ball;
-    //private double curX, curY, curZ;
     private Group cube;
     private List<Point3D> moves;
-
 
     private Controller controller;
 
@@ -37,10 +39,20 @@ public class Game3D extends Application {
         this.controller = controller;
     }
 
+    /**
+     * @return the ball object
+     */
     public Sphere getBall() {
         return ball;
     }
 
+    /**
+     * Creates a specific transition corresponding to a given move
+     * @param moves the collection of moves that should be executed
+     * @param idx the current index of the moves showing the transition state
+     * @return the newly created transition
+     * @see PathTransition
+     */
     private Pair<TranslateTransition, Point3D> createNextTransition(List<Point3D> moves, int idx, Point3D ballPos){
         Point3D move = moves.get(idx);
 
@@ -61,6 +73,10 @@ public class Game3D extends Application {
         return new Pair<>(tt, ballPos);
     }
 
+    /**
+     * Add all transitions to a sequential transition and execute the main transition
+     * @param moves a list with all the velocities to be processed
+     */
     private void executeTransitions(List<Point3D> moves){
         SequentialTransition sequentialTransition = new SequentialTransition();
 
@@ -88,6 +104,10 @@ public class Game3D extends Application {
         sequentialTransition.play();
     }
 
+    /**
+     * Start method.
+     * @param primaryStage the Stage that the start is applied to.
+     */
     @Override
     public void start(Stage primaryStage) {
         this.cube = new Group();
@@ -127,34 +147,10 @@ public class Game3D extends Application {
         }
 
         // texture
-        for (float x = 0; x < size - 1; x++) {
-            for (float y = 0; y < size - 1; y++) {
-                float x0 = x / (float) size;
-                float y0 = y / (float) size;
-                float x1 = (x + 1) / (float) size;
-                float y1 = (y + 1) / (float) size;
-
-                mesh.getTexCoords().addAll(
-                        x1, y1,
-                        x1, y0,
-                        x0, y1,
-                        x0, y0
-                );
-            }
-        }
+        MainMenuPane.addTextureMesh(mesh, size);
 
         // faces
-        for (int x = 0; x < size - 1; x++) {
-            for (int z = 0; z < size - 1; z++) {
-                int p0 = x * size + z;
-                int p1 = x * size + z + 1;
-                int p2 = (x + 1) * size + z;
-                int p3 = (x + 1) * size + z + 1;
-
-                mesh.getFaces().addAll(p2, 0, p1, 0, p0, 0);
-                mesh.getFaces().addAll(p2, 0, p3, 0, p1, 0);
-            }
-        }
+        MainMenuPane.addFacesMesh(mesh, size);
 
         this.cube.setTranslateY(400);
         this.cube.setTranslateX(400);
@@ -205,6 +201,10 @@ public class Game3D extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Allow zoom on object.
+     * @param control object that should be zoomed
+     */
     private void makeZoomable(Group control) {
         control.addEventFilter(ScrollEvent.ANY, event -> {
             double delta = 1.2;
@@ -221,12 +221,21 @@ public class Game3D extends Application {
         });
     }
 
+    /**
+     * Scale the zoom value.
+     * @param value the current zoom value.
+     * @return the next zoom value
+     */
     private static double clamp(double value) {
         if (Double.compare(value, 0.1) < 0) return 0.1;
         if (Double.compare(value, 10.0) > 0) return 10.0;
         return value;
     }
 
+    /**
+     * Implemented for testing.
+     * @param args arguments that allow start from console
+     */
     public static void main(String[] args) {
         launch(args);
     }

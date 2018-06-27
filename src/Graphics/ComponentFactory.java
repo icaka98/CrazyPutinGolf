@@ -10,7 +10,17 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
+/**
+ * @author Hristo Minkov
+ */
 public class ComponentFactory {
+    /**
+     * Creating the hole.
+     * @param finishX x-coordinate of the hole
+     * @param finishY y-coordinate of the hole
+     * @param tolerance radius of the ball
+     * @return the hole as a Circle object
+     */
     public static Circle getHole(double finishX, double finishY, double tolerance){
         Circle hole = new Circle(
                 finishX + Constants.FIELD_WIDTH / 2,
@@ -21,6 +31,10 @@ public class ComponentFactory {
         return hole;
     }
 
+    /**
+     * Creating a concrete obstacle.
+     * @return the obstacle as a Line object
+     */
     public static Line getStopWall(){
         Line stopLine = new Line(
                 Constants.DOWN_MID_LINE.getX1()+ Constants.FIELD_WIDTH / 2 + 8,
@@ -32,6 +46,10 @@ public class ComponentFactory {
         return stopLine;
     }
 
+    /**
+     * Create the aiming for the shot.
+     * @return the aiming as a Line object
+     */
     public static Line getAiming(){
         Line aiming = new Line(0, 0, 0, 0);
         aiming.setStrokeWidth(0.0);
@@ -39,6 +57,12 @@ public class ComponentFactory {
         return aiming;
     }
 
+    /**
+     * Create the ball.
+     * @param startX x-coordinate of the ball
+     * @param startY y-coordinate of the ball
+     * @return the ball as a Circle object
+     */
     public static Circle getBall(double startX, double startY){
         return new Circle(
                 startX + Constants.FIELD_WIDTH / 2,
@@ -46,6 +70,15 @@ public class ComponentFactory {
                 Constants.BALL_RADIUS, Color.WHITE);
     }
 
+    /**
+     * Creates a button.
+     * @param text text of the button
+     * @param prefW width of the button
+     * @param prefH height of the button
+     * @param layoutX x-coordinate of the button
+     * @param layoutY y-coordinate of the button
+     * @return the button as Button object
+     */
     public static Button getButton(String text,
                             double prefW, double prefH,
                             double layoutX, double layoutY){
@@ -57,6 +90,13 @@ public class ComponentFactory {
         return button;
     }
 
+    /**
+     * Creates a label.
+     * @param text text of the label
+     * @param layoutX x-coordinate of the label
+     * @param layoutY y-coordinate of the label
+     * @return the label as a Label object
+     */
     public static Label getLabel(String text, double layoutX, double layoutY){
         Label label = new Label(text);
         label.setLayoutX(layoutX);
@@ -65,6 +105,10 @@ public class ComponentFactory {
         return label;
     }
 
+    /**
+     * Creates a custom VBox object.
+     * @return the custom VBox object
+     */
     public static VBox getVBox(){
         VBox vbox = new VBox();
         vbox.setPadding(new Insets(10));
@@ -76,6 +120,10 @@ public class ComponentFactory {
         return vbox;
     }
 
+    /**
+     * Creates a shadow for text.
+     * @return the shadow as DropShadow object
+     */
     public static DropShadow getDropShadow(){
         DropShadow ds = new DropShadow();
         ds.setOffsetY(1.0f);

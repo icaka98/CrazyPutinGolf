@@ -2,7 +2,6 @@ package Graphics.CustomPanes;
 
 import Core.Controller;
 import Graphics.ComponentFactory;
-import Utils.Constants;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -22,7 +21,6 @@ import javafx.util.Duration;
 public class ChooseCoursePane extends Pane {
     private Button chooseBtn;
     private Label titleLabel;
-
     private Controller controller;
 
     public ChooseCoursePane(Controller controller){
@@ -68,46 +66,12 @@ public class ChooseCoursePane extends Pane {
 
         int size = 15;
 
-        for (double x = -2.5; x <= 2.5; x+=4.9999/((float)(size-1))) {
-            for (double y = -2.5; y <= 2.5; y+=4.9999/((float)(size-1))) {
-                double z = (this.controller.solve(x, y) * -1);
-                if(z < -2.5) z = -2.5;
-                if(z > 2.5) z = 2.5;
-                mesh.getPoints().addAll(
-                        (int)(x * Constants.SCALAR / 30),
-                        (int)(z * Constants.SCALAR / 30),
-                        (int)(y * Constants.SCALAR / 30));
-            }
-        }
+        MainMenuPane.addPointsMesh(mesh, size, this.controller);
 
-        for (float x = 0; x < size - 1; x++) {
-            for (float y = 0; y < size - 1; y++) {
-                float x0 = x / (float) size;
-                float y0 = y / (float) size;
-                float x1 = (x + 1) / (float) size;
-                float y1 = (y + 1) / (float) size;
-
-                mesh.getTexCoords().addAll(
-                        x1, y1,
-                        x1, y0,
-                        x0, y1,
-                        x0, y0
-                );
-            }
-        }
+        MainMenuPane.addTextureMesh(mesh, size);
 
         // faces
-        for (int x = 0; x < size - 1; x++) {
-            for (int z = 0; z < size - 1; z++) {
-                int p0 = x * size + z;
-                int p1 = x * size + z + 1;
-                int p2 = (x + 1) * size + z;
-                int p3 = (x + 1) * size + z + 1;
-
-                mesh.getFaces().addAll(p2, 0, p1, 0, p0, 0);
-                mesh.getFaces().addAll(p2, 0, p3, 0, p1, 0);
-            }
-        }
+        MainMenuPane.addFacesMesh(mesh, size);
 
         PhongMaterial fieldMaterial = new PhongMaterial();
         fieldMaterial.setSpecularColor(Color.LIGHTGREEN);

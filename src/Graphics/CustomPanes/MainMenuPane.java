@@ -19,10 +19,12 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
+/**
+ * @author Hristo Minkov
+ */
 public class MainMenuPane extends Pane {
     private Button start, chooseCourse, exit, graphics;
     private Label titleLabel, currentCourseLabel;
-
     private Controller controller;
 
     public MainMenuPane(Controller controller){
@@ -30,6 +32,9 @@ public class MainMenuPane extends Pane {
         this.init();
     }
 
+    /**
+     * Initializes the graphic components
+     */
     private void init() {
         this.start = ComponentFactory.getButton("Play Golf!", 180, 60, 220, 270);
         this.chooseCourse = ComponentFactory.getButton("Choose course", 200, 60, 210, 340);
@@ -58,6 +63,9 @@ public class MainMenuPane extends Pane {
         );
     }
 
+    /**
+     * Apply listeners to components
+     */
     private void setListeners() {
         this.exit.setOnMouseClicked(e -> {
             System.exit(0);
@@ -84,6 +92,10 @@ public class MainMenuPane extends Pane {
         });
     }
 
+    /**
+     * Adding SubScene containing the rotating current course.
+     * @return SubScene
+     */
     private SubScene getSubScene(){
         Translate pivot = new Translate();
         Rotate rotate = new Rotate(0, Rotate.Y_AXIS);
@@ -99,46 +111,11 @@ public class MainMenuPane extends Pane {
 
         int size = 15;
 
-        for (double x = -2.5; x <= 2.5; x+=4.9999/((float)(size-1))) {
-            for (double y = -2.5; y <= 2.5; y+=4.9999/((float)(size-1))) {
-                double z = (this.controller.solve(x, y) * -1);
-                if(z < -2.5) z = -2.5;
-                if(z > 2.5) z = 2.5;
-                mesh.getPoints().addAll(
-                        (int)(x * Constants.SCALAR / 30),
-                        (int)(z * Constants.SCALAR / 30),
-                        (int)(y * Constants.SCALAR / 30));
-            }
-        }
+        addPointsMesh(mesh, size, this.controller);
 
-        for (float x = 0; x < size - 1; x++) {
-            for (float y = 0; y < size - 1; y++) {
-                float x0 = x / (float) size;
-                float y0 = y / (float) size;
-                float x1 = (x + 1) / (float) size;
-                float y1 = (y + 1) / (float) size;
+        addTextureMesh(mesh, size);
 
-                mesh.getTexCoords().addAll(
-                        x1, y1,
-                        x1, y0,
-                        x0, y1,
-                        x0, y0
-                );
-            }
-        }
-
-        // faces
-        for (int x = 0; x < size - 1; x++) {
-            for (int z = 0; z < size - 1; z++) {
-                int p0 = x * size + z;
-                int p1 = x * size + z + 1;
-                int p2 = (x + 1) * size + z;
-                int p3 = (x + 1) * size + z + 1;
-
-                mesh.getFaces().addAll(p2, 0, p1, 0, p0, 0);
-                mesh.getFaces().addAll(p2, 0, p3, 0, p1, 0);
-            }
-        }
+        addFacesMesh(mesh, size);
 
         PhongMaterial fieldMaterial = new PhongMaterial();
         fieldMaterial.setSpecularColor(Color.LIGHTGREEN);
@@ -172,5 +149,66 @@ public class MainMenuPane extends Pane {
         subScene.setLayoutY(130);
 
         return subScene;
+    }
+
+    /**
+     * Adding mesh's faces
+     * @param mesh the mesh
+     * @param size custom size
+     */
+    public static void addFacesMesh(TriangleMesh mesh, int size) {
+        for (int x = 0; x < size - 1; x++) {
+            for (int z = 0; z < size - 1; z++) {
+                int p0 = x * size + z;
+                int p1 = x * size + z + 1;
+                int p2 = (x + 1) * size + z;
+                int p3 = (x + 1) * size + z + 1;
+
+                mesh.getFaces().addAll(p2, 0, p1, 0, p0, 0);
+                mesh.getFaces().addAll(p2, 0, p3, 0, p1, 0);
+            }
+        }
+    }
+
+    /**
+     * Adding the points to the mesh.
+     * @param mesh the mesh
+     * @param size custom size
+     */
+    static void addPointsMesh(TriangleMesh mesh, int size, Controller controller) {
+        for (double x = -2.5; x <= 2.5; x+=4.9999/((float)(size-1))) {
+            for (double y = -2.5; y <= 2.5; y+=4.9999/((float)(size-1))) {
+                double z = (controller.solve(x, y) * -1);
+                if(z < -2.5) z = -2.5;
+                if(z > 2.5) z = 2.5;
+                mesh.getPoints().addAll(
+                        (int)(x * Constants.SCALAR / 30),
+                        (int)(z * Constants.SCALAR / 30),
+                        (int)(y * Constants.SCALAR / 30));
+            }
+        }
+    }
+
+    /**
+     * Adding texture to mesh.
+     * @param mesh the mesh
+     * @param size custom size
+     */
+    public static void addTextureMesh(TriangleMesh mesh, int size) {
+        for (float x = 0; x < size - 1; x++) {
+            for (float y = 0; y < size - 1; y++) {
+                float x0 = x / (float) size;
+                float y0 = y / (float) size;
+                float x1 = (x + 1) / (float) size;
+                float y1 = (y + 1) / (float) size;
+
+                mesh.getTexCoords().addAll(
+                        x1, y1,
+                        x1, y0,
+                        x0, y1,
+                        x0, y0
+                );
+            }
+        }
     }
 }

@@ -30,7 +30,6 @@ import java.util.List;
  * @author Hristo Minkov
  */
 public class Game2D extends Application {
-
     private static double scalar = Constants.SCALAR;
 
     private Line aiming;
@@ -53,8 +52,12 @@ public class Game2D extends Application {
     /**
      * Initializes all the variable fields of the class.
      */
-    private void initVars() { this.mainPane = new Pane(); }
+    private void initVars() { mainPane = new Pane(); }
 
+    /**
+     * Access the static mainPane.
+     * @return the mainPane
+     */
     public Pane getMainPane() {
         return mainPane;
     }
@@ -92,22 +95,29 @@ public class Game2D extends Application {
         this.attachAllComponents();
     }
 
+    /**
+     * Adding obstacle to the field.
+     * @param obstacle to be added on screen
+     */
     public static void addObstacle(Rectangle obstacle){
         mainPane.getChildren().add(obstacle);
     }
 
+    /**
+     * Add components to screen.
+     */
     private void attachAllComponents() {
-        this.mainPane.getChildren().add(this.aiming);
-        this.mainPane.getChildren().add(this.ball);
-        this.mainPane.getChildren().add(this.hole);
-        this.mainPane.getChildren().add(this.changeMode);
-        this.mainPane.getChildren().add(this.enableBot);
-        this.mainPane.getChildren().add(this.next);
-        this.mainPane.getChildren().add(this.courseDesigner);
+        mainPane.getChildren().add(this.aiming);
+        mainPane.getChildren().add(this.ball);
+        mainPane.getChildren().add(this.hole);
+        mainPane.getChildren().add(this.changeMode);
+        mainPane.getChildren().add(this.enableBot);
+        mainPane.getChildren().add(this.next);
+        mainPane.getChildren().add(this.courseDesigner);
         //this.mainPane.getChildren().add(this.stopLine);
-        this.mainPane.getChildren().add(this.restartBtn);
-        this.mainPane.getChildren().add(this.titleLabel);
-        this.mainPane.getChildren().add(this.infoBox);
+        mainPane.getChildren().add(this.restartBtn);
+        mainPane.getChildren().add(this.titleLabel);
+        mainPane.getChildren().add(this.infoBox);
     }
 
     /**
@@ -191,20 +201,32 @@ public class Game2D extends Application {
         sequentialTransition.play();
     }
 
+    /**
+     * access the ball.
+     */
     public Circle getBall() {
-        return ball;
+        return this.ball;
     }
 
+    /**
+     * Restart the game.
+     */
     private void restart(){
         this.mainStage.close();
         start(this.mainStage);
         this.controller.init2DVars();
     }
 
+    /**
+     * @return description of the state of the ball.
+     */
     private String getBallInfo(){
         return "Ball position: (" + this.ball.getCenterX() +" , " + this.ball.getCenterY() + ")";
     }
 
+    /**
+     * @return description of the state of the goal
+     */
     private String getGoalInfo(){
         return "Goal position: (" +
                 (this.hole.getCenterX() + "").substring(0, 5) +
@@ -213,6 +235,9 @@ public class Game2D extends Application {
                 ")";
     }
 
+    /**
+     * @return the function as a String object
+     */
     private String getFunctionInfo(){
         return "Function: " + controller.getCourse().getCompactEquation();
     }
@@ -353,7 +378,7 @@ public class Game2D extends Application {
             CourseDesigner.run();
         });
 
-        Scene mainScene = new Scene(this.mainPane,
+        Scene mainScene = new Scene(mainPane,
                 Constants.SCENE_WIDTH,
                 Constants.SCENE_HEIGHT);
 
@@ -366,7 +391,6 @@ public class Game2D extends Application {
      * @param args arguments may pass to the application when starting
      */
     public static void main(String[] args) {
-
         launch(args);
     }
 }
