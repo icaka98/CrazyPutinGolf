@@ -1,6 +1,9 @@
 package Models;
 
-public class    Shot implements Comparable {
+/**
+ * @author Zhecho Mitev
+ */
+public class Shot implements Comparable {
     private double velocityX, velocityY;
     private double distanceToGoal;
     private boolean found;

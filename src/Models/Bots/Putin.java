@@ -1,24 +1,32 @@
 package Models.Bots;
 
 import Core.Physics.PhysicsEngine;
-
 import Models.Shot;
+
 import javafx.geometry.Point2D;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+/**
+ * @author Zhecho Mitev
+ * Genetic algorithm
+ **/
 public class Putin extends Bot {
     private ArrayList<Shot> population;
 
-    private final double mutationRate = 0.1;
+    private final double mutationRate = 0.1; //10%
 
     public Putin(PhysicsEngine physicsEngine) {
         super(physicsEngine);
         this.population = new ArrayList<>();
     }
 
+    /**
+     * Executes the main logic of the genetic algorithm
+     * @return the best shot that has been found by the algorithm
+     */
     public Shot go() {
         double maxVelocity = this.engine.getTerrainState().getMaxVelocity();
         Random rnd = new Random();
@@ -28,7 +36,7 @@ public class Putin extends Bot {
 
         double distance;
         Shot current = null;
-        for (int i = 0; i < 250; i++) {
+        for (int i = 0; i < 250; i++) { // creating the first population
             this.engine.setCurrentX(this.initialX);
             this.engine.setCurrentY(this.initialY);
 
@@ -47,22 +55,21 @@ public class Putin extends Bot {
 
         Collections.sort(this.population);
 
-        /*for (Shot p: this.population) {
-            System.out.println("distance: " + p.getDistanceToGoal() + " X: " + p.getVelocityX() + " Y: " + p.getVelocityY());
-        }*/
-
         long startTime = System.nanoTime();
         long currentTime = System.nanoTime();
-        while (this.population.get(0).getDistanceToGoal() > engine.getTerrainState().getToleranceRadius()*10
-                && (currentTime-startTime) < 2000000000) {
+        while (this.population.get(0).getDistanceToGoal() > engine.getTerrainState().getToleranceRadius()*10 &&
+                (currentTime-startTime) < 2000000000){//searches for a good shot, works for no more than 2 secs
+
             reproduce();
-            //System.out.println("distance: " + this.population.get(0).getDistanceToGoal()); //+ " X: " + this.population.get(0).getVelocityX() + " Y: " + this.population.get(0).getVelocityY());
-            //System.out.println("distance: " + this.population.get(1).getDistanceToGoal()); //+ " X: " + this.population.get(0).getVelocityX() + " Y: " + this.population.get(0).getVelocityY());
+
             currentTime = System.nanoTime();
         }
         return this.population.get(0);
     }
 
+    /**
+     * Crossing-over the first 12 individuals and creating the new population.
+     */
     private void reproduce() {
         ArrayList<Shot> newIndividuals = new ArrayList<>();
 
@@ -81,9 +88,9 @@ public class Putin extends Bot {
                 double rate = rnd.nextDouble();
                 if(rate < this.mutationRate)
                 {
-                    velocityX = velocityX + (rate - 0.5)*this.engine.getTerrainState().getMaxVelocity()*4;//this.engine.getTerrainState().getToleranceRadius()*30;
+                    velocityX = velocityX + (rate - 0.5)*this.engine.getTerrainState().getMaxVelocity()*4;
                     rate = rnd.nextDouble();
-                    velocityY = velocityY + (rate - 0.5)*this.engine.getTerrainState().getMaxVelocity()*4;//this.engine.getTerrainState().getToleranceRadius()*30;
+                    velocityY = velocityY + (rate - 0.5)*this.engine.getTerrainState().getMaxVelocity()*4;
                 }
 
                 this.engine.takeVelocityOfShot(velocityX, velocityY);
@@ -96,7 +103,7 @@ public class Putin extends Bot {
             }
         }
 
-        Collections.sort(newIndividuals);
+        Collections.sort(newIndividuals);//sorting the individuals by their fitness function
         this.population = newIndividuals;
     }
 }
