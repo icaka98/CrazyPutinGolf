@@ -4,6 +4,7 @@ import Core.Physics.PhysicsEngine;
 import Graphics.ComponentFactory;
 import Models.Bots.Alistair;
 import Models.Bots.Bot;
+import Models.Bots.Putin;
 import Models.Course;
 import Utils.Constants;
 import Models.Shot;
@@ -23,16 +24,17 @@ public class BotTester {
     private static Circle ball = ComponentFactory.getBall(c.getStartX(),c.getStartY());
 
     public static void main(String[] args){
-        int[] steps = new int[10];
+        int[] steps = new int[50];
         ArrayList<Long> steptime = new ArrayList<>();
         Point2D start = course.getStart();
+        int finished = 0;
 
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 50; i++){
             Boolean goalreached = false;
             engine.setCurrentX(start.getX());
             engine.setCurrentY(start.getY());
             int count = 0;
-            while(!goalreached){
+            while(!goalreached && count < 40){
                 count++;
                 Long startTime = System.currentTimeMillis();
                 Shot s = bot.go();
@@ -50,8 +52,10 @@ public class BotTester {
                         * (hole.getCenterY() - ball.getCenterY()))
                         <= hole.getRadius()) {
                     goalreached = true;
+                    finished++;
                 }
             }
+            System.out.println(i);
             steps[i]=count;
         }
         double sum = 0;
@@ -71,5 +75,6 @@ public class BotTester {
         System.out.println(sum);
         System.out.println("Average number of steps = "+average);
         System.out.println("Average shot time in ms = "+averageTime);
+        System.out.println("number of times finished = "+finished);
     }
 }
