@@ -18,6 +18,10 @@ import javafx.stage.Stage;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author Zhecho Mitev
+ * @author Hristo Minkov
+ */
 public class Controller {
     private static final String COURSE_CODE = "1";
 
@@ -45,24 +49,22 @@ public class Controller {
         init3DVars();
     }
 
-    public void initKeyVars(){
+    private void initKeyVars(){
         twoDimensionalScreen = new Game2D(this);
         threeDimensional = new Game3D(this);
 
     }
 
     /**
-     * Initializes all the variable fields of the class.
+     * Initializes all the variables of the 2D screen.
      */
     public void init2DVars() {
-
         this.steps = 0;
         this.precomputedStep = 0;
         this.precomputedMode = false;
         this.animationRunning = false;
 
         this.course = new Course(COURSE_CODE);
-        //this.mainPane = new Pane();
         this.functionEvaluator = new Function(this.course.getEquation());
         this.precomputedModule = new PrecomputedModule();
 
@@ -76,12 +78,6 @@ public class Controller {
         this.physicsEngine = new PhysicsEngine(COURSE_CODE);
         this.bot = new Alistair(this.physicsEngine, this);
         //this.bot = new Putin(this.physicsEngine);
-
-        /*Grid gr = new Grid(Constants.FIELD_WIDTH, Constants.FIELD_HEIGHT, Constants.obstacle1);
-        Point s = new Point(250, 260);
-        Point g = new Point(250, 400);
-
-        path = AStar.search(gr, s, g);*/
     }
 
     public void setMaxHeight(double maxHeight) {
@@ -121,27 +117,29 @@ public class Controller {
         return precomputedMode;
     }
 
-    public void changeMode()
-    {
+    public void changeMode() {
         this.precomputedMode = !this.precomputedMode;
-
     }
 
     public int getSteps() {
         return steps;
     }
 
+    /**
+     * number of shots that the user has done so far
+     */
     public void increaseStepBy1() {
         this.steps++;
     }
 
     public void setAnimationRunning(boolean animationRunning) {
-
         this.animationRunning = animationRunning;
     }
 
-    public void draw2D()
-    {
+    /**
+     * calculates what shading to put and what colors in the 2D screen
+     */
+    public void draw2D() {
         for(double x = -Constants.FIELD_WIDTH / 2; x < Constants.FIELD_WIDTH / 2; x += 3.5){
             for(double y = -Constants.FIELD_HEIGHT / 2; y < Constants.FIELD_HEIGHT / 2; y += 3.5){
 
@@ -149,17 +147,18 @@ public class Controller {
 
                 Circle point = new Circle(x + Constants.FIELD_WIDTH / 2,
                         y + Constants.FIELD_HEIGHT / 2, 3, javafx.scene.paint.Color.GREEN);
-                //System.out.println("Height: " + height);
-                //System.out.println("MinHeight " + minHeight);
-                //System.out.println("MaxHeight " + maxHeight);
-                //int blueRatio = (int) (255*(1.0 - height/Function.minHeight));
+
                 int blueRatio = (int) (255*(1.0 + height/minHeight));
                 if (blueRatio < 0)  blueRatio = 0;
+
                 if (blueRatio > 255)  blueRatio = 255;
-                //int greenRatio = 105 + (int)(130.0*(height/Function.maxHeight));
+
                 int greenRatio = 105 + (int)(130.0*(height/(maxHeight*2)));
+
                 if (greenRatio < 0)  greenRatio = 0;
+
                 if (greenRatio > 255)  greenRatio = 255;
+
                 if(height < 0.0)
                     point.setFill(
                             javafx.scene.paint.Color.rgb(0,0, blueRatio));
@@ -191,6 +190,9 @@ public class Controller {
         }
     }
 
+    /**
+     * calculating the the max and the min point of the field
+     */
     public void calculateMinMax(){
         for(double x = -Constants.FIELD_WIDTH / 2; x < Constants.FIELD_WIDTH / 2; x += 3.5){
             for(double y = -Constants.FIELD_HEIGHT / 2; y < Constants.FIELD_HEIGHT / 2; y += 3.5){
@@ -200,8 +202,8 @@ public class Controller {
             }
         }
     }
-    public Shot getBotShot() {
 
+    public Shot getBotShot() {
         return this.bot.go();
     }
 
@@ -216,7 +218,6 @@ public class Controller {
     public Point2D getNextMove() {
         return this.precomputedModule.getVelocities().get(this.precomputedStep++);
     }
-
 
     public Course getCourse() {
         return course;
@@ -248,6 +249,9 @@ public class Controller {
         return functionEvaluator.solve(x, y);
     }
 
+    /**
+     * calculating the the highest and the lowest point of the field
+     */
     public void checkFunctionBounds(){
         for (double x = -2.50; x < 2.50; x+=0.01) {
             for (double y = -2.50; y < 2.50; y+=0.01) {
@@ -256,21 +260,32 @@ public class Controller {
             }
         }
     }
-    
+
+    /**
+     * Initializes all the variables of the 2D screen.
+     */
     public void init3DVars() {
         this.maxHeight = this.maxHeight * Constants.SCALAR;
 
-        this.amplification = (float) -1;//(-250.0f / this.maxHeight);
+        this.amplification = (float) -1;
     }
-    
 
-
+    /**
+     * applicable only for the 3D mesh
+     * @return the amplification needed
+     */
     public double getAmplification() {
         return amplification;
     }
 
+    /**
+     * Executing a shot in the Physics engine and sends the data to the 3D
+     * @param aimX the X coordinate of the selected velocity
+     * @param aimY the Y coordinate of the selected velocity
+     * @return collection of all moves that have to be processed
+     * @see PhysicsEngine
+     */
     public List<Point3D> prepare3DEngine(double aimX, double aimY){
-
         double cenX = (threeDimensional.getBall().getTranslateX()) / Constants.SCALAR;
         double cenY = (threeDimensional.getBall().getTranslateZ()) / Constants.SCALAR;
 
@@ -291,11 +306,16 @@ public class Controller {
                 .collect(Collectors.toList());
     }
 
-
+    /**
+     * starting the 3D screen
+     */
     public static void start3D() throws Exception {
         threeDimensional.start(new Stage());
     }
 
+    /**
+     * starting the 2D screen
+     */
     public static void startGame() throws Exception {
         twoDimensionalScreen.start(new Stage());
     }
