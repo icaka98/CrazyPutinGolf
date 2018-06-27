@@ -1,4 +1,4 @@
-package Graphics;
+package Graphics.Game;
 
 import Core.Controller;
 import Utils.Constants;
@@ -22,7 +22,7 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main3D extends Application {
+public class Game3D extends Application {
     private final Rotate rotateY = new Rotate(-145, Rotate.Y_AXIS);
     private final Rotate rotateX = new Rotate(0, Rotate.X_AXIS);
     private Sphere ball;
@@ -33,7 +33,7 @@ public class Main3D extends Application {
 
     private Controller controller;
 
-    public Main3D(Controller controller) {
+    public Game3D(Controller controller) {
         this.controller = controller;
     }
 

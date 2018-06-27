@@ -1,6 +1,7 @@
-package Graphics;
+package Graphics.CustomPanes;
 
 import Core.Controller;
+import Graphics.ComponentFactory;
 import Utils.Constants;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -18,37 +19,68 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
-public class ChooseCourse extends Pane {
-    private Button chooseBtn;
-    private Label titleLabel;
+public class MainMenuPane extends Pane {
+    private Button start, chooseCourse, exit, graphics;
+    private Label titleLabel, currentCourseLabel;
 
     private Controller controller;
 
-    public ChooseCourse(Controller controller){
+    public MainMenuPane(Controller controller){
         this.controller = controller;
         this.init();
     }
 
     private void init() {
-        this.chooseBtn = ComponentFactory.getButton("Choose", 160, 40, 120, 450);
+        this.start = ComponentFactory.getButton("Play Golf!", 180, 60, 220, 270);
+        this.chooseCourse = ComponentFactory.getButton("Choose course", 200, 60, 210, 340);
+        this.exit = ComponentFactory.getButton("Exit game", 180, 60, 220, 510);
+        this.graphics = ComponentFactory.getButton("3D Representation", 180, 60, 220, 410);
 
-        this.titleLabel = ComponentFactory.getLabel("Choose course", 105, 10);
+        this.titleLabel = ComponentFactory.getLabel("Putin Golf", 200, 10);
         this.titleLabel.setTextFill(Color.GREEN);
         this.titleLabel.setEffect(ComponentFactory.getDropShadow());
-        this.titleLabel.setFont(Font.font(null, FontWeight.BOLD, 40));
+        this.titleLabel.setFont(Font.font(null, FontWeight.BOLD, 46));
+
+        this.currentCourseLabel = ComponentFactory.getLabel("Current course",
+                250, 100);
+        this.currentCourseLabel.setFont(Font.font(null, FontWeight.BOLD, 18));
 
         this.setListeners();
 
         this.getChildren().addAll(
-                this.chooseBtn,
+                this.start,
+                this.chooseCourse,
+                this.exit,
                 this.titleLabel,
-                this.getSubScene()
+                this.getSubScene(),
+                this.currentCourseLabel,
+                this.graphics
         );
     }
 
     private void setListeners() {
-        this.chooseBtn.setOnMouseClicked(e -> {
+        this.exit.setOnMouseClicked(e -> {
+            System.exit(0);
+        });
 
+        this.graphics.setOnMouseClicked(e ->{
+            try {
+                Controller.start3D();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        });
+
+        this.chooseCourse.setOnMouseClicked(e ->{
+
+        });
+
+        this.start.setOnMouseClicked(e -> {
+            try {
+                Controller.startGame();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
         });
     }
 
@@ -136,7 +168,7 @@ public class ChooseCourse extends Pane {
         SubScene subScene = new SubScene(group, 180, 120, true, SceneAntialiasing.DISABLED);
         subScene.setFill(Color.LIGHTBLUE);
         subScene.setCamera(camera);
-        subScene.setLayoutX(110);
+        subScene.setLayoutX(220);
         subScene.setLayoutY(130);
 
         return subScene;

@@ -2,8 +2,8 @@ package Core;
 
 import Core.Physics.Function;
 import Core.Physics.PhysicsEngine;
-import Graphics.Main;
-import Graphics.Main3D;
+import Graphics.Game.Game2D;
+import Graphics.Game.Game3D;
 import Models.*;
 import Models.Bots.Alistair;
 import Models.Bots.Bot;
@@ -36,8 +36,8 @@ public class Controller {
 
     private PhysicsEngine physicsEngine;
 
-    private static Main twoDimensionalScreen;
-    private static Main3D threeDimensional;
+    private static Game2D twoDimensionalScreen;
+    private static Game3D threeDimensional;
 
     public Controller() {
         initKeyVars();
@@ -46,8 +46,8 @@ public class Controller {
     }
 
     public void initKeyVars(){
-        twoDimensionalScreen = new Main(this);
-        threeDimensional = new Main3D(this);
+        twoDimensionalScreen = new Game2D(this);
+        threeDimensional = new Game3D(this);
 
     }
 
@@ -301,6 +301,6 @@ public class Controller {
     }
 
     public void loadObstacles() {
-        this.course.getObstacles().forEach(Main::addObstacle);
+        this.course.getObstacles().forEach(Game2D::addObstacle);
     }
 }
