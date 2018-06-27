@@ -60,9 +60,6 @@ public class Putin extends Bot{
             //System.out.println("distance: " + this.population.get(1).getDistanceToGoal()); //+ " X: " + this.population.get(0).getVelocityX() + " Y: " + this.population.get(0).getVelocityY());
             currentTime = System.nanoTime();
         }
-        if (this.population.get(0).getDistanceToGoal() < engine.getTerrainState().getToleranceRadius()*10){
-            this.population.get(0).setFound(true);
-        }
         return this.population.get(0);
     }
 
