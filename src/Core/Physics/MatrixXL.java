@@ -1,4 +1,4 @@
-package Core;
+package Core.Physics;
 
 public class MatrixXL {
     private double[][] leftFactor, rightFactor;

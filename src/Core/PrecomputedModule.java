@@ -1,4 +1,4 @@
-package Models;
+package Core;
 
 import Utils.Constants;
 import javafx.geometry.Point2D;

@@ -1,9 +1,11 @@
-package Models;
+package Models.Bots;
 
 import Core.Controller;
-import Core.PhysicsEngine;
+import Core.Physics.PhysicsEngine;
+import Models.AStar;
+import Models.Grid;
+import Models.Shot;
 import Utils.Constants;
-import Utils.Shot;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 

@@ -1,8 +1,14 @@
 package Core;
 
+import Core.Physics.Function;
+import Core.Physics.PhysicsEngine;
+import Graphics.Main;
+import Graphics.Main3D;
 import Models.*;
+import Models.Bots.Alistair;
+import Models.Bots.Bot;
 import Utils.Constants;
-import Utils.Shot;
+import Models.Shot;
 import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 import javafx.scene.paint.Color;

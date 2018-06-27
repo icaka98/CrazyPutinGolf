@@ -1,15 +1,15 @@
-package Models;
+package Models.Bots;
 
-import Core.PhysicsEngine;
+import Core.Physics.PhysicsEngine;
 
-import Utils.Shot;
+import Models.Shot;
 import javafx.geometry.Point2D;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-public class Putin extends Bot{
+public class Putin extends Bot {
     private ArrayList<Shot> population;
 
     private final double mutationRate = 0.4;

@@ -1,12 +1,12 @@
-package Core;
+package Graphics;
 
-import Models.*;
+import Core.Controller;
+import Core.CourseDesigner;
 import Utils.Constants;
-import Utils.Shot;
+import Models.Shot;
 import javafx.animation.*;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -23,7 +23,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import javax.swing.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -1,7 +1,6 @@
-package Core;
+package Graphics;
 
-import Models.Course;
-import Models.Function;
+import Core.Controller;
 import Utils.Constants;
 import javafx.animation.*;
 import javafx.application.Application;
@@ -20,10 +19,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Main3D extends Application {
     private final Rotate rotateY = new Rotate(-145, Rotate.Y_AXIS);

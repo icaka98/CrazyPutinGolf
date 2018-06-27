@@ -1,4 +1,4 @@
-package Utils;
+package Models;
 
 public class Shot implements Comparable {
     private double velocityX, velocityY;

@@ -1,5 +1,6 @@
-package Core;
+package Graphics;
 
+import Core.Controller;
 import Utils.Constants;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -15,7 +16,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class MainMenu extends Pane {

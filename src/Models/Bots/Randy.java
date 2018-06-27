@@ -1,7 +1,7 @@
-package Models;
+package Models.Bots;
 
-import Core.PhysicsEngine;
-import Utils.Shot;
+import Core.Physics.PhysicsEngine;
+import Models.Shot;
 import javafx.geometry.Point2D;
 
 import java.util.Random;

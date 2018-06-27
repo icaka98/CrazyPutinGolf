@@ -1,8 +1,8 @@
-package Models;
+package Core.Physics;
 
-import Core.Interpolator;
-import Core.MatrixXL;
-import Utils.Node;
+import Core.Physics.Interpolator;
+import Core.Physics.MatrixXL;
+import Models.Node;
 
 import java.util.Queue;
 import java.util.Stack;

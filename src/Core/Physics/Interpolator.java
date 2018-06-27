@@ -1,4 +1,4 @@
-package Core;
+package Core.Physics;
 
 public class Interpolator {
     private static MatrixXL[][] courseGrid;

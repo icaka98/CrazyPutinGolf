@@ -1,12 +1,12 @@
 package Core;
 
-import Models.Alistair;
-import Models.Putin;
-import Models.Randy;
-import Models.Bot;
+import Core.Physics.PhysicsEngine;
+import Graphics.ComponentFactory;
+import Models.Bots.Alistair;
+import Models.Bots.Bot;
 import Models.Course;
 import Utils.Constants;
-import Utils.Shot;
+import Models.Shot;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Circle;
 

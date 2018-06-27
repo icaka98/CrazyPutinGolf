@@ -1,4 +1,4 @@
-package Core;
+package Graphics;
 
 import Utils.Constants;
 import javafx.geometry.Insets;
@@ -10,8 +10,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
-class ComponentFactory {
-    static Circle getHole(double finishX, double finishY, double tolerance){
+public class ComponentFactory {
+    public static Circle getHole(double finishX, double finishY, double tolerance){
         Circle hole = new Circle(
                 finishX + Constants.FIELD_WIDTH / 2,
                 finishY + Constants.FIELD_HEIGHT / 2,
@@ -21,7 +21,7 @@ class ComponentFactory {
         return hole;
     }
 
-    static Line getStopWall(){
+    public static Line getStopWall(){
         Line stopLine = new Line(
                 Constants.DOWN_MID_LINE.getX1()+ Constants.FIELD_WIDTH / 2 + 8,
                 Constants.DOWN_MID_LINE.getY1() +Constants.FIELD_HEIGHT / 2 + 8,
@@ -32,21 +32,21 @@ class ComponentFactory {
         return stopLine;
     }
 
-    static Line getAiming(){
+    public static Line getAiming(){
         Line aiming = new Line(0, 0, 0, 0);
         aiming.setStrokeWidth(0.0);
 
         return aiming;
     }
 
-    static Circle getBall(double startX, double startY){
+    public static Circle getBall(double startX, double startY){
         return new Circle(
                 startX + Constants.FIELD_WIDTH / 2,
                 startY + Constants.FIELD_HEIGHT / 2,
                 Constants.BALL_RADIUS, Color.WHITE);
     }
 
-    static Button getButton(String text,
+    public static Button getButton(String text,
                             double prefW, double prefH,
                             double layoutX, double layoutY){
         Button button = new Button(text);
@@ -57,7 +57,7 @@ class ComponentFactory {
         return button;
     }
 
-    static Label getLabel(String text, double layoutX, double layoutY){
+    public static Label getLabel(String text, double layoutX, double layoutY){
         Label label = new Label(text);
         label.setLayoutX(layoutX);
         label.setLayoutY(layoutY);
@@ -65,7 +65,7 @@ class ComponentFactory {
         return label;
     }
 
-    static VBox getVBox(){
+    public static VBox getVBox(){
         VBox vbox = new VBox();
         vbox.setPadding(new Insets(10));
         vbox.setSpacing(8);
@@ -76,7 +76,7 @@ class ComponentFactory {
         return vbox;
     }
 
-    static DropShadow getDropShadow(){
+    public static DropShadow getDropShadow(){
         DropShadow ds = new DropShadow();
         ds.setOffsetY(1.0f);
         ds.setColor(Color.color(0.4f, 0.4f, 0.4f));

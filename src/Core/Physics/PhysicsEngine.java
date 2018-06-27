@@ -1,13 +1,11 @@
-package Core;
+package Core.Physics;
 
 import Models.Course;
 import Utils.Constants;
-import Models.Function;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 
 import java.awt.geom.Line2D;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
