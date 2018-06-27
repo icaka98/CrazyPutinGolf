@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.awt.Point;
 import java.util.PriorityQueue;
 
-import javafx.geometry.Point3D;
 import javafx.util.Pair;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AStar {
 
@@ -47,6 +47,8 @@ public class AStar {
     private static ArrayList<Point> calculatePath(HashMap<Point,Point> cameFrom, Point start, Point goal){
         ArrayList<Point> path = new ArrayList<>();
         path.add(goal);
+        System.out.println(start);
+        System.out.println(goal);
 
         while(!goal.equals(start)){
             //System.out.println("hi");
@@ -54,10 +56,13 @@ public class AStar {
             path.add(goal);
         }
         Collections.reverse(path);
+        System.out.println(path.size());
+        //System.out.println(Arrays.toString(path.toArray()));
         return path;
     }
 
     private static double heuristic(Point a, Point b){
-        return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+        //return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+        return Math.sqrt(Math.pow(a.x-b.x,2)+Math.pow(a.y-b.y,2));
     }
 }

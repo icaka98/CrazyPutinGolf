@@ -1,7 +1,5 @@
 package Core;
 
-import Models.Course;
-import Models.Function;
 import Utils.Constants;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -9,7 +7,6 @@ import javafx.animation.Timeline;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
@@ -28,24 +25,23 @@ public class MainMenu extends Pane {
     private Controller controller;
 
     public MainMenu(Controller controller){
-
         this.controller = controller;
         this.init();
     }
 
     private void init() {
-        this.start = ComponentFactory.getButton("Play Golf!", 160, 40, 120, 270);
-        this.chooseCourse = ComponentFactory.getButton("Choose course", 200, 40, 100, 320);
-        this.exit = ComponentFactory.getButton("Exit game", 160, 40, 120, 450);
-        this.graphics = ComponentFactory.getButton("3D Representation", 160, 40, 120, 370);
+        this.start = ComponentFactory.getButton("Play Golf!", 180, 60, 220, 270);
+        this.chooseCourse = ComponentFactory.getButton("Choose course", 200, 60, 210, 340);
+        this.exit = ComponentFactory.getButton("Exit game", 180, 60, 220, 510);
+        this.graphics = ComponentFactory.getButton("3D Representation", 180, 60, 220, 410);
 
-        this.titleLabel = ComponentFactory.getLabel("Putin Golf", 105, 10);
+        this.titleLabel = ComponentFactory.getLabel("Putin Golf", 200, 10);
         this.titleLabel.setTextFill(Color.GREEN);
         this.titleLabel.setEffect(ComponentFactory.getDropShadow());
-        this.titleLabel.setFont(Font.font(null, FontWeight.BOLD, 40));
+        this.titleLabel.setFont(Font.font(null, FontWeight.BOLD, 46));
 
         this.currentCourseLabel = ComponentFactory.getLabel("Current course",
-                135, 100);
+                250, 100);
         this.currentCourseLabel.setFont(Font.font(null, FontWeight.BOLD, 18));
 
         this.setListeners();
@@ -171,7 +167,7 @@ public class MainMenu extends Pane {
         SubScene subScene = new SubScene(group, 180, 120, true, SceneAntialiasing.DISABLED);
         subScene.setFill(Color.LIGHTBLUE);
         subScene.setCamera(camera);
-        subScene.setLayoutX(110);
+        subScene.setLayoutX(220);
         subScene.setLayoutY(130);
 
         return subScene;

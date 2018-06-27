@@ -58,7 +58,9 @@ public class Constants {
             100 , 85
             ,100 ,103 );
 
-    //public static final int[] obstacle1 = {-100, 100, 85, 103};
+    public static final Line2D[] LINES = {DOWN_MID_LINE,UP_MID_LINE,LEFT_MID_LINE,RIGHT_MID_LINE};
+
+    public static final int[] obstacle1 = {-100 + FIELD_WIDTH/2, 100 +FIELD_WIDTH/2, 85+FIELD_HEIGHT/2, 103+FIELD_HEIGHT/2};
 
 
 
