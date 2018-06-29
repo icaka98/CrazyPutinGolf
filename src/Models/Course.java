@@ -66,6 +66,15 @@ public class Course {
 
             this.obstacles = new ArrayList<>();
 
+            String line = this.br.readLine();
+
+            if(line == null){
+                this.fr.close();
+                this.br.close();
+
+                return;
+            }
+
             String obstacleInfo = this.br.readLine().split(" = ")[1];
             obstacleInfo = obstacleInfo.substring(1, obstacleInfo.length() - 1);
 

@@ -18,7 +18,6 @@ import java.util.Optional;
 public class CourseDesigner {
     private static Dialog<Pair<String, Course>> dialog;
     private static ButtonType submitButton;
-    //TODO: instead of typing the numbers we can make sliders
 
     /**
      * A function that creates the dialog and displays it so that the user can enter
