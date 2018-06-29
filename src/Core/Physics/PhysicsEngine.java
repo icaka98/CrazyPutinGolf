@@ -91,18 +91,20 @@ public class PhysicsEngine {
         List<Rectangle> obstacles = this.terrainState.getObstacles();
         Point2D currentPoint = new Point2D(currentX * Constants.SCALAR + 250, currentY * Constants.SCALAR + 250);
 
+        int velocityYMult = 1;
+        int velocityXMult = 1;
         for(Rectangle obstacle : obstacles){
             if(obstacle.contains(currentPoint)){
-                this.currentX = lastX;
+                /*this.currentX = lastX;
                 this.currentY = lastY;
                 this.velocityX = lastVx;
                 this.velocityY = lastVy;
-
+*/
                 if(this.currentX * Constants.SCALAR > (obstacle.getX() - 250.0)
                         && this.currentX * Constants.SCALAR < (obstacle.getX() - 250.0) + obstacle.getWidth())
-                    this.velocityY *= -1;
+                    velocityXMult *= -1;
                 else
-                    this.velocityX *= -1;
+                    velocityYMult *= -1;
 
                 rk4();
             }
@@ -110,32 +112,28 @@ public class PhysicsEngine {
 
         if(path.intersectsLine(Constants.UP_WALL)
                 || path.intersectsLine(Constants.BOTTOM_WALL)){
-            /*velocityY *= -1;
-            currentX = lastX + h*velocityX;
-            currentY = lastY + h*velocityY;*/
+
             this.currentX = lastX;
             this.currentY = lastY;
             this.velocityX = lastVx;
             this.velocityY = lastVy;
 
-            this.velocityY *= -1;
+            velocityYMult *= -1;
             rk4();
         }
 
         if(path.intersectsLine(Constants.RIGHT_WALL)
                 || path.intersectsLine(Constants.LEFT_WALL)){
-            /*velocityX *= -1;
-            currentX = lastX + h*velocityX;
-            currentY = lastY + h*velocityY;*/
-            this.currentX = lastX;
-            this.currentY = lastY;
-            this.velocityX = lastVx;
-            this.velocityY = lastVy;
-
-            this.velocityX *= -1;
+            velocityXMult *= -1;
             rk4();
         }
 
+        this.currentX = lastX;
+        this.currentY = lastY;
+        this.velocityX = lastVx*velocityXMult;
+        this.velocityY = lastVy*velocityYMult;
+
+        rk4();
 
         Point2D point2D = new Point2D(this.currentX, this.currentY);
         this.coordinatesOfPath.add(point2D);
