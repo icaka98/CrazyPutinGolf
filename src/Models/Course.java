@@ -75,7 +75,7 @@ public class Course {
                 return;
             }
 
-            String obstacleInfo = this.br.readLine().split(" = ")[1];
+            String obstacleInfo = line.split(" = ")[1];
             obstacleInfo = obstacleInfo.substring(1, obstacleInfo.length() - 1);
 
             String[] obstaclesStrings = Arrays.stream(obstacleInfo.split("\\),\\(")).toArray(String[]::new);

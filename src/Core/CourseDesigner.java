@@ -25,10 +25,10 @@ public class CourseDesigner {
      * FileWriter which saves it into a file.
      * @see FileWriter
      */
-    public static void run(){
+    public static void run(Controller controller){
         createDialog();
         addSubmitButton();
-        addComponents();
+        addComponents(controller);
 
         processResult();
     }
@@ -65,20 +65,22 @@ public class CourseDesigner {
     /**
      * Adding the needed components to the dialog.
      */
-    private static void addComponents(){
+    private static void addComponents(Controller controller){
+        Course prevCourse = controller.getCourse();
+
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(20, 150, 10, 10));
 
         TextField gField = new TextField();
-        gField.setPromptText("9.81");
+        gField.setText(prevCourse.getGravity() + "");
 
         TextField muField = new TextField();
-        muField.setPromptText("0.5");
+        muField.setText(prevCourse.getFrictionCoef() + "");
 
         TextField vmaxField = new TextField();
-        vmaxField.setPromptText("3");
+        vmaxField.setText(prevCourse.getMaxVelocity() + "");
 
         TextField startField = new TextField();
         startField.setPromptText("x, y");
@@ -87,7 +89,7 @@ public class CourseDesigner {
         goalField.setPromptText("x, y");
 
         TextField tolerance = new TextField();
-        tolerance.setPromptText("0.2");
+        tolerance.setText(prevCourse.getToleranceRadius() + "");
 
         TextField functionField = new TextField();
         functionField.setPromptText("x + y");

@@ -375,7 +375,7 @@ public class Game2D extends Application {
         this.courseDesigner.setOnAction(e -> {
             if(controller.isAnimationRunning()) return;
 
-            CourseDesigner.run();
+            CourseDesigner.run(this.controller);
         });
 
         Scene mainScene = new Scene(mainPane,

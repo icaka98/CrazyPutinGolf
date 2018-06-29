@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * @author Hristo Minkov
  */
 public class Controller {
-    private static final String COURSE_CODE = "1";
+    private static final String COURSE_CODE = "2";
 
     private double amplification;
 
@@ -153,7 +153,7 @@ public class Controller {
 
                 if (blueRatio > 255)  blueRatio = 255;
 
-                int greenRatio = 105 + (int)(130.0*(height/(maxHeight*2)));
+                int greenRatio = 105 + (int)(130.0*(height/(maxHeight)));
 
                 if (greenRatio < 0)  greenRatio = 0;
 
